@@ -7,6 +7,7 @@ distribution:
   name: Bargain
 
 dependencies:
+# Core
   - node
   - history
   - block
@@ -41,6 +42,14 @@ dependencies:
   - views_ui
   - tour
   - automated_cron
+
+# Contrib
+  - devel
+  - kint
+
+# Custom
+  - bargain_core
+
 themes:
   - bartik
   - seven
