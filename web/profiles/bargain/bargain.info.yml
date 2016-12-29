@@ -48,7 +48,6 @@ dependencies:
   - kint
 
 # Custom
-  - bargain_core
   - bargain_transaction
 
 themes:

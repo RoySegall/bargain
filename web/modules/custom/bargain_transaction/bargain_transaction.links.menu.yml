@@ -1,0 +1,18 @@
+
+# Bargain transaction menu items definition
+entity.bargain_transaction.collection:
+  title: 'Bargain transaction list'
+  route_name: entity.bargain_transaction.collection
+  description: 'List Bargain transaction entities'
+  parent: system.admin_content
+  weight: 100
+
+
+# Bargain transaction type menu items definition
+entity.bargain_transaction_type.collection:
+  title: 'Bargain transaction type'
+  route_name: entity.bargain_transaction_type.collection
+  description: 'List Bargain transaction type (bundles)'
+  parent: system.admin_structure
+  weight: 99
+

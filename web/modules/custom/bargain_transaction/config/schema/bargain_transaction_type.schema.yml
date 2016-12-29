@@ -1,0 +1,12 @@
+bargain_transaction.bargain_transaction_type.*:
+  type: config_entity
+  label: 'Bargain transaction type config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    uuid:
+      type: string

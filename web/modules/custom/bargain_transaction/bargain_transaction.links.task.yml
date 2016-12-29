@@ -1,0 +1,22 @@
+# Bargain transaction routing definition
+
+entity.bargain_transaction.canonical:
+  route_name: entity.bargain_transaction.canonical
+  base_route: entity.bargain_transaction.canonical
+  title: 'View'
+
+entity.bargain_transaction.edit_form:
+  route_name: entity.bargain_transaction.edit_form
+  base_route: entity.bargain_transaction.canonical
+  title: 'Edit'
+
+entity.bargain_transaction.delete_form:
+  route_name:  entity.bargain_transaction.delete_form
+  base_route:  entity.bargain_transaction.canonical
+  title: Delete
+  weight: 10
+
+bargain_transaction.admin:
+  title: 'Transactions'
+  route_name: entity.bargain_transaction.collection
+  base_route: system.admin_content
