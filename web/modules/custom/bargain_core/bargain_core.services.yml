@@ -1,0 +1,9 @@
+services:
+  bargain_core.event_subscriber:
+    class: Drupal\bargain_core\EventSubscriber\BargainCoreEventSubscriber
+    arguments: []
+    tags:
+      - { name: event_subscriber }
+  bargain_core.push:
+    class: Drupal\bargain_core\BargainCorePush
+    arguments: []
