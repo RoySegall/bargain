@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * @file
+ * Contains bargain_transaction.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function bargain_transaction_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the bargain_transaction module.
+    case 'help.page.bargain_transaction':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function bargain_transaction_theme() {
+  $theme = [];
+  $theme['bargain_transaction'] = array(
+    'render element' => 'elements',
+    'file' => 'bargain_transaction.page.inc',
+    'template' => 'bargain_transaction',
+  );
+  $theme['bargain_transaction_content_add_list'] = [
+    'render element' => 'content',
+    'variables' => ['content' => NULL],
+    'file' => 'bargain_transaction.page.inc',
+  ];
+  return $theme;
+}
+
+/**
+* Implements hook_theme_suggestions_HOOK().
+*/
+function bargain_transaction_theme_suggestions_bargain_transaction(array $variables) {
+  $suggestions = array();
+  $entity = $variables['elements']['#bargain_transaction'];
+  $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
+
+  $suggestions[] = 'bargain_transaction__' . $sanitized_view_mode;
+  $suggestions[] = 'bargain_transaction__' . $entity->bundle();
+  $suggestions[] = 'bargain_transaction__' . $entity->bundle() . '__' . $sanitized_view_mode;
+  $suggestions[] = 'bargain_transaction__' . $entity->id();
+  $suggestions[] = 'bargain_transaction__' . $entity->id() . '__' . $sanitized_view_mode;
+  return $suggestions;
+}

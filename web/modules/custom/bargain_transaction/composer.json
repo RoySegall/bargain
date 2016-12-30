@@ -1,0 +1,14 @@
+{
+  "name": "drupal/bargain_transaction",
+  "type": "drupal-module",
+  "description": "Managing transactions between users",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/bargain_transaction",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/bargain_transaction",
+    "source": "http://cgit.drupalcode.org/bargain_transaction"
+  },
+  "require": { }
+}

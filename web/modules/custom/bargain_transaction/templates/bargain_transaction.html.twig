@@ -1,0 +1,22 @@
+{#
+/**
+ * @file bargain_transaction.html.twig
+ * Default theme implementation to present Bargain transaction data.
+ *
+ * This template is used when viewing Bargain transaction pages.
+ *
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_bargain_transaction()
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes.addClass('bargain_transaction') }}>
+  {% if content %}
+    {{- content -}}
+  {% endif %}
+</div>

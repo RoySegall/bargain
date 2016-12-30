@@ -1,0 +1,22 @@
+add bargain transaction entities:
+  title: 'Create new Bargain transaction entities'
+
+administer bargain transaction entities:
+  title: 'Administer Bargain transaction entities'
+  description: 'Allow to access the administration form to configure Bargain transaction entities.'
+  restrict access: true
+
+delete bargain transaction entities:
+  title: 'Delete Bargain transaction entities'
+
+edit bargain transaction entities:
+  title: 'Edit Bargain transaction entities'
+
+access bargain transaction overview:
+  title: 'Access the Bargain transaction overview page'
+
+view published bargain transaction entities:
+  title: 'View published Bargain transaction entities'
+
+view unpublished bargain transaction entities:
+  title: 'View unpublished Bargain transaction entities'

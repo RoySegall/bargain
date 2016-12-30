@@ -1,0 +1,11 @@
+entity.bargain_transaction.add_form:
+  route_name: 'entity.bargain_transaction.add_page'
+  title: 'Add Bargain transaction'
+  appears_on:
+    - entity.bargain_transaction.collection
+entity.bargain_transaction_type.add_form:
+  route_name: 'entity.bargain_transaction_type.add_form'
+  title: 'Add Bargain transaction type'
+  appears_on:
+    - entity.bargain_transaction_type.collection
+
