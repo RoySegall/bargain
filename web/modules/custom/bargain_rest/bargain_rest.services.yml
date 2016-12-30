@@ -1,0 +1,4 @@
+services:
+  plugin.manager.rest_plugin:
+    class: Drupal\bargain_rest\Plugin\RestPluginManager
+    parent: default_plugin_manager
