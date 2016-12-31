@@ -1,0 +1,2 @@
+route_callbacks:
+  - '\Drupal\bargain_rest\Routing\BargainRestRoute::routes'
