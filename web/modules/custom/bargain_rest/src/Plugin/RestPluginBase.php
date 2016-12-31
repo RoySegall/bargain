@@ -28,8 +28,13 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
   protected $pluginManager;
 
   /**
+   * @var \Drupal\Core\Session\AccountProxy
+   */
+  protected $accountProxy;
+
+  /**
    * List of callbacks.
-   * 
+   *
    * @var array
    */
   protected $callbacks = [
@@ -52,10 +57,11 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
    * @param RestPluginManager $plugin_manager
    *   The rest plugin manager.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, \Symfony\Component\HttpFoundation\Request $request, \Drupal\bargain_rest\Plugin\RestPluginManager $plugin_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, \Symfony\Component\HttpFoundation\Request $request, \Drupal\bargain_rest\Plugin\RestPluginManager $plugin_manager, \Drupal\Core\Session\AccountProxy $account_proxy) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->request = $request;
     $this->pluginManager = $plugin_manager;
+    $this->accountProxy = $account_proxy;
   }
 
   /**
@@ -67,7 +73,8 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
       $plugin_id,
       $plugin_definition,
       $container->get('request_stack')->getCurrentRequest(),
-      $container->get('plugin.manager.rest_plugin')
+      $container->get('plugin.manager.rest_plugin'),
+      $container->get('current_user')
     );
   }
 

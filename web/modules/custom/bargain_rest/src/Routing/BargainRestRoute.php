@@ -23,25 +23,27 @@ class BargainRestRoute {
       $route = new Route(
       // Path to attach this route to:
         $plugin['path'],
-        array(
+        [
           '_controller' => '\Drupal\bargain_rest\Routing\BargainRestRoute::content',
-          '_title' => 'Hello'
-        ),
-        array(
+        ],
+        [
           '_custom_access'  => '\Drupal\bargain_rest\Routing\BargainRestRoute::access',
-        ),
+        ],
         [
           'plugin' => $plugin,
         ]
       );
-
-      // Add the route under the name 'example.content'.
       $route_collection->add($plugin['id'], $route);
     }
 
     return $route_collection;
   }
 
+  /**
+   * Trigger the matching callback from the matching plugin.
+   *
+   * @return mixed
+   */
   public function content() {
     $plugin_info = \Drupal::routeMatch()->getRouteObject()->getOption('plugin');
 
@@ -51,6 +53,11 @@ class BargainRestRoute {
     return $plugin->callback();
   }
 
+  /**
+   * Check if the the current user have access to the endpoint.
+   *
+   * @return AccessResult
+   */
   public function access() {
     $plugin_info = \Drupal::routeMatch()->getRouteObject()->getOption('plugin');
 
