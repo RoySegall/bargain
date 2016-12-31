@@ -48,9 +48,9 @@ class BargainRestRoute {
     $plugin_info = \Drupal::routeMatch()->getRouteObject()->getOption('plugin');
 
     /** @var RestPluginBase $plugin */
-    $plugin = \Drupal::service('plugin.manager.rest_plugin')->createInstance($plugin_info['id']);
-
-    return $plugin->callback();
+    return \Drupal::service('plugin.manager.rest_plugin')
+      ->createInstance($plugin_info['id'])
+      ->callback();
   }
 
   /**
@@ -62,9 +62,9 @@ class BargainRestRoute {
     $plugin_info = \Drupal::routeMatch()->getRouteObject()->getOption('plugin');
 
     /** @var RestPluginBase $plugin */
-    $plugin = \Drupal::service('plugin.manager.rest_plugin')->createInstance($plugin_info['id']);
-
-    return $plugin->access();
+    return \Drupal::service('plugin.manager.rest_plugin')
+      ->createInstance($plugin_info['id'])
+      ->access();
   }
 
 }
