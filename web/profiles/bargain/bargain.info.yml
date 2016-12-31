@@ -50,6 +50,7 @@ dependencies:
 # Custom
   - bargain_core
   - bargain_transaction
+  - bargain_rest
 
 themes:
   - bartik
