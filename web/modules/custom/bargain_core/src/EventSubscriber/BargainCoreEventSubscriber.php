@@ -17,7 +17,7 @@ class BargainCoreEventSubscriber implements EventSubscriberInterface {
    * Initializes bargain core module requirements.
    */
   public function onRequest(GetResponseEvent $event) {
-    dpm(\Drupal::service('plugin.manager.rest_plugin')->getDefinitions());
+    dpm(\Drupal::service('plugin.manager.rest_plugin'));
   }
 
   /**

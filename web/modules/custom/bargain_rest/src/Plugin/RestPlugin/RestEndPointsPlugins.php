@@ -8,8 +8,9 @@ use Drupal\Core\Access\AccessResult;
 /**
  * @RestPlugin(
  *  id = "rest_plugin",
- *  label = @Translation("The plugin ID."),
- *  path = "/api"
+ *  path = "/api",
+ *  label = @Translation("Routes list"),
+ *  description = @Translation("List of all rest routes")
  * )
  */
 class RestEndPointsPlugins extends RestPluginBase {
@@ -27,7 +28,22 @@ class RestEndPointsPlugins extends RestPluginBase {
     return AccessResult::allowed();
   }
 
+  /**
+   * Get callback; Return list of plugins.
+   */
   protected function get() {
-    return 'a';
+    $plugins = $this->pluginManager->getDefinitions();
+
+    $routes = [];
+    foreach ($plugins as $plugin) {
+      $routes[$plugin['id']] = [
+        'path' => $plugin['path'],
+        'label' => $plugin['label'],
+        'description' => $plugin['description'],
+      ];
+    }
+
+    return $routes;
   }
+
 }
