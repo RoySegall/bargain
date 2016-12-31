@@ -2,41 +2,32 @@
 
 namespace Drupal\bargain_rest\Plugin\RestPlugin;
 
-use Drupal\bargain_rest\Plugin\RestPluginInterface;
-
+use Drupal\bargain_rest\Plugin\RestPluginBase;
+use Drupal\Core\Access\AccessResult;
 
 /**
  * @RestPlugin(
  *  id = "rest_plugin",
  *  label = @Translation("The plugin ID."),
- *  route = "api"
+ *  path = "/api"
  * )
  */
-class RestEndPointsPlugins implements RestPluginInterface {
+class RestEndPointsPlugins extends RestPluginBase {
 
   protected $callbacks = [
     'get' => 'get',
-    'post' => 'post',
-    'patch' => 'patch',
-    'delete' => 'delete',
   ];
 
   /**
-   * Gets the plugin_id of the plugin instance.
+   * Return access callback for the routes.
    *
-   * @return string
-   *   The plugin_id of the plugin instance.
+   * @return AccessResult
    */
-  public function getPluginId() {
+  public function access() {
+    return AccessResult::allowed();
   }
 
-  /**
-   * Gets the definition of the plugin implementation.
-   *
-   * @return array
-   *   The plugin definition, as returned by the discovery object used by the
-   *   plugin manager.
-   */
-  public function getPluginDefinition() {
+  protected function get() {
+    return 'a';
   }
 }
