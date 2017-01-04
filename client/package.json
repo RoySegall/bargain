@@ -1,0 +1,16 @@
+{
+  "name": "bargain",
+  "version": "1.0.0",
+  "description": "Platform for exchanging currencies without paying the bank fees",
+  "main": "bundle.js",
+  "dependencies": {
+    "style-loader": "^0.13.1",
+    "css-loader": "^0.26.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Maaike van der Brugghen",
+  "license": "ISC"
+}
