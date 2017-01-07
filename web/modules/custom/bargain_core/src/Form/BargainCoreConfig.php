@@ -7,8 +7,6 @@ use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Class BargainCoreConfig.
- *
- * @package Drupal\rethinkdb\Form
  */
 class BargainCoreConfig extends ConfigFormBase {
 

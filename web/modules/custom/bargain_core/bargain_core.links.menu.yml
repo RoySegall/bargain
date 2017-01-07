@@ -9,5 +9,5 @@ bargain_core.admin_config:
   title: Bargain
   route_name: bargain_core.admin_config
   parent: system.admin_config
-  description: 'Configure RethinkDB settiings.'
+  description: 'Configure bargain settiings.'
   weight: -20
