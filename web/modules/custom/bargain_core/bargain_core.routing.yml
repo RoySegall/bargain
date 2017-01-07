@@ -1,0 +1,17 @@
+bargain_core.bargain_core_config:
+  path: '/admin/config/bargain_core/config'
+  defaults:
+    _form: '\Drupal\bargain_core\Form\BargainCoreConfig'
+    _title: 'Bargain core config'
+  requirements:
+    _permission: 'access bargain core admin pages'
+  options:
+    _admin_route: TRUE
+
+bargain_core.admin_config:
+  path: '/admin/config/bargain_core'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Bargain'
+  requirements:
+    _permission: 'access bargain core admin pages'

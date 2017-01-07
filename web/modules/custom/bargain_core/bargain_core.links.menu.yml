@@ -1,0 +1,13 @@
+bargain_core.bargain_core_config:
+  title: 'Config'
+  route_name: bargain_core.bargain_core_config
+  description: 'Bargin Settings'
+  parent: bargain_core.admin_config
+  weight: -100
+
+bargain_core.admin_config:
+  title: Bargain
+  route_name: bargain_core.admin_config
+  parent: system.admin_config
+  description: 'Configure RethinkDB settiings.'
+  weight: -20
