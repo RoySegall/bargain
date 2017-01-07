@@ -1,0 +1,13 @@
+bargain_core.database:
+  type: config_object
+  label: 'Bargain core core settings'
+  mapping:
+    app_id:
+      type: string
+      label: 'App ID'
+    app_key:
+      type: string
+      label: 'App key'
+    app_secret:
+      type: string
+      label: 'App secret'
