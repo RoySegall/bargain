@@ -8,7 +8,7 @@ namespace Drupal\bargain_core;
 class BargainCore {
 
   /**
-   * @return mixed
+   * @return \Drupal\bargain_core\BargainCorePush
    */
   static public function getPush() {
     return \Drupal::service('bargain_core.push');
