@@ -19,6 +19,7 @@ use Drupal\user\UserInterface;
  *   label = @Translation("Bargain transaction"),
  *   bundle_label = @Translation("Bargain transaction type"),
  *   handlers = {
+ *     "storage" = "Drupal\bargain_transaction\BargainTransactionStorage",
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\bargain_transaction\BargainTransactionListBuilder",
  *     "views_data" = "Drupal\bargain_transaction\Entity\BargainTransactionViewsData",
