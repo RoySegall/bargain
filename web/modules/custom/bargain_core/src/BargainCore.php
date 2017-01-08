@@ -14,4 +14,11 @@ class BargainCore {
     return \Drupal::service('bargain_core.push');
   }
 
+  /**
+   * @return \Drupal\bargain_core\BargainCoreEntityFlatten
+   */
+  static public function getEntityFlatten() {
+    return \Drupal::service('bargain_core.entity_flatter');
+  }
+
 }

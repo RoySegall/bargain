@@ -16,13 +16,8 @@ class BargainTransactionStorage extends SqlContentEntityStorage {
    */
   public function save(EntityInterface $entity) {
     $return = parent::save($entity);
-
     $action = $entity->isNew() ? 'added' : 'updated';
-
-    BargainCore::getPush()->push('transactions', 'storage-' . $action, [
-      'id' => $entity->id(),
-    ]);
-
+    BargainCore::getPush()->push('transactions', 'storage-' . $action, $this->entityToJson($entity));
     return $return;
   }
 
@@ -33,12 +28,28 @@ class BargainTransactionStorage extends SqlContentEntityStorage {
     $return = parent::delete($entities);
 
     foreach ($entities as $entity) {
-      BargainCore::getPush()->push('transactions', 'storage-remove', [
-        'id' => $entity->id(),
-      ]);
+      BargainCore::getPush()->push('transactions', 'storage-remove', $this->entityToJson($entity));
     }
 
     return $return;
+  }
+
+  /**
+   * Convert a single entity to a JSON representation.
+   *
+   * @param EntityInterface $entity
+   *   The entity object.
+   *
+   * @return array
+   *   JSON representation of the entity.
+   */
+  public function entityToJson(EntityInterface $entity) {
+    $object = [
+      'id' => $entity->id(),
+      'type' => $entity->bundle(),
+    ] + BargainCore::getEntityFlatten()->flatten($entity);
+
+    return $object;
   }
 
 }
