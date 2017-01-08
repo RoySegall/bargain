@@ -7,3 +7,6 @@ services:
   bargain_core.push:
     class: Drupal\bargain_core\BargainCorePush
     arguments: ['@config.factory']
+  bargain_core.entity_flatter:
+    class: Drupal\bargain_core\BargainCoreEntityFlatten
+    arguments: []
