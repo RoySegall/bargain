@@ -1,5 +1,5 @@
 langcode: en
 status: true
 dependencies: {  }
-id: transaction_seek
+id: seek
 label: 'Transaction seek'

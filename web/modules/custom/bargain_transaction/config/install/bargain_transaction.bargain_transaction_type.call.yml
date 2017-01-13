@@ -1,5 +1,5 @@
 langcode: en
 status: true
 dependencies: {  }
-id: transaction_call
+id: call
 label: 'Transaction call'
