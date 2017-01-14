@@ -255,7 +255,7 @@ class BargainCoins extends ContentEntityBase implements BargainCoinsInterface {
 
     $fields['rate'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Rate'))
-      ->setDescription(t('The change.'))
+      ->setDescription(t('The change rate between the coins.'))
       ->setSettings(array(
         'max_length' => 50,
         'text_processing' => 0,
@@ -273,9 +273,9 @@ class BargainCoins extends ContentEntityBase implements BargainCoinsInterface {
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
-    $fields['change'] = BaseFieldDefinition::create('string')
+    $fields['change_compare'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Change'))
-      ->setDescription(t('The change.'))
+      ->setDescription(t('The difference between the previous change fee and the current one.'))
       ->setSettings(array(
         'max_length' => 50,
         'text_processing' => 0,
