@@ -1,0 +1,7 @@
+name: Bargain exchange rate
+type: module
+description: Keep track of the exchange rate
+core: 8.x
+package: Bargain
+dependencies:
+  - bargain
