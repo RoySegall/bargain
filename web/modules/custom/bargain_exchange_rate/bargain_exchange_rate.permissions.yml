@@ -1,0 +1,44 @@
+add exchange rate entities:
+  title: 'Create new Exchange rate entities'
+
+administer exchange rate entities:
+  title: 'Administer Exchange rate entities'
+  description: 'Allow to access the administration form to configure Exchange rate entities.'
+  restrict access: true
+
+delete exchange rate entities:
+  title: 'Delete Exchange rate entities'
+
+edit exchange rate entities:
+  title: 'Edit Exchange rate entities'
+
+access exchange rate overview:
+  title: 'Access the Exchange rate overview page'
+
+view published exchange rate entities:
+  title: 'View published Exchange rate entities'
+
+view unpublished exchange rate entities:
+  title: 'View unpublished Exchange rate entities'
+add bargain coins entities:
+  title: 'Create new Bargain coins entities'
+
+administer bargain coins entities:
+  title: 'Administer Bargain coins entities'
+  description: 'Allow to access the administration form to configure Bargain coins entities.'
+  restrict access: true
+
+delete bargain coins entities:
+  title: 'Delete Bargain coins entities'
+
+edit bargain coins entities:
+  title: 'Edit Bargain coins entities'
+
+access bargain coins overview:
+  title: 'Access the Bargain coins overview page'
+
+view published bargain coins entities:
+  title: 'View published Bargain coins entities'
+
+view unpublished bargain coins entities:
+  title: 'View unpublished Bargain coins entities'

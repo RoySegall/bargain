@@ -1,0 +1,54 @@
+# Exchange rate routing definition
+exchange_rate.settings_tab:
+  route_name: exchange_rate.settings
+  title: 'Settings'
+  base_route: exchange_rate.settings
+
+entity.exchange_rate.canonical:
+  route_name: entity.exchange_rate.canonical
+  base_route: entity.exchange_rate.canonical
+  title: 'View'
+
+entity.exchange_rate.edit_form:
+  route_name: entity.exchange_rate.edit_form
+  base_route: entity.exchange_rate.canonical
+  title: 'Edit'
+
+entity.exchange_rate.delete_form:
+  route_name:  entity.exchange_rate.delete_form
+  base_route:  entity.exchange_rate.canonical
+  title: Delete
+  weight: 10
+
+bargain_excahnge_rate.admin:
+  title: 'Exchange rates'
+  route_name: entity.exchange_rate.collection
+  base_route: system.admin_content
+
+bargain_coins.admin:
+  title: 'Coins'
+  route_name: entity.bargain_coins.collection
+  base_route: system.admin_content
+
+# Bargain coins routing definition
+bargain_coins.settings_tab:
+  route_name: bargain_coins.settings
+  title: 'Settings'
+  base_route: bargain_coins.settings
+
+entity.bargain_coins.canonical:
+  route_name: entity.bargain_coins.canonical
+  base_route: entity.bargain_coins.canonical
+  title: 'View'
+
+entity.bargain_coins.edit_form:
+  route_name: entity.bargain_coins.edit_form
+  base_route: entity.bargain_coins.canonical
+  title: 'Edit'
+
+entity.bargain_coins.delete_form:
+  route_name:  entity.bargain_coins.delete_form
+  base_route:  entity.bargain_coins.canonical
+  title: Delete
+  weight: 10
+
