@@ -1,0 +1,28 @@
+
+# Exchange rate menu items definition
+entity.exchange_rate.collection:
+  title: 'Exchange rate list'
+  route_name: entity.exchange_rate.collection
+  description: 'List Exchange rate entities'
+  parent: system.admin_content
+  weight: 100
+
+exchange_rate.admin.structure.settings:
+  title: Exchange rate settings
+  description: 'Configure Exchange rate entities'
+  route_name: exchange_rate.settings
+  parent: system.admin_structure
+
+# Bargain coins menu items definition
+entity.bargain_coins.collection:
+  title: 'Bargain coins list'
+  route_name: entity.bargain_coins.collection
+  description: 'List Bargain coins entities'
+  parent: system.admin_content
+  weight: 100
+
+bargain_coins.admin.structure.settings:
+  title: Bargain coins settings
+  description: 'Configure Bargain coins entities'
+  route_name: bargain_coins.settings
+  parent: system.admin_structure

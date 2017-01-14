@@ -1,0 +1,10 @@
+entity.exchange_rate.add_form:
+  route_name: entity.exchange_rate.add_form
+  title: 'Add Exchange rate'
+  appears_on:
+    - entity.exchange_rate.collection
+entity.bargain_coins.add_form:
+  route_name: entity.bargain_coins.add_form
+  title: 'Add Bargain coins'
+  appears_on:
+    - entity.bargain_coins.collection
