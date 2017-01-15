@@ -239,4 +239,18 @@ class ExchangeRate extends ContentEntityBase implements ExchangeRateInterface {
     parent::preSave($storage);
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function delete() {
+    $ids = array_map(function ($key) {
+      return $key['target_id'];
+    }, $this->coins->getValue());
+
+    $storage = $this->entityTypeManager()->getStorage('bargain_coins');
+
+    $storage->delete($storage->loadMultiple($ids));
+    parent::delete();
+  }
+
 }

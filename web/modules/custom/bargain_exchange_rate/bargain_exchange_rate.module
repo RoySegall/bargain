@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * Implements hook_cron().
+ */
+function bargain_exchange_rate_cron() {
+  \Drupal::service('bargain_exchange_rate.pull_exchange_rate')->pull();
+}
