@@ -53,13 +53,6 @@ class BargainCoreConfig extends ConfigFormBase {
       '#default_value' => $config->get('app_secret'),
     ];
 
-    $form['currency_source'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Currency source'),
-      '#description' => $this->t('The currency coins origin to pull from.'),
-      '#default_value' => $config->get('currency_source'),
-    ];
-
     $form = parent::buildForm($form, $form_state);
 
     return $form;
@@ -75,7 +68,6 @@ class BargainCoreConfig extends ConfigFormBase {
       ->set('app_id', $form_state->getValue('app_id'))
       ->set('app_key', $form_state->getValue('app_key'))
       ->set('app_secret', $form_state->getValue('app_secret'))
-      ->set('currency_source', $form_state->getValue('currency_source'))
       ->save();
   }
 
