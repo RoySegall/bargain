@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * bargain_exchange_rate.module
+ */
 
 /**
  * Implements hook_cron().
