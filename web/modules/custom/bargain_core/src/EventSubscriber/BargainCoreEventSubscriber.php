@@ -17,7 +17,6 @@ class BargainCoreEventSubscriber implements EventSubscriberInterface {
    * Initializes bargain core module requirements.
    */
   public function onRequest(GetResponseEvent $event) {
-    \Drupal::service('bargain_exchange_rate.pull_exchange_rate')->pull();
   }
 
   /**

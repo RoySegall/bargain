@@ -1,5 +1,5 @@
 services:
   bargain_exchange_rate.pull_exchange_rate:
     class: Drupal\bargain_exchange_rate\BargainExchangeRatePull
-    arguments: ['@entity.manager', '@config.factory', '@http_client', '@entity_type.manager']
+    arguments: ['@entity_type.manager', '@config.factory', '@http_client', '@entity.query']
 
