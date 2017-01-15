@@ -19,7 +19,9 @@ class BargainCoreEventSubscriber implements EventSubscriberInterface {
    * Initializes bargain core module requirements.
    */
   public function onRequest(GetResponseEvent $event) {
-    $request = \Drupal::httpClient()->get('http://www.boi.org.il/currency.xml');
+    $source = \Drupal::config('bargain_core.database')->get('currency_source');
+
+    $request = \Drupal::httpClient()->get($source);
     $crawler = new Crawler($request->getBody(true)->getContents());
     $results = [];
 
@@ -34,6 +36,8 @@ class BargainCoreEventSubscriber implements EventSubscriberInterface {
       $results[] = $item;
 
     });
+
+    $date = $crawler->filterXPath('//CURRENCIES//LAST_UPDATE')->text();
   }
 
   /**
