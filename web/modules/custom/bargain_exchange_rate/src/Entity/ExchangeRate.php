@@ -228,11 +228,15 @@ class ExchangeRate extends ContentEntityBase implements ExchangeRateInterface {
       ->setLabel(t('Created'))
       ->setDescription(t('The time that the entity was created.'));
 
-    $fields['changed'] = BaseFieldDefinition::create('changed')
-      ->setLabel(t('Changed'))
-      ->setDescription(t('The time that the entity was last edited.'));
-
     return $fields;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function preSave(EntityStorageInterface $storage) {
+    $this->setName('Exchange rate form date ' . \Drupal::service('date.formatter')->format($this->getCreatedTime(), '', 'd/m/Y'));
+    parent::preSave($storage);
   }
 
 }
