@@ -2,7 +2,6 @@
 
 namespace Drupal\bargain_rest\Plugin\RestPlugin;
 
-use Drupal\bargain_core\BargainCore;
 use Drupal\bargain_rest\Plugin\RestPluginBase;
 use Drupal\Core\Access\AccessResult;
 

@@ -118,7 +118,45 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
       throw new NotFoundHttpException();
     }
 
-    return new JsonResponse($this->{$this->callbacks[$request_type]}());
+    $path_info = explode('/', $this->request->getPathInfo());
+    $plugin_path = explode('/', $this->pluginDefinition['path']);
+
+    $arguments = [];
+
+    // Collecting the arguments.
+    foreach ($plugin_path as $key => $info) {
+      if (empty($info)) {
+        continue;
+      }
+
+      if (!preg_match('/{(.*)}/', $info, $matches)) {
+        // This is no an argument format. Skipping.
+        continue;
+      }
+
+      $entity_types = $this->entityTypeManager->getDefinitions();
+
+      if (in_array($matches[1], array_keys($entity_types))) {
+        // This is an argument representing entity type. Check if we can load
+        // it from the DB.
+        if ($entity = $this->entityTypeManager->getStorage($matches[1])->load($path_info[$key])) {
+          $argument = $entity;
+        }
+        else {
+          // Nope. the value in the argument isn't a valid entity ID. Throwing
+          // 404.
+          throw new NotFoundHttpException();
+        }
+      }
+      else {
+        // Simple argument. Chain it to the array of arguments.
+        $argument = $path_info[$key];
+      }
+
+      $arguments[] = $argument;
+    }
+
+    return new JsonResponse(call_user_func_array([$this, $this->callbacks[$request_type]], $arguments));
   }
 
 }
