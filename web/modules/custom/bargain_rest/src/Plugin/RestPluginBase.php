@@ -51,6 +51,13 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
   protected $entityFlatten;
 
   /**
+   * The arguments form the header.
+   *
+   * @var array
+   */
+  protected $arguments;
+
+  /**
    * List of callbacks.
    *
    * @var array
@@ -118,6 +125,17 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
       throw new NotFoundHttpException();
     }
 
+    return new JsonResponse(call_user_func_array([$this, $this->callbacks[$request_type]], $this->arguments));
+  }
+
+  /**
+   * Setting the arguments of the handler.
+   */
+  public function setArguments() {
+    if ($this->arguments) {
+      return $this;
+    }
+
     $path_info = explode('/', $this->request->getPathInfo());
     $plugin_path = explode('/', $this->pluginDefinition['path']);
 
@@ -156,7 +174,9 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
       $arguments[] = $argument;
     }
 
-    return new JsonResponse(call_user_func_array([$this, $this->callbacks[$request_type]], $arguments));
+    $this->arguments = $arguments;
+
+    return $this;
   }
 
 }

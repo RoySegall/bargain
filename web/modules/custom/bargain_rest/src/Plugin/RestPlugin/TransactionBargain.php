@@ -26,7 +26,10 @@ class TransactionBargain extends RestPluginBase {
    * @return AccessResult
    */
   public function access() {
-    return AccessResult::allowed();
+    /** @var \Drupal\bargain_transaction\Entity\BargainTransaction $bargain_transaction */
+    $bargain_transaction = $this->arguments[0];
+
+    return AccessResult::allowedIf($bargain_transaction->access('view'));
   }
 
   /**

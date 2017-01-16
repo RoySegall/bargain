@@ -50,6 +50,7 @@ class BargainRestRoute {
     /** @var RestPluginBase $plugin */
     return \Drupal::service('plugin.manager.rest_plugin')
       ->createInstance($plugin_info['id'])
+      ->setArguments()
       ->callback();
   }
 
@@ -64,6 +65,7 @@ class BargainRestRoute {
     /** @var RestPluginBase $plugin */
     return \Drupal::service('plugin.manager.rest_plugin')
       ->createInstance($plugin_info['id'])
+      ->setArguments()
       ->access();
   }
 
