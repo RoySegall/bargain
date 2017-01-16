@@ -27,6 +27,7 @@ script:
   - cd $TRAVIS_BUILD_DIR/web
   - sleep 3
   - if [[ $MODE == cs ]]; then
+    exit -1;
     echo "CS";
     fi
   - if [[ $MODE == kernal ]]; then
