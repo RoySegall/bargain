@@ -8,7 +8,7 @@ use Drupal\Core\Access\AccessResult;
 
 /**
  * @RestPlugin(
- *  id = "rest_user",
+ *  id = "transaction_bargain",
  *  path = "/transaction/{bargain_transaction}",
  *  label = @Translation("Transaction list"),
  *  description = @Translation("A single transaction")
