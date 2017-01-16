@@ -9,7 +9,7 @@ use Drupal\Core\Access\AccessResult;
 /**
  * @RestPlugin(
  *  id = "rest_user",
- *  path = "/transaction/{bargain_transaction}/foo/{bar}",
+ *  path = "/transaction/{bargain_transaction}",
  *  label = @Translation("Transaction list"),
  *  description = @Translation("A single transaction")
  * )
@@ -38,8 +38,8 @@ class TransactionBargain extends RestPluginBase {
    * @return mixed
    *   The page.
    */
-  protected function get(BargainTransaction $transaction, $bar) {
-    return $transaction->label();
+  protected function get(BargainTransaction $transaction) {
+    return $this->entityFlatten->flatten($transaction);
   }
 
 }
