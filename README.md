@@ -1,128 +1,57 @@
-# Composer template for Drupal projects
+# Bargain
 
-[![Build Status](https://travis-ci.org/drupal-composer/drupal-project.svg?branch=8.x)](https://travis-ci.org/drupal-composer/drupal-project)
+Bargain is a POC for a money transaction between people.
 
-This project template should provide a kickstart for managing your site
-dependencies with [Composer](https://getcomposer.org/).
+# setting up
 
-If you want to know how to use it as replacement for
-[Drush Make](https://github.com/drush-ops/drush/blob/master/docs/make.md) visit
-the [Documentation on drupal.org](https://www.drupal.org/node/2471553).
+You'll need a Drupal environment: PHP 5.6+(7 and above is recomended), MySQL, 
+Apache, Drush and composer.
 
-## Usage
-
-First you need to [install composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx).
-
-> Note: The instructions below refer to the [global composer installation](https://getcomposer.org/doc/00-intro.md#globally).
-You might need to replace `composer` with `php composer.phar` (or similar) 
-for your setup.
-
-After that you can create the project:
-
+# OpenSSL keys.
 ```
-composer create-project drupal-composer/drupal-project:8.x-dev some-dir --stability dev --no-interaction
+openssl genrsa -out private.key 2048
+openssl rsa -in private.key -pubout > public.key
 ```
 
-With `composer require ...` you can download new dependencies to your 
-installation.
+# Installing
+Just fire up the default.install.sh file and wait for stuff to get down.
 
+# Set up the SSL
+Go to `web/admin/config/people/simple_oauth` and set the path for the private 
+and public key.
+
+# Access token acquiring
+Since our this is a decouple project you need to set up a client: 
+`web/admin/config/people/simple_oauth/oauth2_client`.
+
+In the password set `1234` as an example.
+
+To get the access token you need to do a POST to `web/oauth/token`:
+
+```JSON
+{
+  "grant_type": "password",
+  "client_id": "CLIEND_UUID(9f6e6413-8128-40a5-b619-a3433aaf726f)",
+  "client_secret": "1234",
+  "username": "admin",
+  "password": "admin",
+}
 ```
-cd some-dir
-composer require drupal/devel:~1.0
+
+You'll get:
+
+```JSON
+{
+  "token_type": "Bearer",
+  "expires_in": 299,
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjdhMzdlMzNlYzk2MWFkZWZkZGU3Mjg0ODViNmU2ZGIyMmNlNzhiOGI3MzUzYjU3MjliMzQzNGEwYWI0NTg3ZjdjYmJiYmU0YjM4ZDYxYzdjIn0.eyJhdWQiOiI5ZjZlNjQxMy04MTI4LTQwYTUtYjYxOS1hMzQzM2FhZjcyNmYiLCJqdGkiOiI3YTM3ZTMzZWM5NjFhZGVmZGRlNzI4NDg1YjZlNmRiMjJjZTc4YjhiNzM1M2I1NzI5YjM0MzRhMGFiNDU4N2Y3Y2JiYmJlNGIzOGQ2MWM3YyIsImlhdCI6MTQ4NDU1ODM5NiwibmJmIjoxNDg0NTU4Mzk2LCJleHAiOjE0ODQ1NTg2OTUsInN1YiI6IjEiLCJzY29wZXMiOlsiYXV0aGVudGljYXRlZCJdfQ.qC2SQ3LdFM-67qXAiInSHvIMbSCoBy-4R__l_M_1ZkaHgTV95qiKFDCwkLXk01ZC8W7Dhz_bL7SiieFvQNIM5EQsberwneuK4Fcjo5n5LFOmRJcZ6uvhrGjsX_QEqfYsN9NU2dYIugoabauHC0Y_xokp5InxhlHPS6Q_2CEkrmv4uT0hoeep1bJymViiVkJfMEIAPPMqtyeN5xe9XPz9WzKdMa9ccfkrq2vBfP23z6GF_OcSBbpG9FCUllsCEAlKcY3iyPAQbJ2XEg4ENVWSCr7B7Uob2UODHvfymPDSLJ6lp58a8sxhIp4Yx2A1a20vtZ987LCLzqRL-ICRqp576A",
+  "refresh_token": "cnRp0nI9BMDIeZldOf21mHqmNgCeMVX0mlN4N62PTpmt9nmvlLfJM0aAMyuGQQVabCJWWw0lxpuctE+d2OroFXH80iCAFzfC/YU4VmkHPGCgTXzkFz7WPWGyHH8AAYqQW+tQFkja+8WU+aIwUFarsUTDv1doaZmtdJ4K+CO85mq1IRyLe4GXQhiBdaaMd3OO7U2UCPSrEtLKgOojTEfFkSJwK2Lgmd59yYCeQUbAe6//XWDoE/LX2abrCAiW118iBDgiKVZR/gzo9v5p/VDGZ0s1vsDgViXGeUNsO97W4tgzJ9kJveML7Ub8vUuwm+LAfJXzeF5Y5RkUELW9gHwskqAyzyoX3bgJDkY5gPYtQZXTntaOKi3JHKRfMTl3pWyg6SAeqz3d+0Mt0NDX1SDTLcflost2GfUyIl22iVuozg/piWzpzZf8vF1o8TAhVR7F4YLE21NrC2gZ3I2BY1AZCbX7kB27AhZ3yJXYDnbiur0i/D1UGlNa+MNohrGheYKhHQu/vnWYcReMbRISwB/Ioy6iDZBH0T3R+UMuuui4GcgJ7Q55hrECZiugYLnFnvR0hnKvNOHKxHaeZmD/b2MXdL4VvNGx81j6WxeqOdJE4kFjCdIZJ62cCmi3heX0apItIjl7DaZi4ZxwdePc63Hi4+nAfmqQxmba8ftaTfsthpw="
+}
 ```
 
-The `composer create-project` command passes ownership of all files to the 
-project that is created. You should create a new git repository, and commit 
-all files not excluded by the .gitignore file.
-
-## What does the template do?
-
-When installing the given `composer.json` some tasks are taken care of:
-
-* Drupal will be installed in the `web`-directory.
-* Autoloader is implemented to use the generated composer autoloader in `vendor/autoload.php`,
-  instead of the one provided by Drupal (`web/vendor/autoload.php`).
-* Modules (packages of type `drupal-module`) will be placed in `web/modules/contrib/`
-* Theme (packages of type `drupal-theme`) will be placed in `web/themes/contrib/`
-* Profiles (packages of type `drupal-profile`) will be placed in `web/profiles/contrib/`
-* Creates default writable versions of `settings.php` and `services.yml`.
-* Creates `sites/default/files`-directory.
-* Latest version of drush is installed locally for use at `vendor/bin/drush`.
-* Latest version of DrupalConsole is installed locally for use at `vendor/bin/drupal`.
-
-## Updating Drupal Core
-
-This project will attempt to keep all of your Drupal Core files up-to-date; the 
-project [drupal-composer/drupal-scaffold](https://github.com/drupal-composer/drupal-scaffold) 
-is used to ensure that your scaffold files are updated every time drupal/core is 
-updated. If you customize any of the "scaffolding" files (commonly .htaccess), 
-you may need to merge conflicts if any of your modfied files are updated in a 
-new release of Drupal core.
-
-Follow the steps below to update your core files.
-
-1. Run `composer update drupal/core --with-dependencies` to update Drupal Core and its dependencies.
-1. Run `git diff` to determine if any of the scaffolding files have changed. 
-   Review the files for any changes and restore any customizations to 
-  `.htaccess` or `robots.txt`.
-1. Commit everything all together in a single commit, so `web` will remain in
-   sync with the `core` when checking out branches or running `git bisect`.
-1. In the event that there are non-trivial conflicts in step 2, you may wish 
-   to perform these steps on a branch, and use `git merge` to combine the 
-   updated core files with your customized files. This facilitates the use 
-   of a [three-way merge tool such as kdiff3](http://www.gitshah.com/2010/12/how-to-setup-kdiff-as-diff-tool-for-git.html). This setup is not necessary if your changes are simple; 
-   keeping all of your modifications at the beginning or end of the file is a 
-   good strategy to keep merges easy.
-
-## Generate composer.json from existing project
-
-With using [the "Composer Generate" drush extension](https://www.drupal.org/project/composer_generate)
-you can now generate a basic `composer.json` file from an existing project. Note
-that the generated `composer.json` might differ from this project's file.
-
-
-## FAQ
-
-### Should I commit the contrib modules I download?
-
-Composer recommends **no**. They provide [argumentation against but also 
-workrounds if a project decides to do it anyway](https://getcomposer.org/doc/faqs/should-i-commit-the-dependencies-in-my-vendor-directory.md).
-
-### Should I commit the scaffolding files?
-
-The [drupal-scaffold](https://github.com/drupal-composer/drupal-scaffold) plugin can download the scaffold files (like
-index.php, update.php, …) to the web/ directory of your project. If you have not customized those files you could choose
-to not check them into your version control system (e.g. git). If that is the case for your project it might be
-convenient to automatically run the drupal-scaffold plugin after every install or update of your project. You can
-achieve that by registering `@drupal-scaffold` as post-install and post-update command in your composer.json:
-
+When accessing the backend, the headers should be:
 ```json
-"scripts": {
-    "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
-    "post-install-cmd": [
-        "@drupal-scaffold",
-        "..."
-    ],
-    "post-update-cmd": [
-        "@drupal-scaffold",
-        "..."
-    ]
-},
-```
-### How can I apply patches to downloaded modules?
-
-If you need to apply patches (depending on the project being modified, a pull 
-request is often a better solution), you can do so with the 
-[composer-patches](https://github.com/cweagans/composer-patches) plugin.
-
-To add a patch to drupal module foobar insert the patches section in the extra 
-section of composer.json:
-```json
-"extra": {
-    "patches": {
-        "drupal/foobar": {
-            "Patch description": "URL to patch"
-        }
-    }
+{
+  "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjdhMzdlMzNlYzk2MWFkZWZkZGU3Mjg0ODViNmU2ZGIyMmNlNzhiOGI3MzUzYjU3MjliMzQzNGEwYWI0NTg3ZjdjYmJiYmU0YjM4ZDYxYzdjIn0.eyJhdWQiOiI5ZjZlNjQxMy04MTI4LTQwYTUtYjYxOS1hMzQzM2FhZjcyNmYiLCJqdGkiOiI3YTM3ZTMzZWM5NjFhZGVmZGRlNzI4NDg1YjZlNmRiMjJjZTc4YjhiNzM1M2I1NzI5YjM0MzRhMGFiNDU4N2Y3Y2JiYmJlNGIzOGQ2MWM3YyIsImlhdCI6MTQ4NDU1ODM5NiwibmJmIjoxNDg0NTU4Mzk2LCJleHAiOjE0ODQ1NTg2OTUsInN1YiI6IjEiLCJzY29wZXMiOlsiYXV0aGVudGljYXRlZCJdfQ.qC2SQ3LdFM-67qXAiInSHvIMbSCoBy-4R__l_M_1ZkaHgTV95qiKFDCwkLXk01ZC8W7Dhz_bL7SiieFvQNIM5EQsberwneuK4Fcjo5n5LFOmRJcZ6uvhrGjsX_QEqfYsN9NU2dYIugoabauHC0Y_xokp5InxhlHPS6Q_2CEkrmv4uT0hoeep1bJymViiVkJfMEIAPPMqtyeN5xe9XPz9WzKdMa9ccfkrq2vBfP23z6GF_OcSBbpG9FCUllsCEAlKcY3iyPAQbJ2XEg4ENVWSCr7B7Uob2UODHvfymPDSLJ6lp58a8sxhIp4Yx2A1a20vtZ987LCLzqRL-ICRqp576A"
 }
 ```

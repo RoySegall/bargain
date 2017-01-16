@@ -1,0 +1,5 @@
+expiration: 300
+_core:
+  default_config_hash: RViccNnarW8cWYl6LGhaqdWxqCg0rNzyT3I6MtGB9ug
+public_key: /Applications/MAMP/htdocs/public.key
+private_key: /Applications/MAMP/htdocs/private.key
