@@ -1,0 +1,15 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - serialization
+    - simple_oauth
+id: entity.oauth2_token_type
+plugin_id: 'entity:oauth2_token_type'
+granularity: method
+configuration:
+  GET:
+    supported_formats:
+      - json
+    supported_auth:
+      - oauth2

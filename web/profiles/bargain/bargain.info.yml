@@ -46,6 +46,8 @@ dependencies:
 # Contrib
   - devel
   - kint
+  - simple_oauth
+  - restui
 
 # Custom
   - bargain_core
