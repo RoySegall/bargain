@@ -30,9 +30,8 @@ script:
   - ./../vendor/bin/drush runserver http://127.0.0.1:8080 &
   - sleep 3
   - if [[ $MODE == cs ]]; then
-      echo "CS"
-    fi
-
+    echo "CS"
+  fi
   - if [[ $MODE == kernal ]]; then
     echo "kernal"
   fi
