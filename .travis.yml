@@ -30,10 +30,10 @@ script:
   - ./../vendor/bin/drush runserver http://127.0.0.1:8080 &
   - sleep 3
   - if [[ $MODE == cs ]]; then
-    echo "CS"
+    echo "CS";
     fi
   - if [[ $MODE == kernal ]]; then
-    echo "kernal"
+    echo "kernal";
     fi
 #  # Skip core/tests/Drupal/Tests/ComposerIntegrationTest.php because web/ has no composer.json
 #  # Ignore PageCache group temporarily, @see https://www.drupal.org/node/2770673
