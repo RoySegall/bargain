@@ -139,8 +139,6 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
     $path_info = explode('/', $this->request->getPathInfo());
     $plugin_path = explode('/', $this->pluginDefinition['path']);
 
-    $arguments = [];
-
     // Collecting the arguments.
     foreach ($plugin_path as $key => $info) {
       if (empty($info)) {
@@ -171,10 +169,8 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
         $argument = $path_info[$key];
       }
 
-      $arguments[] = $argument;
+      $this->arguments[] = $argument;
     }
-
-    $this->arguments = $arguments;
 
     return $this;
   }
