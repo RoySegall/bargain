@@ -1,6 +1,5 @@
 language: php
 php:
-  - 5.5
   - 5.6
   - 7.0
 
@@ -26,13 +25,13 @@ install:
 
 script:
   - cd $TRAVIS_BUILD_DIR/web
-  - ./../vendor/bin/drush site-install --verbose --yes --db-url=sqlite://tmp/site.sqlite
-  - ./../vendor/bin/drush runserver http://127.0.0.1:8080 &
   - sleep 3
   - if [[ $MODE == cs ]]; then
     echo "CS";
     fi
   - if [[ $MODE == kernal ]]; then
+    ./../vendor/bin/drush site-install --verbose --yes --db-url=sqlite://tmp/site.sqlite;
+    ./../vendor/bin/drush runserver http://127.0.0.1:8080 &;
     echo "kernal";
     fi
 #  # Skip core/tests/Drupal/Tests/ComposerIntegrationTest.php because web/ has no composer.json
