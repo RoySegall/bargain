@@ -7,7 +7,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 /**
  * Class BargainCorePush.
  */
-class BargainCorePush implements BargainCorePushService {
+class BargainCorePushInterface implements BargainCorePushServiceInterface {
 
   /**
    * The app ID.
@@ -38,6 +38,7 @@ class BargainCorePush implements BargainCorePushService {
   protected $pusher;
 
   /**
+   * Constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The factory for configuration objects.

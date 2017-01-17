@@ -5,16 +5,16 @@ namespace Drupal\bargain_core;
 /**
  * Interface BargainCorePushService.
  */
-interface BargainCorePushService {
+interface BargainCorePushServiceInterface {
 
   /**
    * Push data to a pusher service.
    *
-   * @param $channel
+   * @param string $channel
    *   The channel for push notifications.
-   * @param $event
+   * @param string $event
    *   The event.
-   * @param $data
+   * @param mixed $data
    *   The data of the event.
    */
   public function push($channel, $event, $data);
