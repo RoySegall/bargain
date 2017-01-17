@@ -25,7 +25,7 @@ install:
 
 script:
   - if [[ $MODE == cs ]]; then
-    echo "CS";
+    ./vendor/bin/phpcs web/modules/custom;
     fi
   - if [[ $MODE == kernal ]]; then
     cd $TRAVIS_BUILD_DIR/web;
