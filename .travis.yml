@@ -24,8 +24,6 @@ install:
 
 
 script:
-  - cd $TRAVIS_BUILD_DIR/web
-  - sleep 3
   - ./scripts/travis/run-test.sh $MODE
 #  # Skip core/tests/Drupal/Tests/ComposerIntegrationTest.php because web/ has no composer.json
 #  # Ignore PageCache group temporarily, @see https://www.drupal.org/node/2770673
