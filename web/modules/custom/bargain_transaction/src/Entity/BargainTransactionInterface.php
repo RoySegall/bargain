@@ -11,9 +11,7 @@ use Drupal\user\EntityOwnerInterface;
  *
  * @ingroup bargain_transaction
  */
-interface BargainTransactionInterface extends  ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {
-
-  // Add get/set methods for your configuration properties here.
+interface BargainTransactionInterface extends ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {
 
   /**
    * Gets the Bargain transaction type.
@@ -75,7 +73,8 @@ interface BargainTransactionInterface extends  ContentEntityInterface, EntityCha
    * Sets the published status of a Bargain transaction.
    *
    * @param bool $published
-   *   TRUE to set this Bargain transaction to published, FALSE to set it to unpublished.
+   *   TRUE to set this Bargain transaction to published, FALSE to set it to
+   *   unpublished.
    *
    * @return \Drupal\bargain_transaction\Entity\BargainTransactionInterface
    *   The called Bargain transaction entity.

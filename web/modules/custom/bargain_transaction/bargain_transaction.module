@@ -5,24 +5,6 @@
  * Contains bargain_transaction.module.
  */
 
-use Drupal\Core\Routing\RouteMatchInterface;
-
-/**
- * Implements hook_help().
- */
-function bargain_transaction_help($route_name, RouteMatchInterface $route_match) {
-  switch ($route_name) {
-    // Main module help for the bargain_transaction module.
-    case 'help.page.bargain_transaction':
-      $output = '';
-      $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('') . '</p>';
-      return $output;
-
-    default:
-  }
-}
-
 /**
  * Implements hook_theme().
  */
@@ -42,8 +24,8 @@ function bargain_transaction_theme() {
 }
 
 /**
-* Implements hook_theme_suggestions_HOOK().
-*/
+ * Implements hook_theme_suggestions_HOOK().
+ */
 function bargain_transaction_theme_suggestions_bargain_transaction(array $variables) {
   $suggestions = array();
   $entity = $variables['elements']['#bargain_transaction'];
