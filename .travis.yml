@@ -27,7 +27,9 @@ script:
   - cd $TRAVIS_BUILD_DIR/web
   - sleep 3
   - if [[ $MODE == cs ]]; then
-    echo "CS";
+    ./vendor/bin/phpcs;
+    exit $?
+    ;;
     fi
   - if [[ $MODE == kernal ]]; then
     ./../vendor/bin/drush site-install --verbose --yes --db-url=sqlite://tmp/site.sqlite;
