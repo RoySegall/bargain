@@ -11,9 +11,7 @@ use Drupal\user\EntityOwnerInterface;
  *
  * @ingroup bargain_exchange_rate
  */
-interface BargainCoinsInterface extends  ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {
-
-  // Add get/set methods for your configuration properties here.
+interface BargainCoinsInterface extends ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {
 
   /**
    * Gets the Bargain coins name.
@@ -67,7 +65,8 @@ interface BargainCoinsInterface extends  ContentEntityInterface, EntityChangedIn
    * Sets the published status of a Bargain coins.
    *
    * @param bool $published
-   *   TRUE to set this Bargain coins to published, FALSE to set it to unpublished.
+   *   TRUE to set this Bargain coins to published, FALSE to set it to
+   *   unpublished.
    *
    * @return \Drupal\bargain_exchange_rate\Entity\BargainCoinsInterface
    *   The called Bargain coins entity.

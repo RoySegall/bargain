@@ -10,7 +10,7 @@ use Drupal\simpletest\WebTestBase;
  *
  * @group bargain_exchange_rate
  */
-class LoadTest extends WebTestBase{
+class LoadTest extends WebTestBase {
 
   /**
    * Modules to enable.

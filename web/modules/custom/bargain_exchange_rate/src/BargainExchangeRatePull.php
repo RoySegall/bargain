@@ -59,7 +59,7 @@ class BargainExchangeRatePull implements BargainExchangeRatePullInterface {
   public function pull() {
     $source = $this->getSource();
     $request = $this->httpClient->get($source);
-    $crawler = new Crawler($request->getBody(true)->getContents());
+    $crawler = new Crawler($request->getBody(TRUE)->getContents());
     $date = strtotime($crawler->filterXPath('//CURRENCIES//LAST_UPDATE')->text());
 
     if ($exchange_rate = $this->exchangeRateExists($date)) {
@@ -68,7 +68,7 @@ class BargainExchangeRatePull implements BargainExchangeRatePullInterface {
 
     $coins = [];
 
-    $crawler->filterXPath('//CURRENCIES//CURRENCY')->each(function (Crawler $node, $i) use(&$coins) {
+    $crawler->filterXPath('//CURRENCIES//CURRENCY')->each(function (Crawler $node, $i) use (&$coins) {
       $node = $node->getNode(0);
 
       $properties = [];
@@ -98,18 +98,19 @@ class BargainExchangeRatePull implements BargainExchangeRatePullInterface {
   /**
    * Create an exchange rate info from a bundle of coins.
    *
-   * @param $created
+   * @param int $created
    *   The timestamp which the exchange rate last updated.
-   * @param $coins_ids
+   * @param array $coins_ids
+   *   List of coins entity ID or the entity object.
    *
    * @return \Drupal\bargain_exchange_rate\Entity\ExchangeRate
    *   The exchange rate entity.
    */
-  protected function createExchangeRate($created, $coins_ids) {
+  protected function createExchangeRate($created, array $coins_ids) {
 
     $entity = $this->entityTypeManager->getStorage('exchange_rate')->create([
       'created' => $created,
-      'coins' => $coins_ids
+      'coins' => $coins_ids,
     ]);
 
     $entity->save();
@@ -120,7 +121,7 @@ class BargainExchangeRatePull implements BargainExchangeRatePullInterface {
   /**
    * Check if an exchange rate for the current date exists.
    *
-   * @param $created
+   * @param int $created
    *   The timestamp which the exchange rate last updated.
    *
    * @return \Drupal\bargain_exchange_rate\Entity\ExchangeRate
