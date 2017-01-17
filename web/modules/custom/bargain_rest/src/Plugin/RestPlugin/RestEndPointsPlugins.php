@@ -16,10 +16,7 @@ use Drupal\Core\Access\AccessResult;
  * )
  */
 class RestEndPointsPlugins extends RestPluginBase {
-
-  /**
-   * {@inheritdoc}
-   */
+  
   protected $callbacks = [
     'get' => 'get',
   ];
