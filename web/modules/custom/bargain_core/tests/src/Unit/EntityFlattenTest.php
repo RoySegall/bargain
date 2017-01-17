@@ -1,6 +1,7 @@
 <?php
 
 namespace Drupal\Tests\bargain_core\Unit;
+
 use Drupal\Tests\UnitTestCase;
 
 /**
