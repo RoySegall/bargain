@@ -11,9 +11,7 @@ use Drupal\user\EntityOwnerInterface;
  *
  * @ingroup bargain_exchange_rate
  */
-interface ExchangeRateInterface extends  ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {
-
-  // Add get/set methods for your configuration properties here.
+interface ExchangeRateInterface extends ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {
 
   /**
    * Gets the Exchange rate name.
@@ -67,7 +65,8 @@ interface ExchangeRateInterface extends  ContentEntityInterface, EntityChangedIn
    * Sets the published status of a Exchange rate.
    *
    * @param bool $published
-   *   TRUE to set this Exchange rate to published, FALSE to set it to unpublished.
+   *   TRUE to set this Exchange rate to published, FALSE to set it to
+   *   unpublished.
    *
    * @return \Drupal\bargain_exchange_rate\Entity\ExchangeRateInterface
    *   The called Exchange rate entity.

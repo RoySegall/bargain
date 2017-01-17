@@ -25,7 +25,8 @@
         "drupal/devel": "1.x-dev",
         "pusher/pusher-php-server": "^2.6",
         "drupal/simple_oauth": "2.0-alpha2",
-        "drupal/restui": "^1.13"
+        "drupal/restui": "^1.13",
+        "drupal/coder": "^8.2"
     },
     "require-dev": {
         "behat/mink": "~1.7",

@@ -28,7 +28,7 @@ class BargainCoreEntityFlatten {
         continue;
       }
 
-      $value = array_map(function($item) {
+      $value = array_map(function ($item) {
         return $item['value'];
       }, $value);
 
