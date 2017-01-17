@@ -7,6 +7,8 @@ use Drupal\bargain_transaction\Entity\BargainTransaction;
 use Drupal\Core\Access\AccessResult;
 
 /**
+ * TransactionBargain class.
+ *
  * @RestPlugin(
  *  id = "transaction_bargain",
  *  path = "/transaction/{bargain_transaction}",
@@ -16,14 +18,15 @@ use Drupal\Core\Access\AccessResult;
  */
 class TransactionBargain extends RestPluginBase {
 
+  /**
+   * {@inheritdoc}
+   */
   protected $callbacks = [
     'get' => 'get',
   ];
 
   /**
-   * Return access callback for the routes.
-   *
-   * @return AccessResult
+   * {@inheritdoc}
    */
   public function access() {
     /** @var \Drupal\bargain_transaction\Entity\BargainTransaction $bargain_transaction */

@@ -11,7 +11,6 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
  */
 class RestPluginManager extends DefaultPluginManager {
 
-
   /**
    * Constructor for RestPluginManager objects.
    *

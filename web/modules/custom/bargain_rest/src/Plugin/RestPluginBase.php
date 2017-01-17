@@ -32,6 +32,8 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
   protected $pluginManager;
 
   /**
+   * The account proxy instance.
+   *
    * @var AccountProxy
    */
   protected $accountProxy;
@@ -71,6 +73,7 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
 
   /**
    * RestPluginBase constructor.
+   *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
    * @param string $plugin_id
@@ -114,9 +117,7 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
   }
 
   /**
-   * Return the output of the callback.
-   *
-   * @return mixed
+   * {@inheritdoc}
    */
   public function callback() {
     $request_type = strtolower($this->request->getMethod());

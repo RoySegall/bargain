@@ -6,6 +6,8 @@ use Drupal\bargain_rest\Plugin\RestPluginBase;
 use Drupal\Core\Access\AccessResult;
 
 /**
+ * RestEndPointsPlugins class.
+ *
  * @RestPlugin(
  *  id = "rest_plugin",
  *  path = "/api",
@@ -15,14 +17,15 @@ use Drupal\Core\Access\AccessResult;
  */
 class RestEndPointsPlugins extends RestPluginBase {
 
+  /**
+   * {@inheritdoc}
+   */
   protected $callbacks = [
     'get' => 'get',
   ];
 
   /**
-   * Return access callback for the routes.
-   *
-   * @return AccessResult
+   * {@inheritdoc}
    */
   public function access() {
     return AccessResult::allowed();

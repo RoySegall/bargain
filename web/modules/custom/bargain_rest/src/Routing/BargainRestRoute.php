@@ -2,9 +2,6 @@
 
 namespace Drupal\bargain_rest\Routing;
 
-use Drupal\bargain_rest\Plugin\RestPluginBase;
-use Drupal\Core\Access\AccessResult;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
@@ -13,6 +10,9 @@ use Symfony\Component\Routing\RouteCollection;
  */
 class BargainRestRoute {
 
+  /**
+   * Adding routes dynamically.
+   */
   public function routes() {
 
     $plugins = \Drupal::service('plugin.manager.rest_plugin')->getDefinitions();
@@ -43,11 +43,12 @@ class BargainRestRoute {
    * Trigger the matching callback from the matching plugin.
    *
    * @return mixed
+   *   Any value the callback function will return.
    */
   public function content() {
     $plugin_info = \Drupal::routeMatch()->getRouteObject()->getOption('plugin');
 
-    /** @var RestPluginBase $plugin */
+    /** @var \Drupal\Core\Access\AccessResult $plugin */
     return \Drupal::service('plugin.manager.rest_plugin')
       ->createInstance($plugin_info['id'])
       ->setArguments()
@@ -57,12 +58,13 @@ class BargainRestRoute {
   /**
    * Check if the the current user have access to the endpoint.
    *
-   * @return AccessResult
+   * @return \Drupal\Core\Access\AccessResult
+   *   Access result instance.
    */
   public function access() {
     $plugin_info = \Drupal::routeMatch()->getRouteObject()->getOption('plugin');
 
-    /** @var RestPluginBase $plugin */
+    /** @var \Drupal\bargain_rest\Plugin\RestPluginBase $plugin */
     return \Drupal::service('plugin.manager.rest_plugin')
       ->createInstance($plugin_info['id'])
       ->setArguments()

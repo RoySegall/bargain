@@ -6,6 +6,8 @@ use Drupal\bargain_rest\Plugin\RestPluginBase;
 use Drupal\Core\Access\AccessResult;
 
 /**
+ * RestUser class.
+ *
  * @RestPlugin(
  *  id = "rest_user",
  *  path = "/rest_user",
@@ -15,14 +17,15 @@ use Drupal\Core\Access\AccessResult;
  */
 class RestUser extends RestPluginBase {
 
+  /**
+   * {@inheritdoc}
+   */
   protected $callbacks = [
     'get' => 'get',
   ];
 
   /**
-   * Return access callback for the routes.
-   *
-   * @return AccessResult
+   * {@inheritdoc}
    */
   public function access() {
     return AccessResult::allowed();
