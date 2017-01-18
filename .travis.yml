@@ -31,6 +31,7 @@ script:
     ./../vendor/bin/drush site-install --verbose --yes --db-url=sqlite://tmp/site.sqlite;
     cd -
     ./vendor/bin/phpunit -c ${PWD}/web/core/phpunit.xml.dist web/modules/custom/;
+    exit $?
     fi
 #  # Skip core/tests/Drupal/Tests/ComposerIntegrationTest.php because web/ has no composer.json
 #  # Ignore PageCache group temporarily, @see https://www.drupal.org/node/2770673
