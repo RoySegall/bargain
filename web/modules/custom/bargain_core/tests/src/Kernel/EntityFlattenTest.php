@@ -20,7 +20,7 @@ class EntityFlattenTest extends KernelTestBase {
    * Checking the entity flatten service.
    */
   public function testEntityFlatten() {
-    $this->assertEquals(1, 1);
+    $this->assertEquals(1, 2);
   }
 
 }
