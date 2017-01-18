@@ -1,33 +1,26 @@
 <?php
 
-namespace Drupal\Tests\bargain_core\Unit;
+namespace Drupal\Tests\bargain_core\Kernel;
 
-use Drupal\Core\Entity\EntityInterface;
-use Drupal\Tests\UnitTestCase;
+use Drupal\KernelTests\KernelTestBase;
 
 /**
  * Tests generation of ice cream.
  *
  * @group bargain
  */
-class EntityFlattenTest extends UnitTestCase {
+class EntityFlattenTest extends KernelTestBase {
 
   /**
-   * @var \Drupal\Core\Entity\EntityInterface|\Prophecy\Prophecy\ObjectProphecy
+   * {@inheritdoc}
    */
-  protected $entity;
-
-  function setUp() {
-    parent::setUp();
-
-    $this->entity = $this->prophesize(EntityInterface::class);
-  }
+  public static $modules = ['bargain_core'];
 
   /**
    * Checking the entity flatten service.
    */
   public function testEntityFlatten() {
-    $this->entity->id()->willReturn(0);
+    $this->assertEquals(1, 1);
   }
 
 }
