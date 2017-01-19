@@ -20,11 +20,7 @@ install:
   - composer --verbose install
 
 script:
-  - CORE_DIRECTORY=$(pwd)
-  - cd web
-  - ./../vendor/bin/drush site-install --verbose --yes --db-url=sqlite://tmp/site.sqlite
-  - cd $CORE_DIRECTORY
-  - ./vendor/bin/phpunit -c ${PWD}/web/core/phpunit.xml.dist web/modules/custom/bargain_core/tests/
+  - bash scripts/travis/unit.sh
 #  # Skip core/tests/Drupal/Tests/ComposerIntegrationTest.php because web/ has no composer.json
 #  # Ignore PageCache group temporarily, @see https://www.drupal.org/node/2770673
 #  - ./../vendor/bin/phpunit -c core --testsuite unit --exclude-group Composer,DependencyInjection,PageCache
