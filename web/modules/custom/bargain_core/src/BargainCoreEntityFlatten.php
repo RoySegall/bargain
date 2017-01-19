@@ -29,7 +29,7 @@ class BargainCoreEntityFlatten {
       }
 
       $value = array_map(function ($item) {
-        return $item['value'];
+        return reset($item);
       }, $value);
 
       $return[$field] = count($value) == 1 ? reset($value) : $value;
