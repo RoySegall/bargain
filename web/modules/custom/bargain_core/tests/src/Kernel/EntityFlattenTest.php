@@ -42,6 +42,16 @@ class EntityFlattenTest extends KernelTestBase {
 
     $this->entityTypeManager = $this->container->get('entity_type.manager');
     $this->entityFlatten = $this->container->get('bargain_core.entity_flatter');
+
+    // todo: create a custom service for testing.
+    $push = $this->getMockBuilder('Drupal\bargain_core\BargainCorePushInterface')
+      ->disableOriginalConstructor()
+      ->setMethods(['push'])
+      ->getMock();
+
+    $container = \Drupal::getContainer();
+    $container->set('bargain_core.push', $push);
+    \Drupal::setContainer($container);
   }
 
   /**
@@ -60,6 +70,7 @@ class EntityFlattenTest extends KernelTestBase {
       ->entityTypeManager
       ->getStorage('bargain_transaction')
       ->create($values);
+    $transaction->save();
     $flatten = $this->entityFlatten->flatten($transaction);
 
     foreach ($values as $property => $value) {
