@@ -27,7 +27,7 @@ script:
     ./vendor/bin/phpcs web/modules/custom;
     fi
   - if [[ $MODE == kernal ]]; then
-    bash bash scripts/travis/unit.sh;
+    bash scripts/travis/unit.sh;
     fi
 #  # Skip core/tests/Drupal/Tests/ComposerIntegrationTest.php because web/ has no composer.json
 #  # Ignore PageCache group temporarily, @see https://www.drupal.org/node/2770673
