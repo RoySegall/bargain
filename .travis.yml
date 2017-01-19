@@ -9,9 +9,6 @@ env:
   global:
     - SIMPLETEST_DB=sqlite://tmp/site.sqlite
     - SIMPLETEST_BASE_URL="http://127.0.0.1:8080"
-  matrix:
-    - MODE=cs
-    - MODE=kernal
 
 before_install:
   - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
@@ -23,16 +20,11 @@ install:
   - composer --verbose install
 
 script:
-  - if [[ $MODE == cs ]]; then
-    ./vendor/bin/phpcs web/modules/custom;
-    fi
-  - if [[ $MODE == kernal ]]; then
-    CORE_DIRECTORY=$(pwd);
-    cd web;
-    ./../vendor/bin/drush site-install --verbose --yes --db-url=sqlite://tmp/site.sqlite;
-    cd $CORE_DIRECTORY
-    ./vendor/bin/phpunit -c ${PWD}/core/phpunit.xml.dist web/modules/custom/bargain_core/tests/;
-    fi
+  - CORE_DIRECTORY=$(pwd)
+  - cd web
+  - ./../vendor/bin/drush site-install --verbose --yes --db-url=sqlite://tmp/site.sqlite
+  - cd $CORE_DIRECTORY
+  - ./vendor/bin/phpunit -c ${PWD}/core/phpunit.xml.dist web/modules/custom/bargain_core/tests/
 #  # Skip core/tests/Drupal/Tests/ComposerIntegrationTest.php because web/ has no composer.json
 #  # Ignore PageCache group temporarily, @see https://www.drupal.org/node/2770673
 #  - ./../vendor/bin/phpunit -c core --testsuite unit --exclude-group Composer,DependencyInjection,PageCache
