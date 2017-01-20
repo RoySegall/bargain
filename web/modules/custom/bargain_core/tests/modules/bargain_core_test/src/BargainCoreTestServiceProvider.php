@@ -16,6 +16,8 @@ class BargainCoreTestServiceProvider extends ServiceProviderBase {
   public function alter(ContainerBuilder $container) {
     $definition = $container->getDefinition('bargain_core.push');
     $definition->setClass('Drupal\bargain_core_test\BargainCoreTestsPush');
+
+    // todo: override the exchange source service.
   }
 
 }
