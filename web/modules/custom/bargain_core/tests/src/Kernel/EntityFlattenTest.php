@@ -36,6 +36,8 @@ class EntityFlattenTest extends KernelTestBase {
   protected $entityFlatten;
 
   /**
+   * The config object service.
+   *
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
