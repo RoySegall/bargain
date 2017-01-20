@@ -29,10 +29,3 @@ script:
   - if [[ $MODE == kernal ]]; then
     bash scripts/travis/unit.sh;
     fi
-#  # Skip core/tests/Drupal/Tests/ComposerIntegrationTest.php because web/ has no composer.json
-#  # Ignore PageCache group temporarily, @see https://www.drupal.org/node/2770673
-#  - ./../vendor/bin/phpunit -c core --testsuite unit --exclude-group Composer,DependencyInjection,PageCache
-#  - ./../vendor/bin/drush
-#  - ./../vendor/bin/drupal
-#
-#sleep 3;
