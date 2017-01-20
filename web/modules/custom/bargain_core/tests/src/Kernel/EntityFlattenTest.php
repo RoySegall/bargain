@@ -5,7 +5,7 @@ namespace Drupal\Tests\bargain_core\Kernel;
 use Drupal\KernelTests\KernelTestBase;
 
 /**
- * Tests generation of ice cream.
+ * Check entity flatten service.
  *
  * @group bargain
  */
