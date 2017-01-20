@@ -10,7 +10,7 @@ class BargainCore {
   /**
    * Alias for the wbsocket push service.
    *
-   * @return \Drupal\bargain_core\BargainCorePushInterface
+   * @return \Drupal\bargain_core\BargainCorePush
    *   The push notification service.
    */
   static public function getPush() {
