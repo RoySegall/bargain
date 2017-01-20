@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\bargain_core\Kernel;
 
-use Drupal\Core\Config\InstallStorage;
-use Drupal\Core\Url;
 use Drupal\KernelTests\KernelTestBase;
 
 /**
@@ -50,12 +48,6 @@ class PullExchangeRateTest extends KernelTestBase {
     $this->installConfig(['bargain_core']);
 
     $this->entityTypeManager = $this->container->get('entity_type.manager');
-
-    $content = Url::fromRoute('bargain_core_test.exchange_dummy_data', [], ['absolute' => TRUE])->toString();
-
-    $this->config('bargain_core.database')
-      ->set('currency_source', $content)
-      ->save();
   }
 
   /**

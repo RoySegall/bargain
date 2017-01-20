@@ -57,7 +57,9 @@ class BargainExchangeRatePull implements BargainExchangeRatePullInterface {
    * {@inheritdoc}
    */
   public function pull() {
-    $crawler = new Crawler($this->getContent());
+    $source = $this->getSource();
+    $request = $this->httpClient->get($source);
+    $crawler = new Crawler($request->getBody(TRUE)->getContents());
     $date = strtotime($crawler->filterXPath('//CURRENCIES//LAST_UPDATE')->text());
 
     if ($exchange_rate = $this->exchangeRateExists($date)) {
@@ -81,15 +83,6 @@ class BargainExchangeRatePull implements BargainExchangeRatePullInterface {
     });
 
     return $this->createExchangeRate($date, $coins);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getContent() {
-    $source = $this->getSource();
-    $request = $this->httpClient->get($source);
-    return $request->getBody(TRUE)->getContents();
   }
 
   /**
