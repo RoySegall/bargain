@@ -13,6 +13,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class BargainCoreTestsPush implements BargainCorePushServiceInterface, ContainerInjectionInterface {
 
   /**
+   * Config factory service.
+   *
    * @var \Drupal\Core\Config\ImmutableConfig
    */
   protected $configFactory;

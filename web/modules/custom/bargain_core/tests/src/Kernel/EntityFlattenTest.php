@@ -14,7 +14,12 @@ class EntityFlattenTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['bargain_core', 'bargain_transaction', 'user', 'bargain_core_test'];
+  public static $modules = [
+    'bargain_core',
+    'bargain_transaction',
+    'user',
+    'bargain_core_test',
+  ];
 
   /**
    * The entity type manager interface.
