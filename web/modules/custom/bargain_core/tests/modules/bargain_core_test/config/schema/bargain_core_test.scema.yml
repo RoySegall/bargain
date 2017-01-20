@@ -1,0 +1,13 @@
+bargain_core_test.database:
+  type: config_object
+  label: 'Bargain core core settings'
+  mapping:
+    channel:
+      type: string
+      label: 'Pushed'
+    event:
+      type: string
+      label: 'Pushed'
+    data:
+      type: string
+      label: 'Pushed'

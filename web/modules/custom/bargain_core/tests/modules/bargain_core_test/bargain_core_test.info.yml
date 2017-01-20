@@ -1,0 +1,6 @@
+name: Bargain core
+type: module
+description: Hold common services and functions
+core: 8.x
+package: Bargain
+hidden: true
