@@ -40,9 +40,10 @@ class BargainCoreTestsPush implements BargainCorePushServiceInterface, Container
    * {@inheritdoc}
    */
   public function push($channel, $event, $data) {
-    $this->configFactory->set('channel', $data);
-    $this->configFactory->set('event', $data);
-    $this->configFactory->set('data', $data);
+    $this->configFactory->set('channel', $channel);
+    $this->configFactory->set('event', $event);
+    $this->configFactory->set('data', serialize($data));
+    $this->configFactory->save();
   }
 
 }
