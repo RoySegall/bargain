@@ -14,7 +14,12 @@ class EntityFlattenTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['bargain_core', 'bargain_transaction', 'user'];
+  public static $modules = [
+    'bargain_core',
+    'bargain_transaction',
+    'user',
+    'bargain_core_test',
+  ];
 
   /**
    * The entity type manager interface.
@@ -31,6 +36,13 @@ class EntityFlattenTest extends KernelTestBase {
   protected $entityFlatten;
 
   /**
+   * The config object service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
   public function setUp() {
@@ -42,6 +54,7 @@ class EntityFlattenTest extends KernelTestBase {
 
     $this->entityTypeManager = $this->container->get('entity_type.manager');
     $this->entityFlatten = $this->container->get('bargain_core.entity_flatter');
+    $this->configFactory = $this->container->get('config.factory');
   }
 
   /**
@@ -66,6 +79,14 @@ class EntityFlattenTest extends KernelTestBase {
     foreach ($values as $property => $value) {
       $this->assertEquals($flatten[$property], $value);
     }
+
+    // Verify the event pushing information.
+    $config = $this->configFactory->get('bargain_core_test.database');
+    $data = unserialize($config->get('data'));
+
+    $this->assertTrue($config->get('channel'), 'transactions');
+    $this->assertTrue($config->get('event'), 'storage-added');
+    $this->assertEquals($flatten, $data);
   }
 
 }

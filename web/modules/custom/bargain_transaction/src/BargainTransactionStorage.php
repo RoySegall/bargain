@@ -3,7 +3,7 @@
 namespace Drupal\bargain_transaction;
 
 use Drupal\bargain_core\BargainCoreEntityFlatten;
-use Drupal\bargain_core\BargainCorePush;
+use Drupal\bargain_core\BargainCorePushServiceInterface;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityInterface;
@@ -60,7 +60,7 @@ class BargainTransactionStorage extends SqlContentEntityStorage {
    *   The cache backend to be used.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   The language manager.
-   * @param \Drupal\bargain_core\BargainCorePush $bargain_push
+   * @param \Drupal\bargain_core\BargainCorePushServiceInterface $bargain_push
    *   The bargain push service.
    * @param \Drupal\bargain_core\BargainCoreEntityFlatten $entity_flatten
    *   The entity flatten service.
@@ -71,7 +71,7 @@ class BargainTransactionStorage extends SqlContentEntityStorage {
     EntityManagerInterface $entity_manager,
     CacheBackendInterface $cache,
     LanguageManagerInterface $language_manager,
-    BargainCorePush $bargain_push,
+    BargainCorePushServiceInterface $bargain_push,
     BargainCoreEntityFlatten $entity_flatten
   ) {
     parent::__construct($entity_type, $database, $entity_manager, $cache, $language_manager);
