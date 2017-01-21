@@ -1,0 +1,6 @@
+name: Bargain exchange rate test
+type: module
+description: Hold common services and functions
+core: 8.x
+package: Bargain
+hidden: true

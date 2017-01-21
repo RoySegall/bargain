@@ -213,7 +213,7 @@ class BargainCoins extends ContentEntityBase implements BargainCoinsInterface {
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
-    $fields['currency_code'] = BaseFieldDefinition::create('string')
+    $fields['currencycode'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Currency code'))
       ->setDescription(t('The currency code.'))
       ->setSettings(array(

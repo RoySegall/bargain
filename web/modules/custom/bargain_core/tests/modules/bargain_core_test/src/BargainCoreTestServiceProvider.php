@@ -14,8 +14,7 @@ class BargainCoreTestServiceProvider extends ServiceProviderBase {
    * {@inheritdoc}
    */
   public function alter(ContainerBuilder $container) {
-    $definition = $container->getDefinition('bargain_core.push');
-    $definition->setClass('Drupal\bargain_core_test\BargainCoreTestsPush');
+    $container->getDefinition('bargain_core.push')->setClass('Drupal\bargain_core_test\BargainCoreTestsPush');
   }
 
 }
