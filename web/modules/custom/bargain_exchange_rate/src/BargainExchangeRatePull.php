@@ -58,8 +58,8 @@ class BargainExchangeRatePull implements BargainExchangeRatePullInterface {
    */
   public function pull() {
     $source = $this->getSource();
-    $request = $this->httpClient->get($source);
-    $crawler = new Crawler($request->getBody(TRUE)->getContents());
+    $body = $this->getBody($source);
+    $crawler = new Crawler($body);
     $date = strtotime($crawler->filterXPath('//CURRENCIES//LAST_UPDATE')->text());
 
     if ($exchange_rate = $this->exchangeRateExists($date)) {
@@ -93,6 +93,20 @@ class BargainExchangeRatePull implements BargainExchangeRatePullInterface {
    */
   protected function getSource() {
     return $this->configFactory->get('bargain_core.database')->get('currency_source');
+  }
+
+  /**
+   * Get the body of the source.
+   *
+   * @param $source
+   *   The address of the source.
+   *
+   * @return string
+   *   The source.
+   */
+  protected function getBody($source) {
+    $request = $this->httpClient->get($source);
+    return $request->getBody(TRUE)->getContents();
   }
 
   /**

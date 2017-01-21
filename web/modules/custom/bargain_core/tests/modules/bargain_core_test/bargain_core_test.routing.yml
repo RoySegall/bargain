@@ -1,7 +1,0 @@
-bargain_core_test.exchange_dummy_data:
-  path: '/exchange_rate_dummy'
-  defaults:
-    _controller: '\Drupal\bargain_core_test\Controller\BargainCoreTestExchangeController::dummyData'
-    _title: 'title'
-  requirements:
-    _custom_access: '\Drupal\bargain_core_test\Controller\BargainCoreTestExchangeController::access'

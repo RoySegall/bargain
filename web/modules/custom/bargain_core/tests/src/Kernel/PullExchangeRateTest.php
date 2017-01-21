@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\bargain_core\Kernel;
 
+use Drupal\Core\Cron;
 use Drupal\KernelTests\KernelTestBase;
 
 /**
@@ -16,7 +17,7 @@ class PullExchangeRateTest extends KernelTestBase {
    */
   public static $modules = [
     'bargain_exchange_rate',
-    'bargain_core_test',
+    'bargain_exchange_rate_test',
     'bargain_core',
     'user'
   ];
@@ -35,6 +36,12 @@ class PullExchangeRateTest extends KernelTestBase {
    */
   protected $configFactory;
 
+  /**
+   * The cron service object.
+   *
+   * @var \Drupal\Core\Cron
+   */
+  protected $cron;
 
   /**
    * {@inheritdoc}
@@ -48,12 +55,14 @@ class PullExchangeRateTest extends KernelTestBase {
     $this->installConfig(['bargain_core']);
 
     $this->entityTypeManager = $this->container->get('entity_type.manager');
+    $this->cron = $this->container->get('cron');
   }
 
   /**
    * Testing pull exchange rate.
    */
   public function testPullExchange() {
+    $this->cron->run();
   }
 
 }

@@ -16,9 +16,9 @@ class EntityFlattenTest extends KernelTestBase {
    */
   public static $modules = [
     'bargain_core',
+    'bargain_core_test',
     'bargain_transaction',
     'user',
-    'bargain_core_test',
   ];
 
   /**
