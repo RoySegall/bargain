@@ -13,7 +13,7 @@ class BargainExchangeRateTestExchangeRatePull extends BargainExchangeRatePull {
    * {@inheritdoc}
    */
   protected function getBody($source) {
-    return 'a';
+    return file_get_contents(drupal_get_path('module', 'bargain_exchange_rate_test') . '/currency.xml');
   }
 
 }

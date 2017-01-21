@@ -63,6 +63,7 @@ class PullExchangeRateTest extends KernelTestBase {
    */
   public function testPullExchange() {
     $this->cron->run();
+    $this->assertEquals(count($this->entityTypeManager->getStorage('bargain_coins')->loadMultiple()), 14);
   }
 
 }
