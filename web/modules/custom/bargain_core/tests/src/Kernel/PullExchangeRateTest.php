@@ -63,7 +63,47 @@ class PullExchangeRateTest extends KernelTestBase {
    */
   public function testPullExchange() {
     $this->cron->run();
-    $this->assertEquals(count($this->entityTypeManager->getStorage('bargain_coins')->loadMultiple()), 14);
+
+    /** @var \Drupal\bargain_exchange_rate\Entity\BargainCoins[] $coins */
+    $coins = $this->entityTypeManager->getStorage('bargain_coins')->loadMultiple();
+
+    // Verify we got the right amount of coins.
+    $this->assertEquals(count($coins), 14);
+
+    $expected_coins = [
+      'USD' => '3.811',
+      'GBP' => '4.6824',
+      'JPY' => '3.3106',
+      'EUR' => '4.0563',
+      'AUD' => '2.8668',
+      'CAD' => '2.8557',
+      'DKK' => '0.5455',
+      'NOK' => '0.4510',
+      'ZAR' => '0.2806',
+      'SEK' => '0.4268',
+      'CHF' => '3.7821',
+      'JOD' => '5.3725',
+      'LBP' => '0.0253',
+      'EGP' => '0.2016',
+    ];
+
+    $coins_id = [];
+    foreach ($coins as $coin) {
+      $coins_id[] = $coin->id();
+      $this->assertEquals($expected_coins[$coin->get('currencycode')->value], $coin->get('rate')->value);
+    }
+
+    // Load the exchange bag.
+    /** @var \Drupal\bargain_exchange_rate\Entity\ExchangeRate $bag */
+    $bag = $this->entityTypeManager->getStorage('exchange_rate')->load(1);
+
+    // Check we have the right timestamp.
+    $this->assertEquals($bag->get('created')->value, strtotime('2017-01-20'));
+
+    // Verify the coins in the bag are the coins we got before.
+    foreach ($bag->get('coins')->referencedEntities() as $entity) {
+      $this->assertTrue(in_array($entity->id(), $coins_id));
+    }
   }
 
 }
