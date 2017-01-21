@@ -29,13 +29,6 @@ class PullExchangeRateTest extends KernelTestBase {
   protected $entityTypeManager;
 
   /**
-   * The config object service.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
    * The cron service object.
    *
    * @var \Drupal\Core\Cron
