@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\bargain_core\Kernel;
 
-use Drupal\Core\Cron;
 use Drupal\KernelTests\KernelTestBase;
 
 /**
@@ -19,7 +18,7 @@ class PullExchangeRateTest extends KernelTestBase {
     'bargain_exchange_rate',
     'bargain_exchange_rate_test',
     'bargain_core',
-    'user'
+    'user',
   ];
 
   /**

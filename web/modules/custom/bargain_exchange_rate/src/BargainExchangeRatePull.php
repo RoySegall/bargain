@@ -98,7 +98,7 @@ class BargainExchangeRatePull implements BargainExchangeRatePullInterface {
   /**
    * Get the body of the source.
    *
-   * @param $source
+   * @param string $source
    *   The address of the source.
    *
    * @return string
