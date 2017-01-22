@@ -25,7 +25,7 @@ install:
 
 script:
   - export SIMPLETEST_DB=mysql://root:@127.0.0.1/bargain
-  - export SIMPLETEST_BASE_URL="http://127.0.0.1:8080"
+  - export SIMPLETEST_BASE_URL="http://localhost:8888"
   - if [[ $MODE == cs ]]; then
     ./vendor/bin/phpcs web/modules/custom;
     fi
