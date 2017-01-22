@@ -6,9 +6,6 @@ php:
 sudo: false
 
 env:
-  global:
-    - SIMPLETEST_DB=sqlite://tmp/site.sqlite
-    - SIMPLETEST_BASE_URL="http://127.0.0.1:8080"
   matrix:
     - MODE=cs
     - MODE=kernal
@@ -27,6 +24,7 @@ install:
   - composer --verbose install
 
 script:
+  - export SIMPLETEST_BASE_URL="http://127.0.0.1:8080"
   - if [[ $MODE == cs ]]; then
     ./vendor/bin/phpcs web/modules/custom;
     fi
