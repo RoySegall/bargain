@@ -55,15 +55,13 @@ class RestPluginsTest extends BrowserTestBase {
    * Testing the /api rest plugin.
    */
   public function testRestPlugins() {
+    $results = $this->json->decode($this->httpClient->request('get', $this->getAbsoluteUrl('/api'))->getBody()->getContents());
 
-//    $results = $this->json->decode($this->httpClient->get($this->baseUrl . '/api')->getBody()->getContents());
+    $plugin_ids = array_keys($results);
 
-    $response = \Drupal::httpClient()->get($this->getAbsoluteUrl('/api'));
-
-
-//    $this->assertTrue(key_exists('transaction_bargain', $results));
-//    $this->assertTrue(key_exists('rest_user', $results));
-//    $this->assertTrue(key_exists('rest_plugin', $results));
+    $this->assertTrue(in_array('transaction_bargain', $plugin_ids));
+    $this->assertTrue(in_array('rest_user', $plugin_ids));
+    $this->assertTrue(in_array('rest_plugin', $plugin_ids));
   }
 
 }
