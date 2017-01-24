@@ -1,0 +1,7 @@
+name: bargain_graphql
+type: module
+description: Barain GraphQL support
+core: 8.x
+package: Bargain
+dependencies:
+  - graphql

@@ -1,0 +1,14 @@
+{
+  "name": "drupal/bargain_graphql",
+  "type": "drupal-module",
+  "description": "Barain GraphQL support",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/bargain_graphql",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/bargain_graphql",
+    "source": "http://cgit.drupalcode.org/bargain_graphql"
+  },
+  "require": { }
+}
