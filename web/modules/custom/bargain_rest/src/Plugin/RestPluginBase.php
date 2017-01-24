@@ -57,7 +57,7 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
    *
    * @var array
    */
-  protected $arguments;
+  protected $arguments = [];
 
   /**
    * List of callbacks.

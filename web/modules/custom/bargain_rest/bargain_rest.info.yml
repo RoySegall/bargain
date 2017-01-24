@@ -7,3 +7,4 @@ package: Bargain
 dependencies:
   - rest
   - serialization
+  - views
