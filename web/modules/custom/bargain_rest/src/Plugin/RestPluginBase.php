@@ -72,6 +72,13 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
   ];
 
   /**
+   * The rest request type. i.e: get, post.
+   *
+   * @var string
+   */
+  protected $requestType;
+
+  /**
    * RestPluginBase constructor.
    *
    * @param array $configuration
@@ -98,6 +105,7 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
     $this->accountProxy = $account_proxy;
     $this->entityTypeManager = $entity_manager;
     $this->entityFlatten = $entity_flatten;
+    $this->requestType = strtolower($this->request->getMethod());
   }
 
   /**
@@ -120,13 +128,11 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
    * {@inheritdoc}
    */
   public function callback() {
-    $request_type = strtolower($this->request->getMethod());
-
-    if (empty($this->callbacks[$request_type])) {
+    if (empty($this->callbacks[$this->requestType])) {
       throw new NotFoundHttpException();
     }
 
-    return new JsonResponse(call_user_func_array([$this, $this->callbacks[$request_type]], $this->arguments));
+    return new JsonResponse(call_user_func_array([$this, $this->callbacks[$this->requestType]], $this->arguments));
   }
 
   /**
