@@ -3,7 +3,6 @@
 namespace Drupal\Tests\bargain_core\Functional;
 
 use GuzzleHttp\Exception\ClientException;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * Testing the user end point.
@@ -60,7 +59,7 @@ class RestPluginsUserTest extends AbstractRestPlugins {
    * @param string $request
    *   The request type.
    *
-   * @return mixed|ResponseInterface
+   * @return mixed|\Psr\Http\Message\ResponseInterface
    *   The response object.
    */
   protected function request(array $headers = [], array $body = [], $request = 'post') {
