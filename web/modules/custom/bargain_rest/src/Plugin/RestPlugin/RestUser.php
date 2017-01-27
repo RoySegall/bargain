@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\Query\QueryFactory;
 
-
 /**
  * RestUser class.
  *
