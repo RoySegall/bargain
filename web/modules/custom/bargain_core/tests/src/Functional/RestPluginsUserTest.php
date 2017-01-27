@@ -63,16 +63,36 @@ class RestPluginsUserTest extends AbstractRestPlugins {
    *   The response object.
    */
   protected function request(array $headers = [], array $body = [], $request = 'post') {
-    return $this->httpClient->request('post', $this->getAbsoluteUrl('/rest_user'), [
+    return $this->httpClient->request($request, $this->getAbsoluteUrl('/rest_user'), [
       'headers' => $headers,
       'form_params' => $body,
     ]);
   }
 
   /**
+   * Testing token creation and user validating.
+   */
+  public function testCreateToken() {
+    $user = $this->drupalCreateUser();
+    $user->setPassword(1234);
+    $user->save();
+
+    $this->httpClient->request('post', $this->getAbsoluteUrl('/oauth/token'), [
+      'form_params' => [
+        'grant_type' => 'password',
+        'client_id' => $this->client->uuid(),
+        'client_secret' => $this->password,
+        'username' => $user->label(),
+        'password' => 1234
+      ],
+    ]);
+
+  }
+
+  /**
    * Creating a user.
    */
-  public function testRestPlugins() {
+  public function _testUserCreate() {
     // Trying to do failed requests.
     try {
       $this->request(['client_id' => 'foo']);
