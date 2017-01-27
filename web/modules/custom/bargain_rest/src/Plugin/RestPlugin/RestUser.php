@@ -138,6 +138,18 @@ class RestUser extends RestPluginBase {
   protected function post() {
     $data = $this->request->request->all();
 
+    $keys = ['name', 'password', 'mail'];
+    $empty_keys = [];
+    foreach ($keys as $key) {
+      if (empty($data[$key])) {
+        $empty_keys[] = $key;
+      }
+    }
+
+    if ($empty_keys) {
+      throw new BadRequestHttpException('You did not pass the next values: ' . implode($empty_keys, ', ') . '.');
+    }
+
     /** @var \Drupal\Core\Entity\EntityStorageInterface $storage */
     $storage = $this->entityTypeManager->getStorage('user');
 
