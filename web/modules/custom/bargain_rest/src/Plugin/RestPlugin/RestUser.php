@@ -5,6 +5,7 @@ namespace Drupal\bargain_rest\Plugin\RestPlugin;
 use Drupal\bargain_rest\Plugin\RestPluginBase;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Password\PasswordInterface;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * RestUser class.
@@ -37,7 +38,7 @@ class RestUser extends RestPluginBase {
         ->execute();
 
       if (!$ids) {
-        return AccessResult::forbidden();
+        throw new BadRequestHttpException('There is no app with the app ID you provided.');
       }
 
       /** @var \Drupal\simple_oauth\Entity\Oauth2Client $client */
@@ -45,7 +46,9 @@ class RestUser extends RestPluginBase {
 
       /** @var PasswordInterface $password_checker */
       $password_checker = \Drupal::service('password');
-      AccessResult::allowedIf($password_checker->check($this->request->headers->get('client-secret'), $client->getSecret()));
+      if (!$password_checker->check($this->request->headers->get('client-secret'), $client->getSecret())) {
+        throw new BadRequestHttpException('The client password you provided is invalid.');
+      }
     }
 
     return AccessResult::allowed();
@@ -63,10 +66,20 @@ class RestUser extends RestPluginBase {
    * Post callback; Create a user end point.
    */
   protected function post() {
-    $this->request->request->all();
+    $data = $this->request->request->all();
 
-    // todo: Check if there's already a user with that name or mail.
-    $user = $this->entityTypeManager->getStorage('user')->create($this->request->request->all());
+    /** @var \Drupal\Core\Entity\EntityStorageInterface $storage */
+    $storage = $this->entityTypeManager->getStorage('user');
+
+    if ($storage->loadByProperties(['name' => $data['name']])) {
+      throw new BadRequestHttpException('A user with that name already exists.');
+    }
+
+    if ($storage->loadByProperties(['mail' => $data['mail']])) {
+      throw new BadRequestHttpException('A user with that mail already exists.');
+    }
+
+    $user = $storage->create($data);
     $user->save();
     return $this->entityFlatten->flatten($user);
   }
