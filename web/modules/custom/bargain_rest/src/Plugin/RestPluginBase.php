@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\Query\QueryFactory;
 
 /**
  * Base class for Rest plugin plugins.
@@ -51,6 +52,13 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
    * @var \Drupal\bargain_core\BargainCoreEntityFlatten
    */
   protected $entityFlatten;
+
+  /**
+   * Entity query service.
+   *
+   * @var \Drupal\Core\Entity\Query\QueryFactory
+   */
+  protected $entityQuery;
 
   /**
    * The arguments form the header.
@@ -97,14 +105,27 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
    *   The entity type manager.
    * @param \Drupal\bargain_core\BargainCoreEntityFlatten $entity_flatten
    *   The entity flatten service.
+   * @param \Drupal\Core\Entity\Query\QueryFactory $query_factory
+   *   The query factory service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, Request $request, RestPluginManager $plugin_manager, AccountProxy $account_proxy, EntityTypeManagerInterface $entity_manager, BargainCoreEntityFlatten $entity_flatten) {
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    Request $request,
+    RestPluginManager $plugin_manager,
+    AccountProxy $account_proxy,
+    EntityTypeManagerInterface $entity_manager,
+    BargainCoreEntityFlatten $entity_flatten,
+    QueryFactory $query_factory
+  ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->request = $request;
     $this->pluginManager = $plugin_manager;
     $this->accountProxy = $account_proxy;
     $this->entityTypeManager = $entity_manager;
     $this->entityFlatten = $entity_flatten;
+    $this->entityQuery = $query_factory;
     $this->requestType = strtolower($this->request->getMethod());
   }
 
@@ -120,7 +141,8 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
       $container->get('plugin.manager.rest_plugin'),
       $container->get('current_user'),
       $container->get('entity_type.manager'),
-      $container->get('bargain_core.entity_flatter')
+      $container->get('bargain_core.entity_flatter'),
+      $container->get('entity.query')
     );
   }
 
