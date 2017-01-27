@@ -1,6 +1,7 @@
 <?php
 
 namespace Drupal\Tests\bargain_core\Functional;
+
 use GuzzleHttp\Exception\ClientException;
 use Psr\Http\Message\ResponseInterface;
 
@@ -59,8 +60,8 @@ class RestPluginsUserTest extends AbstractRestPlugins {
    * @param string $request
    *   The request type.
    *
-   * @return mixed|ResponseInterface The response object.
-   * The response object.
+   * @return mixed|ResponseInterface
+   *   The response object.
    */
   protected function request(array $headers = [], array $body = [], $request = 'post') {
     return $this->httpClient->request('post', $this->getAbsoluteUrl('/rest_user'), [
@@ -76,13 +77,15 @@ class RestPluginsUserTest extends AbstractRestPlugins {
     // Trying to do failed requests.
     try {
       $this->request(['client_id' => 'foo']);
-    } catch (ClientException $e) {
+    }
+    catch (ClientException $e) {
       $this->assertContains('There is no app with the app ID you provided.', $e->getResponse()->getBody()->getContents());
     }
 
     try {
       $this->request(['client_id' => $this->client->uuid(), 'client_secret' => 'bar']);
-    } catch (ClientException $e) {
+    }
+    catch (ClientException $e) {
       $this->assertContains('The client password you provided is invalid.', $e->getResponse()->getBody()->getContents());
     }
 
@@ -95,13 +98,15 @@ class RestPluginsUserTest extends AbstractRestPlugins {
     // Attempting an empty request.
     try {
       $this->request($client);
-    } catch (ClientException $e) {
+    }
+    catch (ClientException $e) {
       $this->assertContains('You did not pass the next values: name, password, mail.', $e->getResponse()->getBody()->getContents());
     }
 
     try {
       $this->request($client, ['name' => $this->randomString()]);
-    } catch (ClientException $e) {
+    }
+    catch (ClientException $e) {
       $this->assertContains('You did not pass the next values: password, mail.', $e->getResponse()->getBody()->getContents());
     }
 
@@ -110,7 +115,8 @@ class RestPluginsUserTest extends AbstractRestPlugins {
         'name' => $this->randomString(),
         'password' => $this->randomString(),
       ]);
-    } catch (ClientException $e) {
+    }
+    catch (ClientException $e) {
       $this->assertContains('You did not pass the next values: mail.', $e->getResponse()->getBody()->getContents());
     }
 
@@ -134,7 +140,8 @@ class RestPluginsUserTest extends AbstractRestPlugins {
         'mail' => $this->randomString(),
         'password' => $this->randomString(),
       ]);
-    } catch (ClientException $e) {
+    }
+    catch (ClientException $e) {
       $this->assertContains('A user with that name already exists.', $e->getResponse()->getBody()->getContents());
     }
 
@@ -144,7 +151,8 @@ class RestPluginsUserTest extends AbstractRestPlugins {
         'mail' => $user['mail'],
         'password' => $this->randomString(),
       ]);
-    } catch (ClientException $e) {
+    }
+    catch (ClientException $e) {
       $this->assertContains('A user with that mail already exists.', $e->getResponse()->getBody()->getContents());
     }
 
