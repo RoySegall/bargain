@@ -11,7 +11,7 @@ use Drupal\Core\Access\AccessResult;
  *
  * @RestPlugin(
  *  id = "transaction_bargain",
- *  path = "/transaction/{bargain_transaction}",
+ *  path = "/transaction",
  *  label = @Translation("Transaction list"),
  *  description = @Translation("A single transaction")
  * )
@@ -22,30 +22,32 @@ class TransactionBargain extends RestPluginBase {
    * {@inheritdoc}
    */
   protected $callbacks = [
-    'get' => 'get',
+    'post' => 'post',
   ];
 
   /**
    * {@inheritdoc}
    */
   public function access() {
-    /** @var \Drupal\bargain_transaction\Entity\BargainTransaction $bargain_transaction */
-    $bargain_transaction = $this->arguments[0];
+    if ($this->requestType == 'post') {
+      return AccessResult::allowedIf($this
+        ->entityTypeManager
+        ->getAccessControlHandler('bargain_transaction')
+        ->createAccess());
+    }
 
-    return AccessResult::allowedIf($bargain_transaction->access('view'));
+    return AccessResult::allowedIf($this
+      ->entityTypeManager
+      ->getAccessControlHandler('bargain_transaction')
+      ->access($this->arguments[0], 'view'));
   }
 
   /**
-   * Get callback; Return list of plugins.
-   *
-   * @param \Drupal\bargain_transaction\Entity\BargainTransaction $transaction
-   *   The entity object.
-   *
-   * @return mixed
-   *   The page.
+   * Post handler;
    */
-  protected function get(BargainTransaction $transaction) {
-    return $this->entityFlatten->flatten($transaction);
+  protected function post() {
+    // todo: create the bargain.
+    return 'a';
   }
 
 }
