@@ -26,7 +26,7 @@ Since our this is a decouple project you need to set up a client:
 
 In the password set `1234` as an example.
 
-To get the access token you need to do a POST to `web/oauth/token`:
+To get the access token you need to do a POST to `oauth/token`:
 
 ```JSON
 {
@@ -34,7 +34,7 @@ To get the access token you need to do a POST to `web/oauth/token`:
   "client_id": "CLIEND_UUID(9f6e6413-8128-40a5-b619-a3433aaf726f)",
   "client_secret": "1234",
   "username": "admin",
-  "password": "admin",
+  "password": "admin"
 }
 ```
 
