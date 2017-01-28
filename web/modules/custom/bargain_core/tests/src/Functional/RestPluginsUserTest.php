@@ -20,6 +20,7 @@ class RestPluginsUserTest extends AbstractRestPlugins {
     'simple_oauth',
     'text',
     'image',
+    'node',
   ];
 
   /**
@@ -42,6 +43,14 @@ class RestPluginsUserTest extends AbstractRestPlugins {
   public function setUp() {
     parent::setUp();
     $this->password = $this->randomString();
+
+    $path = $this->container->get('module_handler')->getModule('simple_oauth')->getPath();
+    $public_key_path = DRUPAL_ROOT . '/' . $path . '/tests/certificates/public.key';
+    $private_key_path = DRUPAL_ROOT . '/' . $path . '/tests/certificates/private.key';
+    $settings = $this->config('simple_oauth.settings');
+    $settings->set('public_key', $public_key_path);
+    $settings->set('private_key', $private_key_path);
+    $settings->save();
 
     $this->client = $this->entityTypeManager->getStorage('oauth2_client')->create([
       'secret' => $this->password,
@@ -77,22 +86,32 @@ class RestPluginsUserTest extends AbstractRestPlugins {
     $user->setPassword(1234);
     $user->save();
 
-    $this->httpClient->request('post', $this->getAbsoluteUrl('/oauth/token'), [
+    $request = $this->httpClient->request('post', $this->getAbsoluteUrl('/oauth/token'), [
       'form_params' => [
         'grant_type' => 'password',
         'client_id' => $this->client->uuid(),
         'client_secret' => $this->password,
         'username' => $user->label(),
-        'password' => 1234
+        'password' => 1234,
       ],
     ]);
 
+    $response = $this->json->decode($request->getBody()->getContents());
+    $headers = ['Authorization' => 'Bearer ' . $response['access_token']];
+    $user_info = $this->json->decode($this
+      ->request($headers, [], 'get')
+      ->getBody()
+      ->getContents());
+
+    $this->assertEquals($user_info['name'], $user->label());
+    $this->assertEquals($user_info['mail'], $user->getEmail());
+    $this->assertEquals($user_info['uid'], $user->id());
   }
 
   /**
    * Creating a user.
    */
-  public function _testUserCreate() {
+  public function testUserCreate() {
     // Trying to do failed requests.
     try {
       $this->request(['client_id' => 'foo']);
