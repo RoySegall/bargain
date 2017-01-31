@@ -1,2 +1,4 @@
 require("!style!css!./style.css");
-document.write(require("./content.js"));
+require('./js/app');
+
+console.log('entry.js');
