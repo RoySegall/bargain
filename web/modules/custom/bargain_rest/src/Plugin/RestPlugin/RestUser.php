@@ -136,7 +136,6 @@ class RestUser extends RestPluginBase {
    * Post callback; Create a user end point.
    */
   protected function post() {
-    $data = $this->request->request->all();
 
     $keys = ['name', 'password', 'mail'];
     $empty_keys = [];
@@ -153,15 +152,15 @@ class RestUser extends RestPluginBase {
     /** @var \Drupal\Core\Entity\EntityStorageInterface $storage */
     $storage = $this->entityTypeManager->getStorage('user');
 
-    if ($storage->loadByProperties(['name' => $data['name']])) {
+    if ($storage->loadByProperties(['name' => $this->payload['name']])) {
       throw new BadRequestHttpException('A user with that name already exists.');
     }
 
-    if ($storage->loadByProperties(['mail' => $data['mail']])) {
+    if ($storage->loadByProperties(['mail' => $this->payload['mail']])) {
       throw new BadRequestHttpException('A user with that mail already exists.');
     }
 
-    $user = $storage->create($data);
+    $user = $storage->create($this->payload);
     $user->save();
     return $this->entityFlatten->flatten($user);
   }

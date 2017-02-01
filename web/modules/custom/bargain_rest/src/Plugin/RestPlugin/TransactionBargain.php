@@ -5,6 +5,7 @@ namespace Drupal\bargain_rest\Plugin\RestPlugin;
 use Drupal\bargain_rest\Plugin\RestPluginBase;
 use Drupal\bargain_transaction\Entity\BargainTransaction;
 use Drupal\Core\Access\AccessResult;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * TransactionBargain class.
@@ -36,18 +37,17 @@ class TransactionBargain extends RestPluginBase {
         ->createAccess());
     }
 
-    return AccessResult::allowedIf($this
-      ->entityTypeManager
-      ->getAccessControlHandler('bargain_transaction')
-      ->access($this->arguments[0], 'view'));
+    throw new BadRequestHttpException('This end point does not support the request type.');
   }
 
   /**
-   * Post handler;
+   * Post handler; Saving the entry.
    */
   protected function post() {
-    // todo: create the bargain.
-    return 'a';
+    $entity = $this->entityTypeManager->getStorage('bargain_transaction')->create($this->payload);
+    $this->entityValidate($entity);
+    $entity->save();
+    return $this->entityFlatten->flatten($entity);
   }
 
 }

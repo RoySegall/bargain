@@ -221,6 +221,7 @@ class BargainTransaction extends ContentEntityBase implements BargainTransaction
     $fields['coin'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Coin'))
       ->setDescription(t('The coin type.'))
+      ->setRequired(TRUE)
       ->setSettings(array(
         'max_length' => 50,
         'text_processing' => 0,
@@ -241,6 +242,7 @@ class BargainTransaction extends ContentEntityBase implements BargainTransaction
     $fields['amount'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('Amount'))
       ->setDescription(t('How many coins do you own?'))
+      ->setRequired(TRUE)
       ->setSettings(array(
         'max_length' => 50,
         'text_processing' => 0,
@@ -258,9 +260,10 @@ class BargainTransaction extends ContentEntityBase implements BargainTransaction
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
-    $fields['exchange_rate'] = BaseFieldDefinition::create('integer')
+    $fields['exchange_rate'] = BaseFieldDefinition::create('float')
       ->setLabel(t('Exchange rate'))
       ->setDescription(t('What is you exhange rate?'))
+      ->setRequired(TRUE)
       ->setSettings(array(
         'max_length' => 50,
         'text_processing' => 0,
