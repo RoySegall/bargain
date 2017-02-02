@@ -24,39 +24,9 @@ class RestPluginsUserTest extends AbstractRestPlugins {
   ];
 
   /**
-   * The password of the client.
-   *
-   * @var string
-   */
-  protected $password;
-
-  /**
-   * The client entity.
-   *
-   * @var \Drupal\simple_oauth\Entity\Oauth2Client
-   */
-  protected $client;
-
-  /**
    * {@inheritdoc}
    */
-  public function setUp() {
-    parent::setUp();
-    $this->password = $this->randomString();
-
-    $path = $this->container->get('module_handler')->getModule('simple_oauth')->getPath();
-    $public_key_path = DRUPAL_ROOT . '/' . $path . '/tests/certificates/public.key';
-    $private_key_path = DRUPAL_ROOT . '/' . $path . '/tests/certificates/private.key';
-    $settings = $this->config('simple_oauth.settings');
-    $settings->set('public_key', $public_key_path);
-    $settings->set('private_key', $private_key_path);
-    $settings->save();
-
-    $this->client = $this->entityTypeManager->getStorage('oauth2_client')->create([
-      'secret' => $this->password,
-    ]);
-    $this->client->save();
-  }
+  protected $setUpClient = TRUE;
 
   /**
    * Commit request helper function.
@@ -83,21 +53,8 @@ class RestPluginsUserTest extends AbstractRestPlugins {
    */
   public function testCreateToken() {
     $user = $this->drupalCreateUser();
-    $user->setPassword(1234);
-    $user->save();
 
-    $request = $this->httpClient->request('post', $this->getAbsoluteUrl('/oauth/token'), [
-      'form_params' => [
-        'grant_type' => 'password',
-        'client_id' => $this->client->uuid(),
-        'client_secret' => $this->password,
-        'username' => $user->label(),
-        'password' => 1234,
-      ],
-    ]);
-
-    $response = $this->json->decode($request->getBody()->getContents());
-    $headers = ['Authorization' => 'Bearer ' . $response['access_token']];
+    $headers = ['Authorization' => 'Bearer ' . $this->createAccessTokenForUser($user)];
     $user_info = $this->json->decode($this
       ->request($headers, [], 'get')
       ->getBody()
