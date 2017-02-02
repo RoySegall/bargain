@@ -5,7 +5,7 @@ namespace Drupal\Tests\bargain_core\Functional;
 use Drupal\Tests\BrowserTestBase;
 
 /**
- * Testing Rest plugins.
+ * Base class for the rest tests.
  *
  * @group bargain
  */

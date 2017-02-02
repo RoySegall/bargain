@@ -9,7 +9,7 @@ use GuzzleHttp\Exception\ClientException;
  *
  * @group bargain
  */
-class RestPluginsUserTest extends AbstractRestPluginsTests {
+class RestPluginsTestsUserTest extends AbstractRestPluginsTests {
 
   /**
    * {@inheritdoc}
