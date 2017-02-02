@@ -185,7 +185,7 @@ class RestPluginsUserTest extends AbstractRestPlugins {
 
     try {
       $this->request($client, [
-        'name' =>$this->randomMachineName(),
+        'name' => $this->randomMachineName(),
         'mail' => $user['mail'],
         'password' => $this->randomString(),
       ]);
