@@ -138,29 +138,29 @@ class RestPluginsUserTest extends AbstractRestPlugins {
       $this->request($client);
     }
     catch (ClientException $e) {
-      $this->assertContains('You did not pass the next values: name, password, mail.', $e->getResponse()->getBody()->getContents());
+      $this->assertContains('name: You must enter a username.', $e->getResponse()->getBody()->getContents());
     }
 
     try {
-      $this->request($client, ['name' => $this->randomString()]);
+      $this->request($client, ['name' => $this->randomMachineName()]);
     }
     catch (ClientException $e) {
-      $this->assertContains('You did not pass the next values: password, mail.', $e->getResponse()->getBody()->getContents());
+      $this->assertContains('mail: Email field is required.', $e->getResponse()->getBody()->getContents());
     }
 
     try {
       $this->request($client, [
-        'name' => $this->randomString(),
+        'name' => $this->randomMachineName(),
         'password' => $this->randomString(),
       ]);
     }
     catch (ClientException $e) {
-      $this->assertContains('You did not pass the next values: mail.', $e->getResponse()->getBody()->getContents());
+      $this->assertContains('mail: Email field is required.', $e->getResponse()->getBody()->getContents());
     }
 
     // Creating a user.
     $user = [
-      'name' => $this->randomString(),
+      'name' => $this->randomMachineName(),
       'password' => $this->randomString(),
       'mail' => 'foo@example.com',
     ];
@@ -180,18 +180,18 @@ class RestPluginsUserTest extends AbstractRestPlugins {
       ]);
     }
     catch (ClientException $e) {
-      $this->assertContains('A user with that name already exists.', $e->getResponse()->getBody()->getContents());
+      $this->assertContains("The username &lt;em class=&quot;placeholder&quot;&gt;{$user['name']}&lt;/em&gt; is already taken.", $e->getResponse()->getBody()->getContents());
     }
 
     try {
       $this->request($client, [
-        'name' => $this->randomString(),
+        'name' =>$this->randomMachineName(),
         'mail' => $user['mail'],
         'password' => $this->randomString(),
       ]);
     }
     catch (ClientException $e) {
-      $this->assertContains('A user with that mail already exists.', $e->getResponse()->getBody()->getContents());
+      $this->assertContains('The email address &lt;em class=&quot;placeholder&quot;&gt;foo@example.com&lt;/em&gt; is already taken.', $e->getResponse()->getBody()->getContents());
     }
 
   }

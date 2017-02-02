@@ -46,10 +46,10 @@ class BargainEndPointTest extends AbstractRestPlugins {
   /**
    * Creating a bargain value.
    *
-   * @param $values
+   * @param array $values
    *   The bargain values.
    */
-  protected function createBargain($values) {
+  protected function createBargain(array $values) {
     $this->entityTypeManager->getStorage('bargain_transaction')->create($values)->save();
   }
 

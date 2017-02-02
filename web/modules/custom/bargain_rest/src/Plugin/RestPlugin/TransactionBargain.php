@@ -3,7 +3,6 @@
 namespace Drupal\bargain_rest\Plugin\RestPlugin;
 
 use Drupal\bargain_rest\Plugin\RestPluginBase;
-use Drupal\bargain_transaction\Entity\BargainTransaction;
 use Drupal\Core\Access\AccessResult;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -14,7 +13,8 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  *  id = "transaction_bargain",
  *  path = "/transaction",
  *  label = @Translation("Transaction list"),
- *  description = @Translation("A single transaction")
+ *  description = @Translation("A single transaction"),
+ *  entity_type = "bargain_transaction"
  * )
  */
 class TransactionBargain extends RestPluginBase {
@@ -23,7 +23,7 @@ class TransactionBargain extends RestPluginBase {
    * {@inheritdoc}
    */
   protected $callbacks = [
-    'post' => 'post',
+    'post' => 'entityCreate',
   ];
 
   /**
@@ -38,16 +38,6 @@ class TransactionBargain extends RestPluginBase {
     }
 
     throw new BadRequestHttpException('This end point does not support the request type.');
-  }
-
-  /**
-   * Post handler; Saving the entry.
-   */
-  protected function post() {
-    $entity = $this->entityTypeManager->getStorage('bargain_transaction')->create($this->payload);
-    $this->entityValidate($entity);
-    $entity->save();
-    return $this->entityFlatten->flatten($entity);
   }
 
 }

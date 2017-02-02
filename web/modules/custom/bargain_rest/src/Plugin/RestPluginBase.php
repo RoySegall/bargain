@@ -5,7 +5,6 @@ namespace Drupal\bargain_rest\Plugin;
 use Drupal\bargain_core\BargainCoreEntityFlatten;
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountProxy;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -238,6 +237,16 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
         throw new BadRequestHttpException(implode("\n", $request_error));
       }
     }
+  }
+
+  /**
+   * Create an entity from payload.
+   */
+  protected function entityCreate() {
+    $entity = $this->entityTypeManager->getStorage($this->pluginDefinition['entity_type'])->create($this->payload);
+    $this->entityValidate($entity);
+    $entity->save();
+    return $this->entityFlatten->flatten($entity);
   }
 
 }
