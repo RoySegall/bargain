@@ -9,7 +9,7 @@ use Drupal\Tests\BrowserTestBase;
  *
  * @group bargain
  */
-class AbstractRestPlugins extends BrowserTestBase {
+abstract class AbstractRestPluginsTests extends BrowserTestBase {
 
   /**
    * {@inheritdoc}
@@ -60,6 +60,13 @@ class AbstractRestPlugins extends BrowserTestBase {
    * @var boolean
    */
   protected $setUpClient;
+
+  /**
+   * The path of the rest plugin.
+   *
+   * @var string
+   */
+  protected $requestCanonical = '/rest_user';
 
   /**
    * {@inheritdoc}
@@ -114,6 +121,26 @@ class AbstractRestPlugins extends BrowserTestBase {
 
     $response = $this->json->decode($request->getBody()->getContents());
     return $response['access_token'];
+  }
+
+  /**
+   * Commit request helper function.
+   *
+   * @param array $headers
+   *   The headers of the request.
+   * @param array $body
+   *   The body of the request.
+   * @param string $request
+   *   The request type.
+   *
+   * @return mixed|\Psr\Http\Message\ResponseInterface
+   *   The response object.
+   */
+  protected function request(array $headers = [], array $body = [], $request = 'post') {
+    return $this->httpClient->request($request, $this->getAbsoluteUrl($this->requestCanonical), [
+      'headers' => $headers,
+      'form_params' => $body,
+    ]);
   }
 
 }

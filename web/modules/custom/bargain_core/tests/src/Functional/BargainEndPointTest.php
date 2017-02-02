@@ -7,7 +7,7 @@ namespace Drupal\Tests\bargain_core\Functional;
  *
  * @group bargain
  */
-class BargainEndPointTest extends AbstractRestPlugins {
+class BargainEndPointTest extends AbstractRestPluginsTests {
 
   /**
    * {@inheritdoc}

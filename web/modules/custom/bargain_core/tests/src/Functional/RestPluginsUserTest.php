@@ -9,7 +9,7 @@ use GuzzleHttp\Exception\ClientException;
  *
  * @group bargain
  */
-class RestPluginsUserTest extends AbstractRestPlugins {
+class RestPluginsTestsUserTest extends AbstractRestPluginsTests {
 
   /**
    * {@inheritdoc}
@@ -29,24 +29,9 @@ class RestPluginsUserTest extends AbstractRestPlugins {
   protected $setUpClient = TRUE;
 
   /**
-   * Commit request helper function.
-   *
-   * @param array $headers
-   *   The headers of the request.
-   * @param array $body
-   *   The body of the request.
-   * @param string $request
-   *   The request type.
-   *
-   * @return mixed|\Psr\Http\Message\ResponseInterface
-   *   The response object.
+   * {@inheritdoc}
    */
-  protected function request(array $headers = [], array $body = [], $request = 'post') {
-    return $this->httpClient->request($request, $this->getAbsoluteUrl('/rest_user'), [
-      'headers' => $headers,
-      'form_params' => $body,
-    ]);
-  }
+  protected $requestCanonical = '/rest_user';
 
   /**
    * Testing token creation and user validating.

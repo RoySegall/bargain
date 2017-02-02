@@ -7,7 +7,7 @@ namespace Drupal\Tests\bargain_core\Functional;
  *
  * @group bargain
  */
-class RestPluginsTest extends AbstractRestPlugins {
+class RestPluginsTestsTest extends AbstractRestPluginsTests {
 
   /**
    * Testing the /api rest plugin.
