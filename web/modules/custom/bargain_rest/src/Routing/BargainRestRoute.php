@@ -2,6 +2,7 @@
 
 namespace Drupal\bargain_rest\Routing;
 
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
@@ -64,7 +65,6 @@ class BargainRestRoute {
   public function access() {
     $plugin_info = \Drupal::routeMatch()->getRouteObject()->getOption('plugin');
 
-    /** @var \Drupal\bargain_rest\Plugin\RestPluginBase $plugin */
     return \Drupal::service('plugin.manager.rest_plugin')
       ->createInstance($plugin_info['id'])
       ->setArguments()

@@ -17,7 +17,7 @@ class RestPluginsTestsTest extends AbstractRestPluginsTests {
 
     $plugin_ids = array_keys($results);
 
-    $this->assertTrue(in_array('transaction_bargain', $plugin_ids));
+    $this->assertTrue(in_array('transaction_bargain_create', $plugin_ids));
     $this->assertTrue(in_array('rest_user', $plugin_ids));
     $this->assertTrue(in_array('rest_plugin', $plugin_ids));
   }

@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\bargain_core\Functional;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
 
 /**
  * Testing the bargain transaction end points.
@@ -46,7 +45,7 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
    */
   public function setUp() {
     parent::setUp();
-    $user = $this->drupalCreateUser(['add bargain transaction entities']);
+    $user = $this->drupalCreateUser(['add bargain transaction entities', 'view published bargain transaction entities']);
     $this->headers = ['Authorization' => 'Bearer ' . $this->createAccessTokenForUser($user)];
   }
 
@@ -80,7 +79,21 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
       'exchange_rate' => '15',
     ]);
 
-    // todo: access the bargain through get.
+    $new_entry = $this->json->decode($result->getBody()->getContents());
+
+    // Accessing the page.
+    $request_result = $this->request($this->headers, [], 'get', $new_entry['id']);
+    $this->assertEquals($this->json->decode($request_result->getBody()->getContents()), $new_entry);
+
+    try {
+      $this->request([], [], 'get', $new_entry['id']);
+      $this->fail();
+    }
+    catch(ClientException $e) {
+      $this->assertTrue(TRUE);
+    }
+
+    // todo: add support with other actions.
   }
 
 }

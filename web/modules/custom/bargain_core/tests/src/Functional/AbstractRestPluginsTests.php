@@ -137,8 +137,9 @@ abstract class AbstractRestPluginsTests extends BrowserTestBase {
    * @return mixed|\Psr\Http\Message\ResponseInterface
    *   The response object.
    */
-  protected function request(array $headers = [], array $body = [], $request = 'post') {
-    return $this->httpClient->request($request, $this->getAbsoluteUrl($this->requestCanonical), [
+  protected function request(array $headers = [], array $body = [], $request = 'post', $entry = '') {
+    $request_path = $entry ? $this->requestCanonical . '/' . $entry : $this->requestCanonical;
+    return $this->httpClient->request($request, $this->getAbsoluteUrl($request_path), [
       'headers' => $headers,
       'form_params' => $body,
     ]);
