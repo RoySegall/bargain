@@ -163,7 +163,8 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
       throw new NotFoundHttpException();
     }
 
-    $this->payload = $this->request->request->all();
+    $request = $this->request->request;
+    $this->payload = $request->all();
     return new JsonResponse(call_user_func_array([$this, $this->callbacks[$this->requestType]], $this->arguments));
   }
 

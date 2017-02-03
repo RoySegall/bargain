@@ -25,6 +25,8 @@ class TransactionBargain extends RestPluginBase {
    */
   protected $callbacks = [
     'get' => 'get',
+    'patch' => 'patch',
+    'delete' => 'delete',
   ];
 
   /**
@@ -42,6 +44,16 @@ class TransactionBargain extends RestPluginBase {
         return AccessResult::allowedIf($this->entityTypeManager
           ->getAccessControlHandler('bargain_transaction')
           ->access($this->arguments[0], 'view', $account));
+
+      case 'patch':
+        return AccessResult::allowedIf($this->entityTypeManager
+          ->getAccessControlHandler('bargain_transaction')
+          ->access($this->arguments[0], 'update', $account));
+
+      case 'delete':
+        return AccessResult::allowedIf($this->entityTypeManager
+          ->getAccessControlHandler('bargain_transaction')
+          ->access($this->arguments[0], 'delete', $account));
     }
 
     throw new BadRequestHttpException('This end point does not support the request type.');
@@ -58,6 +70,30 @@ class TransactionBargain extends RestPluginBase {
    */
   public function get(BargainTransaction $bargain_transaction) {
     return $this->entityFlatten->flatten($bargain_transaction);
+  }
+
+  /**
+   * Updating the entity.
+   *
+   * @param BargainTransaction $bargain_transaction
+   *   The bargain transaction entity.
+   *
+   * @return string
+   *   The JSON representation of the entity.
+   */
+  public function patch(BargainTransaction $bargain_transaction) {
+    foreach ($this->payload as $key => $value) {
+      $bargain_transaction->set($key, $value);
+    }
+
+    $this->entityValidate($bargain_transaction);
+    $bargain_transaction->save();
+
+    return $this->entityFlatten->flatten($bargain_transaction);
+  }
+
+  protected function delete(BargainTransaction $bargain_transaction) {
+    $bargain_transaction->delete();
   }
 
 }

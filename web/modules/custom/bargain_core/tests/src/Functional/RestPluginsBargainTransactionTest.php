@@ -46,7 +46,12 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
    */
   public function setUp() {
     parent::setUp();
-    $user = $this->drupalCreateUser(['add bargain transaction entities', 'view published bargain transaction entities']);
+    $user = $this->drupalCreateUser([
+      'add bargain transaction entities',
+      'view published bargain transaction entities',
+      'edit bargain transaction entities',
+      'delete bargain transaction entities',
+    ]);
     $this->headers = ['Authorization' => 'Bearer ' . $this->createAccessTokenForUser($user)];
   }
 
@@ -94,7 +99,35 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
       $this->assertTrue(TRUE);
     }
 
-    // todo: add support with other actions.
+    // Updating the entity.
+    $request_result = $this->request($this->headers, ['coin' => 'ILS'], 'patch', $new_entry['id']);
+    $this->assertEquals($this->json->decode($request_result->getBody()->getContents())['coin'], 'ILS');
+
+    try {
+      $this->request([], ['coin' => 'ILS'], 'patch', $new_entry['id']);
+      $this->fail();
+    }
+    catch (ClientException $e) {
+      $this->assertTrue(TRUE);
+    }
+
+    // Delete the entity.
+    try {
+      $this->request([], [], 'delete', $new_entry['id']);
+      $this->fail();
+    }
+    catch (ClientException $e) {
+      $this->assertTrue(TRUE);
+    }
+
+    $this->request($this->headers, [], 'delete', $new_entry['id']);
+    try {
+      $this->request($this->headers, [], 'get', $new_entry['id']);
+      $this->assertTrue(TRUE);
+    }
+    catch (ClientException $e) {
+      $this->assertEquals($e->getResponse()->getStatusCode(), '404');
+    }
   }
 
 }

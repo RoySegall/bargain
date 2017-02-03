@@ -28,6 +28,7 @@ class BargainRestRoute {
         ],
         [
           '_custom_access'  => '\Drupal\bargain_rest\Routing\BargainRestRoute::access',
+          '_method' => 'GET|POST|PATCH|DELETE',
         ],
         [
           'plugin' => $plugin,
@@ -62,12 +63,20 @@ class BargainRestRoute {
    *   Access result instance.
    */
   public function access() {
+    static $access;
+
     $plugin_info = \Drupal::routeMatch()->getRouteObject()->getOption('plugin');
 
-    return \Drupal::service('plugin.manager.rest_plugin')
+    if ($access) {
+      return $access;
+    }
+
+    $access = \Drupal::service('plugin.manager.rest_plugin')
       ->createInstance($plugin_info['id'])
       ->setArguments()
       ->access();
+
+    return $access;
   }
 
 }
