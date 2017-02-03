@@ -79,14 +79,16 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
     // Make sure we can't do GET request.
     try {
       $this->request([], [], 'get');
-    } catch (ClientException $e) {
+    }
+    catch (ClientException $e) {
       $this->assertContains('This end point does not support the request type', $e->getResponse()->getBody()->getContents());
     }
 
     // Try to create empty entity.
     try {
       $this->request($this->headers, ['type' => $bundle]);
-    } catch (ClientException $e) {
+    }
+    catch (ClientException $e) {
       $result = $e->getResponse()->getBody()->getContents();
       $this->assertContains('coin: This value should not be null.', $result);
       $this->assertContains('amount: This value should not be null.', $result);
@@ -109,7 +111,8 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
     try {
       $this->request([], [], 'get', $new_entry['id']);
       $this->fail();
-    } catch (ClientException $e) {
+    }
+    catch (ClientException $e) {
       $this->assertTrue(TRUE);
     }
 
@@ -120,7 +123,8 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
     try {
       $this->request([], ['coin' => 'ILS'], 'patch', $new_entry['id']);
       $this->fail();
-    } catch (ClientException $e) {
+    }
+    catch (ClientException $e) {
       $this->assertTrue(TRUE);
     }
 
@@ -128,7 +132,8 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
     try {
       $this->request([], [], 'delete', $new_entry['id']);
       $this->fail();
-    } catch (ClientException $e) {
+    }
+    catch (ClientException $e) {
       $this->assertTrue(TRUE);
     }
 
@@ -136,7 +141,8 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
     try {
       $this->request($this->headers, [], 'get', $new_entry['id']);
       $this->assertTrue(TRUE);
-    } catch (ClientException $e) {
+    }
+    catch (ClientException $e) {
       $this->assertEquals($e->getResponse()->getStatusCode(), '404');
     }
   }

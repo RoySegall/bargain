@@ -255,7 +255,7 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
   /**
    * Check the entity access.
    *
-   * @param $operation
+   * @param string $operation
    *   The type of the operation: create, view, update, delete.
    *
    * @return AccessResult
@@ -277,7 +277,7 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
    * @return string
    *   The JSON representation of the entity.
    */
-  protected function EntityGet(EntityInterface $entity) {
+  protected function entityGet(EntityInterface $entity) {
     return $this->entityFlatten->flatten($entity);
   }
   /**
@@ -289,7 +289,7 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
    * @return string
    *   The JSON representation of the entity.
    */
-  protected function EntityPatch(EntityInterface $entity) {
+  protected function entityPatch(EntityInterface $entity) {
     foreach ($this->payload as $key => $value) {
       $entity->set($key, $value);
     }
@@ -306,7 +306,7 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity object.
    */
-  protected function EntityDelete(EntityInterface $entity) {
+  protected function entityDelete(EntityInterface $entity) {
     $entity->delete();
   }
 

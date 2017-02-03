@@ -3,8 +3,6 @@
 namespace Drupal\bargain_rest\Plugin\RestPlugin;
 
 use Drupal\bargain_rest\Plugin\RestPluginBase;
-use Drupal\bargain_transaction\Entity\BargainTransaction;
-use Drupal\Core\Access\AccessResult;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
