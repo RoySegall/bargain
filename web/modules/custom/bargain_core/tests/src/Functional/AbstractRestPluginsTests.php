@@ -3,6 +3,7 @@
 namespace Drupal\Tests\bargain_core\Functional;
 
 use Drupal\Tests\BrowserTestBase;
+use Drupal\user\Entity\User;
 
 /**
  * Base class for the rest tests.
@@ -57,7 +58,7 @@ abstract class AbstractRestPluginsTests extends BrowserTestBase {
   /**
    * Flag to know if the test required an access token application.
    *
-   * @var boolean
+   * @var bool
    */
   protected $setUpClient;
 
@@ -105,7 +106,7 @@ abstract class AbstractRestPluginsTests extends BrowserTestBase {
    * @return string
    *   The access token which represent the user.
    */
-  protected function createAccessTokenForUser(\Drupal\user\Entity\User $user) {
+  protected function createAccessTokenForUser(User $user) {
     $user->setPassword(1234);
     $user->save();
 

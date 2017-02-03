@@ -4,7 +4,6 @@ namespace Drupal\bargain_rest\Plugin\RestPlugin;
 
 use Drupal\bargain_rest\Plugin\RestPluginBase;
 use Drupal\Core\Access\AccessResult;
-use Drupal\user\Entity\User;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
@@ -31,9 +30,17 @@ class TransactionBargain extends RestPluginBase {
    * {@inheritdoc}
    */
   public function access() {
+
     if ($this->requestType == 'post') {
-      $account = $this->entityTypeManager->getStorage('user')->load($this->accountProxy->id());
-      return AccessResult::allowedIf($account->hasPermission('add bargain transaction entities'));
+      // For some reason the tests failed if not loading the user account.
+      $account = $this
+        ->entityTypeManager
+        ->getStorage('user')
+        ->load($this->accountProxy->id());
+
+      return AccessResult::allowedIf($this->entityTypeManager
+        ->getAccessControlHandler('bargain_transaction')
+        ->createAccess(NULL, $account));
     }
 
     throw new BadRequestHttpException('This end point does not support the request type.');
