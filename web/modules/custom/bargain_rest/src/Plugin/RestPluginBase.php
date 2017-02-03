@@ -280,6 +280,7 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
   protected function entityGet(EntityInterface $entity) {
     return $this->entityFlatten->flatten($entity);
   }
+
   /**
    * Updating the entity.
    *

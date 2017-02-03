@@ -72,10 +72,10 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
   /**
    * Creating different bargain transaction call.
    *
-   * @param $bundle
+   * @param string $bundle
    *   The type of the bargain - call, seek
    */
-  protected function BargainTransactionCall($bundle) {
+  protected function bargainTransactionCall($bundle) {
     // Make sure we can't do GET request.
     try {
       $this->request([], [], 'get');
