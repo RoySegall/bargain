@@ -58,7 +58,24 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
   /**
    * Creating a transaction call.
    */
-  public function testBargainCreate() {
+  public function testBargainCallCreate() {
+    $this->bargainTransactionCall('call');
+  }
+
+  /**
+   * Creating a transaction call.
+   */
+  public function testBargainSeekCreate() {
+    $this->bargainTransactionCall('seek');
+  }
+
+  /**
+   * Creating different bargain transaction call.
+   *
+   * @param string $bundle
+   *   The type of the bargain - call, seek.
+   */
+  protected function bargainTransactionCall($bundle) {
     // Make sure we can't do GET request.
     try {
       $this->request([], [], 'get');
@@ -69,7 +86,7 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
 
     // Try to create empty entity.
     try {
-      $this->request($this->headers, ['type' => 'call']);
+      $this->request($this->headers, ['type' => $bundle]);
     }
     catch (ClientException $e) {
       $result = $e->getResponse()->getBody()->getContents();
@@ -79,7 +96,7 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
     }
 
     $result = $this->request($this->headers, [
-      'type' => 'call',
+      'type' => $bundle,
       'coin' => 'yen',
       'amount' => '100',
       'exchange_rate' => '15',
