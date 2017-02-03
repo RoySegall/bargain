@@ -5,6 +5,7 @@ namespace Drupal\bargain_rest\Plugin\RestPlugin;
 use Drupal\bargain_rest\Plugin\RestPluginBase;
 use Drupal\bargain_transaction\Entity\BargainTransaction;
 use Drupal\Core\Access\AccessResult;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * TransactionBargain class.
@@ -13,7 +14,8 @@ use Drupal\Core\Access\AccessResult;
  *  id = "transaction_bargain",
  *  path = "/transaction/{bargain_transaction}",
  *  label = @Translation("Transaction list"),
- *  description = @Translation("A single transaction")
+ *  description = @Translation("A single transaction"),
+ *  entity_type = "bargain_transaction"
  * )
  */
 class TransactionBargain extends RestPluginBase {
@@ -23,29 +25,81 @@ class TransactionBargain extends RestPluginBase {
    */
   protected $callbacks = [
     'get' => 'get',
+    'patch' => 'patch',
+    'delete' => 'delete',
   ];
 
   /**
    * {@inheritdoc}
    */
   public function access() {
-    /** @var \Drupal\bargain_transaction\Entity\BargainTransaction $bargain_transaction */
-    $bargain_transaction = $this->arguments[0];
 
-    return AccessResult::allowedIf($bargain_transaction->access('view'));
+    $account = $this
+      ->entityTypeManager
+      ->getStorage('user')
+      ->load($this->accountProxy->id());
+
+    switch ($this->requestType) {
+      case 'get':
+        return AccessResult::allowedIf($this->entityTypeManager
+          ->getAccessControlHandler('bargain_transaction')
+          ->access($this->arguments[0], 'view', $account));
+
+      case 'patch':
+        return AccessResult::allowedIf($this->entityTypeManager
+          ->getAccessControlHandler('bargain_transaction')
+          ->access($this->arguments[0], 'update', $account));
+
+      case 'delete':
+        return AccessResult::allowedIf($this->entityTypeManager
+          ->getAccessControlHandler('bargain_transaction')
+          ->access($this->arguments[0], 'delete', $account));
+    }
+
+    throw new BadRequestHttpException('This end point does not support the request type.');
   }
 
   /**
-   * Get callback; Return list of plugins.
+   * Get callback; Display the entity.
    *
-   * @param \Drupal\bargain_transaction\Entity\BargainTransaction $transaction
-   *   The entity object.
+   * @param BargainTransaction $bargain_transaction
+   *   The bargain transaction entity.
    *
-   * @return mixed
-   *   The page.
+   * @return string
+   *   The JSON representation of the entity.
    */
-  protected function get(BargainTransaction $transaction) {
-    return $this->entityFlatten->flatten($transaction);
+  public function get(BargainTransaction $bargain_transaction) {
+    return $this->entityFlatten->flatten($bargain_transaction);
+  }
+
+  /**
+   * Updating the entity.
+   *
+   * @param BargainTransaction $bargain_transaction
+   *   The bargain transaction entity.
+   *
+   * @return string
+   *   The JSON representation of the entity.
+   */
+  public function patch(BargainTransaction $bargain_transaction) {
+    foreach ($this->payload as $key => $value) {
+      $bargain_transaction->set($key, $value);
+    }
+
+    $this->entityValidate($bargain_transaction);
+    $bargain_transaction->save();
+
+    return $this->entityFlatten->flatten($bargain_transaction);
+  }
+
+  /**
+   * Delete the entity.
+   *
+   * @param BargainTransaction $bargain_transaction
+   *   The bargain transaction entity.
+   */
+  protected function delete(BargainTransaction $bargain_transaction) {
+    $bargain_transaction->delete();
   }
 
 }

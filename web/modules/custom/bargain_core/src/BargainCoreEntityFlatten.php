@@ -35,7 +35,7 @@ class BargainCoreEntityFlatten {
       $return[$field] = count($value) == 1 ? reset($value) : $value;
     }
 
-    return $return;
+    return array_filter($return);
   }
 
 }

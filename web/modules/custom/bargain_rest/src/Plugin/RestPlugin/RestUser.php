@@ -21,7 +21,8 @@ use Drupal\Core\Entity\Query\QueryFactory;
  *  id = "rest_user",
  *  path = "/rest_user",
  *  label = @Translation("Rest user"),
- *  description = @Translation("The user in the rest request")
+ *  description = @Translation("The user in the rest request"),
+ *  entity_type = "user"
  * )
  */
 class RestUser extends RestPluginBase {
@@ -96,7 +97,7 @@ class RestUser extends RestPluginBase {
    */
   protected $callbacks = [
     'get' => 'get',
-    'post' => 'post',
+    'post' => 'entityCreate',
   ];
 
   /**
@@ -130,40 +131,6 @@ class RestUser extends RestPluginBase {
   protected function get() {
     $account = $this->entityTypeManager->getStorage('user')->load($this->accountProxy->id());
     return $this->entityFlatten->flatten($account);
-  }
-
-  /**
-   * Post callback; Create a user end point.
-   */
-  protected function post() {
-    $data = $this->request->request->all();
-
-    $keys = ['name', 'password', 'mail'];
-    $empty_keys = [];
-    foreach ($keys as $key) {
-      if (empty($data[$key])) {
-        $empty_keys[] = $key;
-      }
-    }
-
-    if ($empty_keys) {
-      throw new BadRequestHttpException('You did not pass the next values: ' . implode($empty_keys, ', ') . '.');
-    }
-
-    /** @var \Drupal\Core\Entity\EntityStorageInterface $storage */
-    $storage = $this->entityTypeManager->getStorage('user');
-
-    if ($storage->loadByProperties(['name' => $data['name']])) {
-      throw new BadRequestHttpException('A user with that name already exists.');
-    }
-
-    if ($storage->loadByProperties(['mail' => $data['mail']])) {
-      throw new BadRequestHttpException('A user with that mail already exists.');
-    }
-
-    $user = $storage->create($data);
-    $user->save();
-    return $this->entityFlatten->flatten($user);
   }
 
 }

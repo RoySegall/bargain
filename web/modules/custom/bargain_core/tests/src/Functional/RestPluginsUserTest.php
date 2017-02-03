@@ -9,7 +9,7 @@ use GuzzleHttp\Exception\ClientException;
  *
  * @group bargain
  */
-class RestPluginsUserTest extends AbstractRestPlugins {
+class RestPluginsUserTest extends AbstractRestPluginsTests {
 
   /**
    * {@inheritdoc}
@@ -24,80 +24,22 @@ class RestPluginsUserTest extends AbstractRestPlugins {
   ];
 
   /**
-   * The password of the client.
-   *
-   * @var string
+   * {@inheritdoc}
    */
-  protected $password;
-
-  /**
-   * The client entity.
-   *
-   * @var \Drupal\simple_oauth\Entity\Oauth2Client
-   */
-  protected $client;
+  protected $setUpClient = TRUE;
 
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
-    parent::setUp();
-    $this->password = $this->randomString();
-
-    $path = $this->container->get('module_handler')->getModule('simple_oauth')->getPath();
-    $public_key_path = DRUPAL_ROOT . '/' . $path . '/tests/certificates/public.key';
-    $private_key_path = DRUPAL_ROOT . '/' . $path . '/tests/certificates/private.key';
-    $settings = $this->config('simple_oauth.settings');
-    $settings->set('public_key', $public_key_path);
-    $settings->set('private_key', $private_key_path);
-    $settings->save();
-
-    $this->client = $this->entityTypeManager->getStorage('oauth2_client')->create([
-      'secret' => $this->password,
-    ]);
-    $this->client->save();
-  }
-
-  /**
-   * Commit request helper function.
-   *
-   * @param array $headers
-   *   The headers of the request.
-   * @param array $body
-   *   The body of the request.
-   * @param string $request
-   *   The request type.
-   *
-   * @return mixed|\Psr\Http\Message\ResponseInterface
-   *   The response object.
-   */
-  protected function request(array $headers = [], array $body = [], $request = 'post') {
-    return $this->httpClient->request($request, $this->getAbsoluteUrl('/rest_user'), [
-      'headers' => $headers,
-      'form_params' => $body,
-    ]);
-  }
+  protected $requestCanonical = '/rest_user';
 
   /**
    * Testing token creation and user validating.
    */
   public function testCreateToken() {
     $user = $this->drupalCreateUser();
-    $user->setPassword(1234);
-    $user->save();
 
-    $request = $this->httpClient->request('post', $this->getAbsoluteUrl('/oauth/token'), [
-      'form_params' => [
-        'grant_type' => 'password',
-        'client_id' => $this->client->uuid(),
-        'client_secret' => $this->password,
-        'username' => $user->label(),
-        'password' => 1234,
-      ],
-    ]);
-
-    $response = $this->json->decode($request->getBody()->getContents());
-    $headers = ['Authorization' => 'Bearer ' . $response['access_token']];
+    $headers = ['Authorization' => 'Bearer ' . $this->createAccessTokenForUser($user)];
     $user_info = $this->json->decode($this
       ->request($headers, [], 'get')
       ->getBody()
@@ -138,29 +80,29 @@ class RestPluginsUserTest extends AbstractRestPlugins {
       $this->request($client);
     }
     catch (ClientException $e) {
-      $this->assertContains('You did not pass the next values: name, password, mail.', $e->getResponse()->getBody()->getContents());
+      $this->assertContains('name: You must enter a username.', $e->getResponse()->getBody()->getContents());
     }
 
     try {
-      $this->request($client, ['name' => $this->randomString()]);
+      $this->request($client, ['name' => $this->randomMachineName()]);
     }
     catch (ClientException $e) {
-      $this->assertContains('You did not pass the next values: password, mail.', $e->getResponse()->getBody()->getContents());
+      $this->assertContains('mail: Email field is required.', $e->getResponse()->getBody()->getContents());
     }
 
     try {
       $this->request($client, [
-        'name' => $this->randomString(),
+        'name' => $this->randomMachineName(),
         'password' => $this->randomString(),
       ]);
     }
     catch (ClientException $e) {
-      $this->assertContains('You did not pass the next values: mail.', $e->getResponse()->getBody()->getContents());
+      $this->assertContains('mail: Email field is required.', $e->getResponse()->getBody()->getContents());
     }
 
     // Creating a user.
     $user = [
-      'name' => $this->randomString(),
+      'name' => $this->randomMachineName(),
       'password' => $this->randomString(),
       'mail' => 'foo@example.com',
     ];
@@ -180,18 +122,18 @@ class RestPluginsUserTest extends AbstractRestPlugins {
       ]);
     }
     catch (ClientException $e) {
-      $this->assertContains('A user with that name already exists.', $e->getResponse()->getBody()->getContents());
+      $this->assertContains("The username &lt;em class=&quot;placeholder&quot;&gt;{$user['name']}&lt;/em&gt; is already taken.", $e->getResponse()->getBody()->getContents());
     }
 
     try {
       $this->request($client, [
-        'name' => $this->randomString(),
+        'name' => $this->randomMachineName(),
         'mail' => $user['mail'],
         'password' => $this->randomString(),
       ]);
     }
     catch (ClientException $e) {
-      $this->assertContains('A user with that mail already exists.', $e->getResponse()->getBody()->getContents());
+      $this->assertContains('The email address &lt;em class=&quot;placeholder&quot;&gt;foo@example.com&lt;/em&gt; is already taken.', $e->getResponse()->getBody()->getContents());
     }
 
   }

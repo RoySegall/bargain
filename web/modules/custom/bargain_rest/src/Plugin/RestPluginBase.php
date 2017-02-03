@@ -4,11 +4,13 @@ namespace Drupal\bargain_rest\Plugin;
 
 use Drupal\bargain_core\BargainCoreEntityFlatten;
 use Drupal\Component\Plugin\PluginBase;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountProxy;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\Query\QueryFactory;
@@ -66,6 +68,13 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
    * @var array
    */
   protected $arguments = [];
+
+  /**
+   * Payload of the request.
+   *
+   * @var array
+   */
+  protected $payload;
 
   /**
    * List of callbacks.
@@ -154,6 +163,8 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
       throw new NotFoundHttpException();
     }
 
+    $request = $this->request->request;
+    $this->payload = $request->all();
     return new JsonResponse(call_user_func_array([$this, $this->callbacks[$this->requestType]], $this->arguments));
   }
 
@@ -202,6 +213,41 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
     }
 
     return $this;
+  }
+
+  /**
+   * Validate the entity object before saving.
+   *
+   * @param ContentEntityInterface $entity
+   *   The entity object.
+   *
+   * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+   */
+  protected function entityValidate(ContentEntityInterface $entity) {
+    /** @var \Drupal\Core\Entity\EntityConstraintViolationList $errors */
+    $errors = $entity->validate();
+
+    if (count($errors)) {
+      $request_error = [];
+
+      foreach ($errors as $item) {
+        $request_error[] = $item->getPropertyPath() . ': ' . $item->getMessage();
+      }
+
+      if ($request_error) {
+        throw new BadRequestHttpException(implode("\n", $request_error));
+      }
+    }
+  }
+
+  /**
+   * Create an entity from payload.
+   */
+  protected function entityCreate() {
+    $entity = $this->entityTypeManager->getStorage($this->pluginDefinition['entity_type'])->create($this->payload);
+    $this->entityValidate($entity);
+    $entity->save();
+    return $this->entityFlatten->flatten($entity);
   }
 
 }
