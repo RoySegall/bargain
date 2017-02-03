@@ -92,6 +92,12 @@ class TransactionBargain extends RestPluginBase {
     return $this->entityFlatten->flatten($bargain_transaction);
   }
 
+  /**
+   * Delete the entity.
+   *
+   * @param BargainTransaction $bargain_transaction
+   *   The bargain transaction entity.
+   */
   protected function delete(BargainTransaction $bargain_transaction) {
     $bargain_transaction->delete();
   }
