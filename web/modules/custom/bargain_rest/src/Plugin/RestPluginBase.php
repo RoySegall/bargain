@@ -4,7 +4,9 @@ namespace Drupal\bargain_rest\Plugin;
 
 use Drupal\bargain_core\BargainCoreEntityFlatten;
 use Drupal\Component\Plugin\PluginBase;
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountProxy;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -248,6 +250,64 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
     $this->entityValidate($entity);
     $entity->save();
     return $this->entityFlatten->flatten($entity);
+  }
+
+  /**
+   * Check the entity access.
+   *
+   * @param $operation
+   *   The type of the operation: create, view, update, delete.
+   *
+   * @return AccessResult
+   *   The access result class.
+   */
+  protected function checkEntityAccess($operation) {
+    $account = $this->entityTypeManager->getStorage('user')->load($this->accountProxy->id());
+    return AccessResult::allowedIf($this->entityTypeManager
+      ->getAccessControlHandler($this->pluginDefinition['entity_type'])
+      ->access($this->arguments[0], $operation, $account));
+  }
+
+  /**
+   * Display the entity.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity object.
+   *
+   * @return string
+   *   The JSON representation of the entity.
+   */
+  protected function EntityGet(EntityInterface $entity) {
+    return $this->entityFlatten->flatten($entity);
+  }
+  /**
+   * Updating the entity.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity object.
+   *
+   * @return string
+   *   The JSON representation of the entity.
+   */
+  protected function EntityPatch(EntityInterface $entity) {
+    foreach ($this->payload as $key => $value) {
+      $entity->set($key, $value);
+    }
+
+    $this->entityValidate($entity);
+    $entity->save();
+
+    return $this->entityFlatten->flatten($entity);
+  }
+
+  /**
+   * Delete the entity.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity object.
+   */
+  protected function EntityDelete(EntityInterface $entity) {
+    $entity->delete();
   }
 
 }
