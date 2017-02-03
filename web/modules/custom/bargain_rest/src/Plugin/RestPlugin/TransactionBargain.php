@@ -54,6 +54,7 @@ class TransactionBargain extends RestPluginBase {
    *   The bargain transaction entity.
    *
    * @return string
+   *   The JSON representation of the entity.
    */
   public function get(BargainTransaction $bargain_transaction) {
     return $this->entityFlatten->flatten($bargain_transaction);

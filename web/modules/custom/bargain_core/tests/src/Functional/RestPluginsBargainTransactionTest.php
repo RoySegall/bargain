@@ -1,6 +1,7 @@
 <?php
 
 namespace Drupal\Tests\bargain_core\Functional;
+
 use GuzzleHttp\Exception\ClientException;
 
 /**
@@ -89,7 +90,7 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
       $this->request([], [], 'get', $new_entry['id']);
       $this->fail();
     }
-    catch(ClientException $e) {
+    catch (ClientException $e) {
       $this->assertTrue(TRUE);
     }
 

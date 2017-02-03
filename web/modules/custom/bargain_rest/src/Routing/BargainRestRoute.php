@@ -2,7 +2,6 @@
 
 namespace Drupal\bargain_rest\Routing;
 
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
