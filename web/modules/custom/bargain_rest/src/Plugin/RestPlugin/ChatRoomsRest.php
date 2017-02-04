@@ -51,6 +51,7 @@ class ChatRoomsRest extends RestPluginBase {
     $query = $this
       ->entityQuery
       ->get('bargain_chat_room', 'OR')
+      // todo: check if the user have permission to override the condition.
       ->condition('user_id', $this->accountProxy->id())
       ->condition('buyer', $this->accountProxy->id());
 
