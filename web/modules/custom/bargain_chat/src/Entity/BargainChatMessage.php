@@ -10,31 +10,31 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\user\UserInterface;
 
 /**
- * Defines the Bargain chat room entity.
+ * Defines the Bargain chat message entity.
  *
  * @ingroup bargain_chat
  *
  * @ContentEntityType(
- *   id = "bargain_chat_room",
- *   label = @Translation("Bargain chat room"),
+ *   id = "bargain_chat_message",
+ *   label = @Translation("Bargain chat message"),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "list_builder" = "Drupal\bargain_chat\BargainChatRoomListBuilder",
- *     "views_data" = "Drupal\bargain_chat\Entity\BargainChatRoomViewsData",
+ *     "list_builder" = "Drupal\bargain_chat\BargainChatMessageListBuilder",
+ *     "views_data" = "Drupal\bargain_chat\Entity\BargainChatMessageViewsData",
  *
  *     "form" = {
- *       "default" = "Drupal\bargain_chat\Form\BargainChatRoomForm",
- *       "add" = "Drupal\bargain_chat\Form\BargainChatRoomForm",
- *       "edit" = "Drupal\bargain_chat\Form\BargainChatRoomForm",
- *       "delete" = "Drupal\bargain_chat\Form\BargainChatRoomDeleteForm",
+ *       "default" = "Drupal\bargain_chat\Form\BargainChatMessageForm",
+ *       "add" = "Drupal\bargain_chat\Form\BargainChatMessageForm",
+ *       "edit" = "Drupal\bargain_chat\Form\BargainChatMessageForm",
+ *       "delete" = "Drupal\bargain_chat\Form\BargainChatMessageDeleteForm",
  *     },
- *     "access" = "Drupal\bargain_chat\BargainChatRoomAccessControlHandler",
+ *     "access" = "Drupal\bargain_chat\BargainChatMessageAccessControlHandler",
  *     "route_provider" = {
- *       "html" = "Drupal\bargain_chat\BargainChatRoomHtmlRouteProvider",
+ *       "html" = "Drupal\bargain_chat\BargainChatMessageHtmlRouteProvider",
  *     },
  *   },
- *   base_table = "bargain_chat_room",
- *   admin_permission = "administer bargain chat room entities",
+ *   base_table = "bargain_chat_message",
+ *   admin_permission = "administer bargain chat message entities",
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "name",
@@ -44,16 +44,16 @@ use Drupal\user\UserInterface;
  *     "status" = "status",
  *   },
  *   links = {
- *     "canonical" = "/admin/content/chat/bargain_chat_room/{bargain_chat_room}",
- *     "add-form" = "/admin/content/chat/bargain_chat_room/add",
- *     "edit-form" = "/admin/content/chat/bargain_chat_room/{bargain_chat_room}/edit",
- *     "delete-form" = "/admin/content/chat/bargain_chat_room/{bargain_chat_room}/delete",
- *     "collection" = "/admin/content/chat/bargain_chat_room",
+ *     "canonical" = "/admin/content/chat/bargain_chat_room/bargain_chat_message/{bargain_chat_message}",
+ *     "add-form" = "/admin/content/chat/bargain_chat_room/bargain_chat_message/add",
+ *     "edit-form" = "/admin/content/chat/bargain_chat_room/bargain_chat_message/{bargain_chat_message}/edit",
+ *     "delete-form" = "/admin/content/chat/bargain_chat_room/bargain_chat_message/{bargain_chat_message}/delete",
+ *     "collection" = "/admin/content/chat/bargain_chat_room/bargain_chat_message",
  *   },
- *   field_ui_base_route = "bargain_chat_room.settings"
+ *   field_ui_base_route = "bargain_chat_message.settings"
  * )
  */
-class BargainChatRoom extends ContentEntityBase implements BargainChatRoomInterface {
+class BargainChatMessage extends ContentEntityBase implements BargainChatMessageInterface {
 
   use EntityChangedTrait;
 
@@ -148,9 +148,35 @@ class BargainChatRoom extends ContentEntityBase implements BargainChatRoomInterf
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
 
+    $fields['room'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Room'))
+      ->setDescription(t('The room which the message belong to.'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSetting('target_type', 'bargain_chat_room')
+      ->setSetting('handler', 'default')
+      ->setTranslatable(TRUE)
+      ->setDisplayOptions('view', array(
+        'label' => 'hidden',
+        'type' => 'author',
+        'weight' => 0,
+      ))
+      ->setDisplayOptions('form', array(
+        'type' => 'entity_reference_autocomplete',
+        'weight' => 5,
+        'settings' => array(
+          'match_operator' => 'CONTAINS',
+          'size' => '60',
+          'autocomplete_type' => 'tags',
+          'placeholder' => '',
+        ),
+      ))
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Seller'))
-      ->setDescription(t('The user ID of author of the Bargain chat room entity.'))
+      ->setLabel(t('Authored by'))
+      ->setDescription(t('The user ID of author of the Bargain chat message entity.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSetting('target_type', 'user')
@@ -174,57 +200,44 @@ class BargainChatRoom extends ContentEntityBase implements BargainChatRoomInterf
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
-    $fields['buyer'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('buyer'))
-      ->setDescription(t('The user ID of author of the Bargain chat room entity.'))
-      ->setRevisionable(TRUE)
+    $fields['status'] = BaseFieldDefinition::create('list_string')
+      ->setLabel(t('Publishing status'))
       ->setRequired(TRUE)
-      ->setSetting('target_type', 'user')
-      ->setSetting('handler', 'default')
-      ->setTranslatable(TRUE)
+      ->setDescription(t('A boolean indicating whether the Bargain chat message is published.'))
+      ->setDefaultValue(TRUE)
+      ->setSettings(array(
+        'max_length' => 50,
+        'text_processing' => 0,
+        'allowed_values' => [
+          'read' => 'Read',
+          'sent' => 'Sent',
+        ],
+      ))
       ->setDisplayOptions('view', array(
-        'label' => 'hidden',
-        'type' => 'author',
-        'weight' => 0,
+        'label' => 'above',
+        'type' => 'string',
       ))
       ->setDisplayOptions('form', array(
-        'type' => 'entity_reference_autocomplete',
-        'weight' => 5,
-        'settings' => array(
-          'match_operator' => 'CONTAINS',
-          'size' => '60',
-          'autocomplete_type' => 'tags',
-          'placeholder' => '',
-        ),
-      ))
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
+        'type' => 'options',
+        'weight' => 0,
+      ));
 
-    $fields['name'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Name'))
-      ->setDescription(t('The name of the Bargain chat room entity.'))
+    $fields['text'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Text'))
       ->setRequired(TRUE)
+      ->setDescription(t('The text of the message'))
       ->setSettings(array(
         'max_length' => 50,
         'text_processing' => 0,
       ))
-      ->setDefaultValue('')
       ->setDisplayOptions('view', array(
         'label' => 'above',
         'type' => 'string',
-        'weight' => -4,
       ))
       ->setDisplayOptions('form', array(
-        'type' => 'string_textfield',
-        'weight' => -4,
-      ))
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
-
-    $fields['status'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Publishing status'))
-      ->setDescription(t('A boolean indicating whether the Bargain chat room is published.'))
-      ->setDefaultValue(TRUE);
+        'type' => 'text',
+        'weight' => 0,
+      ));
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))

@@ -5,3 +5,17 @@ bargain_chat_room.admin.structure.settings:
   description: 'Configure Bargain chat room entities'
   route_name: bargain_chat_room.settings
   parent: system.admin_structure
+
+# Bargain chat message menu items definition
+entity.bargain_chat_message.collection:
+  title: 'Bargain chat message list'
+  route_name: entity.bargain_chat_message.collection
+  description: 'List Bargain chat message entities'
+  parent: system.admin_structure
+  weight: 100
+
+bargain_chat_message.admin.structure.settings:
+  title: Bargain chat message settings
+  description: 'Configure Bargain chat message entities'
+  route_name: bargain_chat_message.settings
+  parent: system.admin_structure
