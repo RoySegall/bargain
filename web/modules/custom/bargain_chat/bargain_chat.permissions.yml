@@ -1,0 +1,44 @@
+add bargain chat room entities:
+  title: 'Create new Bargain chat room entities'
+
+administer bargain chat room entities:
+  title: 'Administer Bargain chat room entities'
+  description: 'Allow to access the administration form to configure Bargain chat room entities.'
+  restrict access: true
+
+delete bargain chat room entities:
+  title: 'Delete Bargain chat room entities'
+
+edit bargain chat room entities:
+  title: 'Edit Bargain chat room entities'
+
+access bargain chat room overview:
+  title: 'Access the Bargain chat room overview page'
+
+view published bargain chat room entities:
+  title: 'View published Bargain chat room entities'
+
+view unpublished bargain chat room entities:
+  title: 'View unpublished Bargain chat room entities'
+add bargain chat message entities:
+  title: 'Create new Bargain chat message entities'
+
+administer bargain chat message entities:
+  title: 'Administer Bargain chat message entities'
+  description: 'Allow to access the administration form to configure Bargain chat message entities.'
+  restrict access: true
+
+delete bargain chat message entities:
+  title: 'Delete Bargain chat message entities'
+
+edit bargain chat message entities:
+  title: 'Edit Bargain chat message entities'
+
+access bargain chat message overview:
+  title: 'Access the Bargain chat message overview page'
+
+view published bargain chat message entities:
+  title: 'View published Bargain chat message entities'
+
+view unpublished bargain chat message entities:
+  title: 'View unpublished Bargain chat message entities'
