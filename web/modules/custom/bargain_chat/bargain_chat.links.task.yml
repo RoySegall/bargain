@@ -1,0 +1,27 @@
+# Bargain chat room routing definition
+bargain_chat_room.settings_tab:
+  route_name: bargain_chat_room.settings
+  title: 'Settings'
+  base_route: bargain_chat_room.settings
+
+entity.bargain_chat_room.canonical:
+  route_name: entity.bargain_chat_room.canonical
+  base_route: entity.bargain_chat_room.canonical
+  title: 'View'
+
+entity.bargain_chat_room.edit_form:
+  route_name: entity.bargain_chat_room.edit_form
+  base_route: entity.bargain_chat_room.canonical
+  title: 'Edit'
+
+entity.bargain_chat_room.delete_form:
+  route_name:  entity.bargain_chat_room.delete_form
+  base_route:  entity.bargain_chat_room.canonical
+  title: Delete
+  weight: 10
+
+bargain_chat_rooms.admin:
+  title: 'Chat rooms'
+  route_name: entity.bargain_chat_room.collection
+  base_route: system.admin_content
+

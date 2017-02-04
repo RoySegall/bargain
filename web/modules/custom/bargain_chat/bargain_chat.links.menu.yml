@@ -1,0 +1,7 @@
+
+# Bargain chat room menu items definition
+bargain_chat_room.admin.structure.settings:
+  title: Bargain chat room settings
+  description: 'Configure Bargain chat room entities'
+  route_name: bargain_chat_room.settings
+  parent: system.admin_structure
