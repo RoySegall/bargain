@@ -1,0 +1,7 @@
+name: Bargain chat
+type: module
+description: Chat system
+core: 8.x
+package: Bargain
+dependencies:
+  - bargain_core
