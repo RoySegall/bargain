@@ -101,7 +101,7 @@ class ChatRoomsRest extends RestPluginBase {
    * @return array
    *   List of ids and labels.
    */
-  protected function getReferencedUser($entities) {
+  protected function getReferencedUser(array $entities) {
     $return = [];
     foreach ($entities as $entity) {
       $return[] = ['id' => $entity->id(), 'label' => $entity->label()];

@@ -74,6 +74,7 @@ class EntityFlattenTest extends KernelTestBase {
       ->getStorage('bargain_transaction')
       ->create($values);
     $transaction->save();
+    // todo: add the test for the handlers.
     $flatten = $this->entityFlatten->flatten($transaction);
 
     foreach ($values as $property => $value) {
