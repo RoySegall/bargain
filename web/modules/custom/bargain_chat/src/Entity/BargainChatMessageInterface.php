@@ -11,9 +11,7 @@ use Drupal\user\EntityOwnerInterface;
  *
  * @ingroup bargain_chat
  */
-interface BargainChatMessageInterface extends  ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {
-
-  // Add get/set methods for your configuration properties here.
+interface BargainChatMessageInterface extends ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {
 
   /**
    * Gets the Bargain chat message name.
@@ -67,7 +65,8 @@ interface BargainChatMessageInterface extends  ContentEntityInterface, EntityCha
    * Sets the published status of a Bargain chat message.
    *
    * @param bool $published
-   *   TRUE to set this Bargain chat message to published, FALSE to set it to unpublished.
+   *   TRUE to set this Bargain chat message to published, FALSE to set it to
+   *   unpublished.
    *
    * @return \Drupal\bargain_chat\Entity\BargainChatMessageInterface
    *   The called Bargain chat message entity.
