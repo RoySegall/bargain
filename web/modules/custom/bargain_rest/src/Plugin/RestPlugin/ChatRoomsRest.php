@@ -30,12 +30,15 @@ class ChatRoomsRest extends RestPluginBase {
    */
   public function access() {
 
-    switch ($this->requestType) {
-      case 'get':
-        return AccessResult::allowedIf($this->getRoomsForUsers(TRUE) > 0);
+    if ($this->requestType != 'get') {
+      throw new BadRequestHttpException('This end point does not support the request type.');
     }
 
-    throw new BadRequestHttpException('This end point does not support the request type.');
+    if ($this->getAccount()->hasPermission('administer bargain chat room entities')) {
+      return AccessResult::allowed();
+    }
+
+    return AccessResult::allowedIf($this->getRoomsForUsers(TRUE) > 0);
   }
 
   /**
