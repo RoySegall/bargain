@@ -44,10 +44,6 @@ class BargainCoreEntityFlatten {
         }
         else {
           $value = $entity_reference_handlers[$field]($field_instance->value);
-
-          if (!is_array($value)) {
-            $value = [$value];
-          }
         }
       }
       else {
@@ -56,7 +52,7 @@ class BargainCoreEntityFlatten {
         }, $value);
       }
 
-      $return[$field] = count($value) == 1 ? reset($value) : $value;
+      $return[$field] = is_array($value) && count($value) == 1 ? reset($value) : $value;
     }
 
     return array_filter($return);
