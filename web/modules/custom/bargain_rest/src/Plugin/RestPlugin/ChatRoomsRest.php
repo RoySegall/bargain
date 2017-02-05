@@ -50,10 +50,13 @@ class ChatRoomsRest extends RestPluginBase {
   protected function getRoomsForUsers($count = FALSE) {
     $query = $this
       ->entityQuery
-      ->get('bargain_chat_room', 'OR')
-      // todo: check if the user have permission to override the condition.
-      ->condition('user_id', $this->accountProxy->id())
-      ->condition('buyer', $this->accountProxy->id());
+      ->get('bargain_chat_room', 'OR');
+
+    if (!$this->getAccount()->hasPermission('administer bargain chat room entities')) {
+      $query
+        ->condition('user_id', $this->accountProxy->id())
+        ->condition('buyer', $this->accountProxy->id());
+    }
 
     if ($count) {
       return $query->count()->execute();
@@ -103,6 +106,7 @@ class ChatRoomsRest extends RestPluginBase {
    */
   protected function getReferencedUser(array $entities) {
     $return = [];
+
     foreach ($entities as $entity) {
       $return[] = ['id' => $entity->id(), 'label' => $entity->label()];
     }

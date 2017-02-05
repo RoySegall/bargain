@@ -33,10 +33,7 @@ class TransactionBargainCreate extends RestPluginBase {
 
     if ($this->requestType == 'post') {
       // For some reason the tests failed if not loading the user account.
-      $account = $this
-        ->entityTypeManager
-        ->getStorage('user')
-        ->load($this->accountProxy->id());
+      $account = $this->getAccount();
 
       return AccessResult::allowedIf($this->entityTypeManager
         ->getAccessControlHandler('bargain_transaction')

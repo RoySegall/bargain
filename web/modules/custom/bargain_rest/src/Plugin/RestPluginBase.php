@@ -311,4 +311,17 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
     $entity->delete();
   }
 
+  /**
+   * Load the account.
+   *
+   * @return \Drupal\user\Entity\User
+   *   The user object.
+   */
+  protected function getAccount() {
+    return $this
+      ->entityTypeManager
+      ->getStorage('user')
+      ->load($this->accountProxy->id());
+  }
+
 }
