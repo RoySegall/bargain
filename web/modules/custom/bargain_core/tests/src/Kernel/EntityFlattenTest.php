@@ -104,14 +104,17 @@ class EntityFlattenTest extends KernelTestBase {
     $this->assertEquals($flatten, $data);
   }
 
+  /**
+   * Testing the transformer argument of the entit flatten oject.
+   */
   public function testEntityFlattenTransformer() {
     $flatten = $this->entityFlatten->flatten($this->transaction, [
-      'langcode' => function($item) {
+      'langcode' => function ($item) {
         return $item . '_foo';
       },
-      'type' => function($item) {
+      'type' => function ($item) {
         return $item[0]->id() . '_foo';
-      }
+      },
     ]);
     $this->assertEquals($flatten['langcode'], 'en_foo');
     $this->assertEquals($flatten['type'], 'call_foo');
