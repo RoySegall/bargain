@@ -36,8 +36,19 @@ class BargainCoreEntityFlatten {
         continue;
       }
 
-      if ($definitions[$field]->getType() == 'entity_reference' && !empty($entity_reference_handlers[$field])) {
-        $value = $entity_reference_handlers[$field]($entity->get($field)->referencedEntities());
+      if (!empty($entity_reference_handlers[$field])) {
+        $field_instance = $entity->get($field);
+
+        if ($definitions[$field]->getType() == 'entity_reference') {
+          $value = $entity_reference_handlers[$field]($field_instance->referencedEntities());
+        }
+        else {
+          $value = $entity_reference_handlers[$field]($field_instance->value);
+
+          if (!is_array($value)) {
+            $value = [$value];
+          }
+        }
       }
       else {
         $value = array_map(function ($item) {
