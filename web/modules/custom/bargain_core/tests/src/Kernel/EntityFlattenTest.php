@@ -43,6 +43,20 @@ class EntityFlattenTest extends KernelTestBase {
   protected $configFactory;
 
   /**
+   * The values of the transaction.
+   *
+   * @var array
+   */
+  protected $transactionValues;
+
+  /**
+   * The bargain transaction entity.
+   *
+   * @var \Drupal\bargain_transaction\Entity\BargainTransaction
+   */
+  protected $transaction;
+
+  /**
    * {@inheritdoc}
    */
   public function setUp() {
@@ -55,13 +69,8 @@ class EntityFlattenTest extends KernelTestBase {
     $this->entityTypeManager = $this->container->get('entity_type.manager');
     $this->entityFlatten = $this->container->get('bargain_core.entity_flatter');
     $this->configFactory = $this->container->get('config.factory');
-  }
 
-  /**
-   * Checking the entity flatten service.
-   */
-  public function testEntityFlatten() {
-    $values = [
+    $this->transactionValues = [
       'name' => $this->randomString(),
       'coin' => $this->randomString(),
       'amount' => 20,
@@ -69,14 +78,20 @@ class EntityFlattenTest extends KernelTestBase {
       'type' => 'call',
     ];
 
-    $transaction = $this
+    $this->transaction = $this
       ->entityTypeManager
       ->getStorage('bargain_transaction')
-      ->create($values);
-    $transaction->save();
-    $flatten = $this->entityFlatten->flatten($transaction);
+      ->create($this->transactionValues);
+    $this->transaction->save();
+  }
 
-    foreach ($values as $property => $value) {
+  /**
+   * Checking the entity flatten service.
+   */
+  public function testEntityFlatten() {
+    $flatten = $this->entityFlatten->flatten($this->transaction);
+
+    foreach ($this->transactionValues as $property => $value) {
       $this->assertEquals($flatten[$property], $value);
     }
 
@@ -87,6 +102,22 @@ class EntityFlattenTest extends KernelTestBase {
     $this->assertTrue($config->get('channel'), 'transactions');
     $this->assertTrue($config->get('event'), 'storage-added');
     $this->assertEquals($flatten, $data);
+  }
+
+  /**
+   * Testing the transformer argument of the entit flatten oject.
+   */
+  public function testEntityFlattenTransformer() {
+    $flatten = $this->entityFlatten->flatten($this->transaction, [
+      'langcode' => function ($item) {
+        return $item . '_foo';
+      },
+      'type' => function ($item) {
+        return $item[0]->id() . '_foo';
+      },
+    ]);
+    $this->assertEquals($flatten['langcode'], 'en_foo');
+    $this->assertEquals($flatten['type'], 'call_foo');
   }
 
 }
