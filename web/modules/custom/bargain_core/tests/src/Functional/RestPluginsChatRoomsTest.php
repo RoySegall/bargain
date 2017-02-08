@@ -15,14 +15,14 @@ class RestPluginsChatRoomsTest extends AbstractRestPluginsTests {
    * {@inheritdoc}
    */
   public static $modules = [
-    'bargain_rest',
-    'bargain_core',
-    'bargain_chat',
-    'simple_oauth',
     'text',
     'image',
     'options',
     'node',
+    'bargain_rest',
+    'bargain_core',
+    'bargain_chat',
+    'simple_oauth',
   ];
 
   /**
