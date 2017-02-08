@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\bargain_core\Functional;
 
+use GuzzleHttp\Exception\ClientException;
+
 /**
  * Testing the chat rooms access.
  *
@@ -52,7 +54,7 @@ class RestPluginsChatRoomsTest extends AbstractRestPluginsTests {
    *
    * @var string[]
    */
-  protected $accessTokens;
+  protected $accessTokensHeaders;
 
   /**
    * @var \Drupal\bargain_chat\Entity\BargainChatRoom;
@@ -66,16 +68,15 @@ class RestPluginsChatRoomsTest extends AbstractRestPluginsTests {
     parent::setUp();
 
     $users = [
-      'admin_user' => ['administer bargain chat room entities'],
+      'admin' => ['administer bargain chat room entities'],
       'member1' => ['view published bargain chat room entities'],
       'member2' => ['view published bargain chat room entities'],
       'guest' => [],
     ];
 
     foreach ($users as $user => $permissions) {
-      $account = $this->createUser($permissions);
-      $this->users[$user] = $account;
-      $this->accessTokens[$user] = $this->createAccessTokenForUser($account);
+      $this->users[$user] = $this->createUser($permissions);
+      $this->accessTokensHeaders[$user] = ['Authorization' => 'Bearer ' . $this->createAccessTokenForUser($this->users[$user])];
     }
 
     $this->chatRoom = $this
@@ -89,16 +90,26 @@ class RestPluginsChatRoomsTest extends AbstractRestPluginsTests {
   }
 
   /**
-   * Creating a transaction call.
+   * Trying to access the chat room.
    */
   public function testChatRoomMessages() {
-    // Create a chat room with user 1 and 2.
+    // Access with each of the user and check for OK results.
+    foreach (['member1', 'member2', 'admin'] as $members) {
+      $results = $this->request($this->accessTokensHeaders[$members], [], 'get');
+      $content = $this->json->decode($results->getBody()->getContents());
 
-    // Access with each of them and check for OK.
-
-    // Access with the admin and check for OK.
+      $this->assertEquals($content[0]['buyer'], ['id' => $this->users['member2']->id(), 'label' => $this->users['member2']->label()]);
+      $this->assertEquals($content[0]['user_id'], ['id' => $this->users['member1']->id(), 'label' => $this->users['member1']->label()]);
+    }
 
     // Access with the third user and check for not OK.
+    try {
+      $this->request($this->accessTokensHeaders['guest'], [], 'get');
+      $this->fail();
+    }
+    catch (ClientException $e) {
+      $this->assertEquals($e->getResponse()->getStatusCode(), 403);
+    }
   }
 
 }
