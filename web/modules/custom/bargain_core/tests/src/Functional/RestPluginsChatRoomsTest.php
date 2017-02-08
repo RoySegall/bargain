@@ -2,14 +2,13 @@
 
 namespace Drupal\Tests\bargain_core\Functional;
 
-use GuzzleHttp\Exception\ClientException;
 
 /**
  * Testing the bargain transaction end points.
  *
  * @group bargain
  */
-class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
+class RestPluginsChatRoomsTest extends AbstractRestPluginsTests {
 
   /**
    * {@inheritdoc}
@@ -32,7 +31,7 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
   /**
    * {@inheritdoc}
    */
-  protected $requestCanonical = '/transaction';
+  protected $requestCanonical = '/messages';
 
   /**
    * The headers of the request including the access token.
@@ -46,37 +45,27 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
    */
   public function setUp() {
     parent::setUp();
-    $user = $this->drupalCreateUser([
-      'add bargain transaction entities',
-      'view published bargain transaction entities',
-      'edit bargain transaction entities',
-      'delete bargain transaction entities',
-    ]);
-    $this->headers = ['Authorization' => 'Bearer ' . $this->createAccessTokenForUser($user)];
+
+    // Set up an admin user
+
+    // Set up user chat room #1
+
+    // Set up user chat room #2
+
+    // Set up a user with access to see chat rooms.
   }
 
   /**
    * Creating a transaction call.
    */
-  public function testBargainCallCreate() {
-    $this->bargainTransactionCall('call');
-  }
+  public function testChatRoomMessages() {
+    // Create a chat room with user 1 and 2.
 
-  /**
-   * Creating a transaction call.
-   */
-  public function testBargainSeekCreate() {
-    $this->bargainTransactionCall('seek');
-  }
+    // Access with each of them and check for OK.
 
-  /**
-   * Creating different bargain transaction call.
-   *
-   * @param string $bundle
-   *   The type of the bargain - call, seek.
-   */
-  protected function bargainTransactionCall($bundle) {
+    // Access with the admin and check for OK.
 
+    // Access with the third user and check for not OK.
   }
 
 }
