@@ -2,9 +2,8 @@
 
 namespace Drupal\Tests\bargain_core\Functional;
 
-
 /**
- * Testing the bargain transaction end points.
+ * Testing the chat rooms access.
  *
  * @group bargain
  */
@@ -16,10 +15,11 @@ class RestPluginsChatRoomsTest extends AbstractRestPluginsTests {
   public static $modules = [
     'bargain_rest',
     'bargain_core',
-    'bargain_transaction',
+    'bargain_chat',
     'simple_oauth',
     'text',
     'image',
+    'options',
     'node',
   ];
 
@@ -41,18 +41,51 @@ class RestPluginsChatRoomsTest extends AbstractRestPluginsTests {
   protected $headers;
 
   /**
+   * List of users.
+   *
+   * @var \Drupal\user\Entity\User[]
+   */
+  protected $users;
+
+  /**
+   * List of access tokens.
+   *
+   * @var string[]
+   */
+  protected $accessTokens;
+
+  /**
+   * @var \Drupal\bargain_chat\Entity\BargainChatRoom;
+   */
+  protected $chatRoom;
+
+  /**
    * {@inheritdoc}
    */
   public function setUp() {
     parent::setUp();
 
-    // Set up an admin user
+    $users = [
+      'admin_user' => ['administer bargain chat room entities'],
+      'member1' => ['view published bargain chat room entities'],
+      'member2' => ['view published bargain chat room entities'],
+      'guest' => [],
+    ];
 
-    // Set up user chat room #1
+    foreach ($users as $user => $permissions) {
+      $account = $this->createUser($permissions);
+      $this->users[$user] = $account;
+      $this->accessTokens[$user] = $this->createAccessTokenForUser($account);
+    }
 
-    // Set up user chat room #2
-
-    // Set up a user with access to see chat rooms.
+    $this->chatRoom = $this
+      ->entityTypeManager
+      ->getStorage('bargain_chat_room')
+      ->create([
+        'user_id' => $this->users['member1'],
+        'buyer' => $this->users['member2'],
+      ]);
+    $this->chatRoom->save();
   }
 
   /**
