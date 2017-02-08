@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  *  id = "chat_rooms_rest",
  *  path = "/messages",
  *  label = @Translation("Chat rooms"),
- *  description = @Translation("Displat list of the rooms which the user can access")
+ *  description = @Translation("Display list of the rooms which the user can access")
  * )
  */
 class ChatRoomsRest extends RestPluginBase {
