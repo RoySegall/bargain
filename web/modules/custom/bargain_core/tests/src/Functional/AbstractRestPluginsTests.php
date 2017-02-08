@@ -21,11 +21,6 @@ abstract class AbstractRestPluginsTests extends BrowserTestBase {
   ];
 
   /**
-   * {@inheritdoc}
-   */
-  protected $profile = 'bargain';
-
-  /**
    * The entity type manager interface.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface

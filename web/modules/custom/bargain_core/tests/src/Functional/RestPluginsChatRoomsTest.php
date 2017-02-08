@@ -36,6 +36,11 @@ class RestPluginsChatRoomsTest extends AbstractRestPluginsTests {
   protected $requestCanonical = '/messages';
 
   /**
+   * {@inheritdoc}
+   */
+  protected $profile = 'bargain';
+
+  /**
    * The headers of the request including the access token.
    *
    * @var array
