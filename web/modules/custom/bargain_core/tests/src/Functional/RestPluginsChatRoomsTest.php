@@ -57,7 +57,9 @@ class RestPluginsChatRoomsTest extends AbstractRestPluginsTests {
   protected $accessTokensHeaders;
 
   /**
-   * @var \Drupal\bargain_chat\Entity\BargainChatRoom;
+   * The chat room object.
+   *
+   * @var \Drupal\bargain_chat\Entity\BargainChatRoom
    */
   protected $chatRoom;
 
