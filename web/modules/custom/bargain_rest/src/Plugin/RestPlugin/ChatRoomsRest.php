@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  *  id = "chat_rooms_rest",
  *  path = "/messages",
  *  label = @Translation("Chat rooms"),
- *  description = @Translation("Display list of the rooms which the user can access")
+ *  description = @Translation("Display list of the rooms which the user can access.")
  * )
  */
 class ChatRoomsRest extends RestPluginBase {
@@ -69,7 +69,7 @@ class ChatRoomsRest extends RestPluginBase {
   }
 
   /**
-   * Return list of queries.
+   * Return list of entities.
    *
    * @return array
    *   List of entities.
@@ -93,25 +93,6 @@ class ChatRoomsRest extends RestPluginBase {
           return $this->getReferencedUser($entities);
         },
       ]);
-    }
-
-    return $return;
-  }
-
-  /**
-   * Get the label and ID of referenced users from an entity reference field.
-   *
-   * @param \Drupal\user\Entity\User[] $entities
-   *   List of items.
-   *
-   * @return array
-   *   List of ids and labels.
-   */
-  protected function getReferencedUser(array $entities) {
-    $return = [];
-
-    foreach ($entities as $entity) {
-      $return[] = ['id' => $entity->id(), 'label' => $entity->label()];
     }
 
     return $return;

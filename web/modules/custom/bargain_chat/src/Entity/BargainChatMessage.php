@@ -37,7 +37,7 @@ use Drupal\user\UserInterface;
  *   admin_permission = "administer bargain chat message entities",
  *   entity_keys = {
  *     "id" = "id",
- *     "label" = "name",
+ *     "label" = "",
  *     "uuid" = "uuid",
  *     "uid" = "user_id",
  *     "langcode" = "langcode",
@@ -209,8 +209,8 @@ class BargainChatMessage extends ContentEntityBase implements BargainChatMessage
         'max_length' => 50,
         'text_processing' => 0,
         'allowed_values' => [
-          'read' => 'Read',
           'sent' => 'Sent',
+          'read' => 'Read',
         ],
       ))
       ->setDisplayOptions('view', array(
