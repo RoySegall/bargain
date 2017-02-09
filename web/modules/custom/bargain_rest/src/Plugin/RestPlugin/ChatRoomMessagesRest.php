@@ -2,6 +2,7 @@
 
 namespace Drupal\bargain_rest\Plugin\RestPlugin;
 
+use Drupal\bargain_chat\Entity\BargainChatRoom;
 use Drupal\bargain_rest\Plugin\RestPluginBase;
 use Drupal\Core\Access\AccessResult;
 
@@ -43,10 +44,34 @@ class ChatRoomMessagesRest extends RestPluginBase {
   /**
    * Return list of entities.
    *
+   * @param \Drupal\bargain_chat\Entity\BargainChatRoom $entity
+   *   The room object.
+   *
    * @return array
    *   List of entities.
    */
-  public function entityQuery() {
+  public function entityQuery(BargainChatRoom $entity) {
+    $results = $this
+      ->entityQuery
+      ->get('bargain_chat_message')
+      ->condition('room', $entity->id())
+      ->execute();
+
+    if (!$results) {
+      return;
+    }
+
+    $messages = $this
+      ->entityTypeManager
+      ->getStorage('bargain_chat_message')
+      ->loadMultiple($results);
+
+    $return = [];
+    foreach ($messages as $message) {
+      $return[] = $this->entityFlatten->flatten($message);
+    }
+
+    return $return;
   }
 
 }

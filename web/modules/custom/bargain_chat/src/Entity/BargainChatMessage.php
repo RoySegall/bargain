@@ -37,7 +37,7 @@ use Drupal\user\UserInterface;
  *   admin_permission = "administer bargain chat message entities",
  *   entity_keys = {
  *     "id" = "id",
- *     "label" = "name",
+ *     "label" = "",
  *     "uuid" = "uuid",
  *     "uid" = "user_id",
  *     "langcode" = "langcode",
