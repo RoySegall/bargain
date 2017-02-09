@@ -98,23 +98,4 @@ class ChatRoomsRest extends RestPluginBase {
     return $return;
   }
 
-  /**
-   * Get the label and ID of referenced users from an entity reference field.
-   *
-   * @param \Drupal\user\Entity\User[] $entities
-   *   List of items.
-   *
-   * @return array
-   *   List of ids and labels.
-   */
-  protected function getReferencedUser(array $entities) {
-    $return = [];
-
-    foreach ($entities as $entity) {
-      $return[] = ['id' => $entity->id(), 'label' => $entity->label()];
-    }
-
-    return $return;
-  }
-
 }
