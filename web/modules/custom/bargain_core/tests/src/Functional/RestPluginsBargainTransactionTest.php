@@ -105,11 +105,11 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
     $new_entry = $this->json->decode($result->getBody()->getContents());
 
     // Accessing the page.
-    $request_result = $this->request($this->headers, [], 'get', $new_entry['id']);
+    $request_result = $this->request($this->headers, [], 'get', $new_entry['uuid']);
     $this->assertEquals($this->json->decode($request_result->getBody()->getContents()), $new_entry);
 
     try {
-      $this->request([], [], 'get', $new_entry['id']);
+      $this->request([], [], 'get', $new_entry['uuid']);
       $this->fail();
     }
     catch (ClientException $e) {
@@ -117,11 +117,11 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
     }
 
     // Updating the entity.
-    $request_result = $this->request($this->headers, ['coin' => 'ILS'], 'patch', $new_entry['id']);
+    $request_result = $this->request($this->headers, ['coin' => 'ILS'], 'patch', $new_entry['uuid']);
     $this->assertEquals($this->json->decode($request_result->getBody()->getContents())['coin'], 'ILS');
 
     try {
-      $this->request([], ['coin' => 'ILS'], 'patch', $new_entry['id']);
+      $this->request([], ['coin' => 'ILS'], 'patch', $new_entry['uuid']);
       $this->fail();
     }
     catch (ClientException $e) {
@@ -130,16 +130,16 @@ class RestPluginsBargainTransactionTest extends AbstractRestPluginsTests {
 
     // Delete the entity.
     try {
-      $this->request([], [], 'delete', $new_entry['id']);
+      $this->request([], [], 'delete', $new_entry['uuid']);
       $this->fail();
     }
     catch (ClientException $e) {
       $this->assertTrue(TRUE);
     }
 
-    $this->request($this->headers, [], 'delete', $new_entry['id']);
+    $this->request($this->headers, [], 'delete', $new_entry['uuid']);
     try {
-      $this->request($this->headers, [], 'get', $new_entry['id']);
+      $this->request($this->headers, [], 'get', $new_entry['uuid']);
       $this->assertTrue(TRUE);
     }
     catch (ClientException $e) {
