@@ -5,7 +5,6 @@ namespace Drupal\bargain_rest\Plugin\RestPlugin;
 use Drupal\bargain_chat\Entity\BargainChatRoom;
 use Drupal\bargain_rest\Plugin\RestPluginBase;
 use Drupal\Core\Access\AccessResult;
-use Drupal\Core\Entity\EntityInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
@@ -49,7 +48,7 @@ class ChatRoomMessagesRest extends RestPluginBase {
   /**
    * Return list of entities.
    *
-   * @param \Drupal\bargain_chat\Entity\BargainChatRoom $entity
+   * @param BargainChatRoom $entity
    *   The room object.
    *
    * @return array
@@ -63,7 +62,7 @@ class ChatRoomMessagesRest extends RestPluginBase {
       ->execute();
 
     if (!$results) {
-      return;
+      return [];
     }
 
     $messages = $this
@@ -105,7 +104,6 @@ class ChatRoomMessagesRest extends RestPluginBase {
       throw new BadRequestHttpException('There is no message which belong to this room or with the give uuid.');
     }
 
-    /** @var EntityInterface $entity */
     $entity = reset($message);
     $entity->set('status', $this->payload['status']);
     $entity->save();

@@ -5,7 +5,7 @@ namespace Drupal\Tests\bargain_core\Functional;
 use GuzzleHttp\Exception\ClientException;
 
 /**
- * Testing the chat rooms access.
+ * Testing creation and reading messages.
  *
  * @group bargain
  */
@@ -69,11 +69,6 @@ class RestPluginsChatRoomMessagesTest extends AbstractRestPluginsTests {
   protected $chatRoom;
 
   /**
-   * @var \Drupal\bargain_chat\Entity\BargainChatMessage
-   */
-  protected $messages;
-
-  /**
    * {@inheritdoc}
    */
   public function setUp() {
@@ -104,7 +99,7 @@ class RestPluginsChatRoomMessagesTest extends AbstractRestPluginsTests {
   /**
    * Adding messages to the room.
    */
-  public function _testChatRoomMessagesCreation() {
+  public function testChatRoomMessagesCreation() {
     // Create messages.
     $text = [$this->randomString(), $this->randomString()];
     $this->request($this->accessTokensHeaders['member1'], ['text' => $text[0]], 'post', $this->chatRoom->uuid());
