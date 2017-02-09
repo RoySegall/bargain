@@ -197,8 +197,8 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
       if (in_array($matches[1], array_keys($entity_types))) {
         // This is an argument representing entity type. Check if we can load
         // it from the DB.
-        if ($entity = $this->entityTypeManager->getStorage($matches[1])->load($path_info[$key])) {
-          $argument = $entity;
+        if ($entity = $this->entityTypeManager->getStorage($matches[1])->loadByProperties(['uuid' => $path_info[$key]])) {
+          $argument = reset($entity);
         }
         else {
           // Nope. the value in the argument isn't a valid entity ID. Throwing
