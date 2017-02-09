@@ -30,7 +30,7 @@ class ChatRoomMessagesRest extends RestPluginBase {
   public function access() {
 
     if ($this->getAccount()->hasPermission('administer bargain chat room entities')) {
-//      return AccessResult::allowed();
+      return AccessResult::allowed();
     }
 
     $entity = $this->arguments[0];
@@ -41,7 +41,7 @@ class ChatRoomMessagesRest extends RestPluginBase {
   }
 
   /**
-   * Return list of queries.
+   * Return list of entities.
    *
    * @return array
    *   List of entities.
