@@ -10,6 +10,9 @@ use Drupal\Core\Language\LanguageManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityInterface;
 
+/**
+ * Sharing push notification logic between storage controllers.
+ */
 trait BargainEntityStoragePusherTrait {
 
   /**
@@ -94,9 +97,9 @@ trait BargainEntityStoragePusherTrait {
    */
   public function entityToJson(EntityInterface $entity) {
     $object = [
-        'id' => $entity->id(),
-        'type' => $entity->bundle(),
-      ] + $this->entityFlatten->flatten($entity);
+      'id' => $entity->id(),
+      'type' => $entity->bundle(),
+    ] + $this->entityFlatten->flatten($entity);
 
     return $object;
   }
