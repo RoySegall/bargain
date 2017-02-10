@@ -21,6 +21,7 @@ class RestPluginsChatRoomMessagesTest extends AbstractRestPluginsTests {
     'node',
     'bargain_rest',
     'bargain_core',
+    'bargain_core_test',
     'bargain_chat',
     'simple_oauth',
   ];
@@ -69,6 +70,13 @@ class RestPluginsChatRoomMessagesTest extends AbstractRestPluginsTests {
   protected $chatRoom;
 
   /**
+   * The config object service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
   public function setUp() {
@@ -94,6 +102,8 @@ class RestPluginsChatRoomMessagesTest extends AbstractRestPluginsTests {
         'buyer' => $this->users['member2'],
       ]);
     $this->chatRoom->save();
+
+    $this->configFactory = $this->container->get('config.factory');
   }
 
   /**
@@ -104,6 +114,12 @@ class RestPluginsChatRoomMessagesTest extends AbstractRestPluginsTests {
     $text = [$this->randomString(), $this->randomString()];
     $this->request($this->accessTokensHeaders['member1'], ['text' => $text[0]], 'post', $this->chatRoom->uuid());
     $this->request($this->accessTokensHeaders['member2'], ['text' => $text[1]], 'post', $this->chatRoom->uuid());
+
+    // Check push data.
+    $config = $this->configFactory->get('bargain_core_test.database');
+
+    $this->assertTrue($config->get('channel'), 'chat_room_message');
+    $this->assertTrue($config->get('event'), 'storage-added');
 
     // Check the content is OK.
     foreach (['member1', 'member2', 'admin'] as $member) {
@@ -176,6 +192,12 @@ class RestPluginsChatRoomMessagesTest extends AbstractRestPluginsTests {
       'status' => 'read',
       'message_uuid' => $content[0]['uuid'],
     ], 'patch', $this->chatRoom->uuid());
+
+    // Check push data.
+    $config = $this->configFactory->get('bargain_core_test.database');
+
+    $this->assertTrue($config->get('channel'), 'chat_room_message');
+    $this->assertTrue($config->get('event'), 'storage-updated');
 
     $messages = $this->request($this->accessTokensHeaders['member1'], [], 'get', $this->chatRoom->uuid());
     $content = $this->json->decode($messages->getBody()->getContents());
