@@ -1,0 +1,10 @@
+entity.bargain_chat_room.add_form:
+  route_name: entity.bargain_chat_room.add_form
+  title: 'Add Bargain chat room'
+  appears_on:
+    - entity.bargain_chat_room.collection
+entity.bargain_chat_message.add_form:
+  route_name: entity.bargain_chat_message.add_form
+  title: 'Add Bargain chat message'
+  appears_on:
+    - entity.bargain_chat_message.collection

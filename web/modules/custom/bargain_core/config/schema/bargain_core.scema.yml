@@ -11,6 +11,6 @@ bargain_core.database:
     app_secret:
       type: string
       label: 'App secret'
-    currecy_source:
+    currency_source:
       type: string
       label: 'Currency source'

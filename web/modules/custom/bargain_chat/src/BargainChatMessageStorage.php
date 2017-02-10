@@ -1,14 +1,14 @@
 <?php
 
-namespace Drupal\bargain_transaction;
+namespace Drupal\bargain_chat;
 
 use Drupal\bargain_core\BargainEntityStoragePusherTrait;
 use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
 
 /**
- * Storage controller for the bargain transaction entity.
+ * Storage controller for the bargain chat room message entity.
  */
-class BargainTransactionStorage extends SqlContentEntityStorage {
+class BargainChatMessageStorage extends SqlContentEntityStorage {
 
   use BargainEntityStoragePusherTrait;
 
@@ -17,6 +17,6 @@ class BargainTransactionStorage extends SqlContentEntityStorage {
    *
    * @var string
    */
-  protected $channel = 'transactions';
+  protected $channel = 'chat_room_message';
 
 }

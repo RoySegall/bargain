@@ -50,6 +50,7 @@ dependencies:
   - restui
 
 # Custom
+  - bargain_chat
   - bargain_core
   - bargain_transaction
   - bargain_rest
