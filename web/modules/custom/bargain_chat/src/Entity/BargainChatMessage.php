@@ -21,6 +21,7 @@ use Drupal\user\UserInterface;
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\bargain_chat\BargainChatMessageListBuilder",
  *     "views_data" = "Drupal\bargain_chat\Entity\BargainChatMessageViewsData",
+ *     "storage" = "Drupal\bargain_chat\BargainChatMessageStorage",
  *
  *     "form" = {
  *       "default" = "Drupal\bargain_chat\Form\BargainChatMessageForm",

@@ -21,6 +21,7 @@ class RestPluginsChatRoomsTest extends AbstractRestPluginsTests {
     'node',
     'bargain_rest',
     'bargain_core',
+    'bargain_core_test',
     'bargain_chat',
     'simple_oauth',
   ];
@@ -69,6 +70,13 @@ class RestPluginsChatRoomsTest extends AbstractRestPluginsTests {
   protected $chatRoom;
 
   /**
+   * The config object service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
   public function setUp() {
@@ -94,12 +102,20 @@ class RestPluginsChatRoomsTest extends AbstractRestPluginsTests {
         'buyer' => $this->users['member2'],
       ]);
     $this->chatRoom->save();
+
+    $this->configFactory = $this->container->get('config.factory');
   }
 
   /**
    * Trying to access the chat room.
    */
   public function testChatRoomMessages() {
+    // Check push data.
+    $config = $this->configFactory->get('bargain_core_test.database');
+
+    $this->assertTrue($config->get('channel'), 'chat_room');
+    $this->assertTrue($config->get('event'), 'storage-added');
+
     // Access with each of the user and check for OK results.
     foreach (['member1', 'member2', 'admin'] as $members) {
       $results = $this->request($this->accessTokensHeaders[$members], [], 'get');
