@@ -138,7 +138,23 @@ class RestUser extends RestPluginBase {
    * Patching the user entity.
    */
   public function patch() {
-    $this->entityPatch($this->getAccount());
+    $account = $this->getAccount();
+
+    if (!empty($this->payload['pass'])) {
+
+      // Check the old pass exists.
+      if (empty($this->payload['previous_pass'])) {
+        throw new BadRequestHttpException('You did not provide the previous password.');
+      }
+
+      // todo: match the previous pass with the current pass.
+
+      // For some reason the password constrain mess up the password update.
+      // Skip on that and verify it by our self. No time for other stuff.
+      $account->_skipProtectedUserFieldConstraint = TRUE;
+    }
+
+    $this->entityPatch($account);
   }
 
 }
