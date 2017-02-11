@@ -6,7 +6,6 @@ use Drupal\bargain_rest\Plugin\RestPluginBase;
 use Drupal\bargain_rest\Plugin\RestPluginManager;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Password\PasswordInterface;
-use Drupal\node\Plugin\views\filter\Access;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Drupal\bargain_core\BargainCoreEntityFlatten;
 use Drupal\Core\Session\AccountProxy;
