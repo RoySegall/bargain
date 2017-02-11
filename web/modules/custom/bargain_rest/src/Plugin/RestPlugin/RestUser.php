@@ -6,6 +6,7 @@ use Drupal\bargain_rest\Plugin\RestPluginBase;
 use Drupal\bargain_rest\Plugin\RestPluginManager;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Password\PasswordInterface;
+use Drupal\node\Plugin\views\filter\Access;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Drupal\bargain_core\BargainCoreEntityFlatten;
 use Drupal\Core\Session\AccountProxy;
@@ -104,22 +105,27 @@ class RestUser extends RestPluginBase {
    * {@inheritdoc}
    */
   public function access() {
-    if ($this->requestType == 'post') {
-      $ids = $this->entityQuery->get('oauth2_client')
-        ->condition('uuid', $this->request->headers->get('client-id'))
-        ->execute();
+    $ids = $this->entityQuery->get('oauth2_client')
+      ->condition('uuid', $this->request->headers->get('client-id'))
+      ->execute();
 
-      if (!$ids) {
-        throw new BadRequestHttpException('There is no app with the app ID you provided.');
-      }
+    if (!$ids) {
+      throw new BadRequestHttpException('There is no app with the app ID you provided.');
+    }
 
-      /** @var \Drupal\simple_oauth\Entity\Oauth2Client $client */
-      $client = $this->entityTypeManager->getStorage('oauth2_client')->load(reset($ids));
+    /** @var \Drupal\simple_oauth\Entity\Oauth2Client $client */
+    $client = $this->entityTypeManager->getStorage('oauth2_client')->load(reset($ids));
 
-      /** @var PasswordInterface $password_checker */
-      if (!$this->PasswordChecker->check($this->request->headers->get('client-secret'), $client->getSecret())) {
-        throw new BadRequestHttpException('The client password you provided is invalid.');
-      }
+    /** @var PasswordInterface $password_checker */
+    if (!$this->PasswordChecker->check($this->request->headers->get('client-secret'), $client->getSecret())) {
+      throw new BadRequestHttpException('The client password you provided is invalid.');
+    }
+
+    switch ($this->requestType) {
+      case 'post':
+        return AccessResult::allowed();
+      case 'patch':
+        return AccessResult::allowed();
     }
 
     return AccessResult::allowed();
@@ -131,6 +137,16 @@ class RestUser extends RestPluginBase {
   protected function get() {
     $account = $this->entityTypeManager->getStorage('user')->load($this->accountProxy->id());
     return $this->entityFlatten->flatten($account);
+  }
+
+  /**
+   * Check if the current user can edit or not.
+   *
+   * @return AccessResult
+   *   The access result object.
+   */
+  protected function checkEditAccess() {
+    return AccessResult::allowed();
   }
 
 }
