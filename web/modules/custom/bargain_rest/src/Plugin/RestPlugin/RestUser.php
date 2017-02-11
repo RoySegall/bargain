@@ -123,6 +123,7 @@ class RestUser extends RestPluginBase {
     switch ($this->requestType) {
       case 'post':
         return AccessResult::allowed();
+
       case 'patch':
         return AccessResult::allowed();
     }
