@@ -17,6 +17,7 @@ class RestPluginsUserTest extends AbstractRestPluginsTests {
   public static $modules = [
     'bargain_rest',
     'bargain_core',
+    'bargain_user',
     'simple_oauth',
     'text',
     'image',
@@ -36,7 +37,7 @@ class RestPluginsUserTest extends AbstractRestPluginsTests {
   /**
    * Testing token creation and user validating.
    */
-  public function testCreateToken() {
+  public function _testCreateToken() {
     $user = $this->drupalCreateUser();
 
     $headers = ['Authorization' => 'Bearer ' . $this->createAccessTokenForUser($user)];
@@ -53,7 +54,7 @@ class RestPluginsUserTest extends AbstractRestPluginsTests {
   /**
    * Creating a user.
    */
-  public function testUserCreate() {
+  public function _testUserCreate() {
     // Trying to do failed requests.
     try {
       $this->request(['client_id' => 'foo']);
@@ -141,7 +142,7 @@ class RestPluginsUserTest extends AbstractRestPluginsTests {
   /**
    * Check password update.
    */
-  public function testPasswordUpdate() {
+  public function _testPasswordUpdate() {
     // Set the password as known password.
     $user = $this->drupalCreateUser();
     $user->setPassword(1234);
@@ -187,6 +188,41 @@ class RestPluginsUserTest extends AbstractRestPluginsTests {
     $this->assertEquals($user_info['name'], $user->label());
     $this->assertEquals($user_info['mail'], $user->getEmail());
     $this->assertEquals($user_info['uid'], $user->id());
+  }
+
+  /**
+   * Check fields.
+   */
+  public function testUserFields() {
+    $user = $this->drupalCreateUser();
+    $user->set('field_first_name', 'Foo');
+    $user->set('field_last_name', 'Bar');
+    $user->save();
+
+    // Checking the fields.
+    $headers = ['Authorization' => 'Bearer ' . $this->createAccessTokenForUser($user)];
+    $user_info = $this->json->decode($this
+      ->request($headers, [], 'get')
+      ->getBody()
+      ->getContents());
+
+    $this->assertEquals($user_info['field_first_name'], 'Foo');
+    $this->assertEquals($user_info['field_last_name'], 'Bar');
+
+    // Update the fields values.
+    $this->request($headers, [
+      'field_first_name' => 'Bar',
+      'field_last_name' => 'Foo',
+    ], 'patch');
+
+    // Verify the fields updated.
+    $user_info = $this->json->decode($this
+      ->request($headers, [], 'get')
+      ->getBody()
+      ->getContents());
+
+    $this->assertEquals($user_info['field_first_name'], 'Bar');
+    $this->assertEquals($user_info['field_last_name'], 'Foo');
   }
 
 }
