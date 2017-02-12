@@ -138,4 +138,55 @@ class RestPluginsUserTest extends AbstractRestPluginsTests {
 
   }
 
+  /**
+   * Check password update.
+   */
+  public function testPasswordUpdate() {
+    // Set the password as known password.
+    $user = $this->drupalCreateUser();
+    $user->setPassword(1234);
+    $user->save();
+    $headers = ['Authorization' => 'Bearer ' . $this->createAccessTokenForUser($user)];
+
+    // Try to update the password.
+    try {
+      $this->request($headers, ['pass' => 'new_pass'], 'patch');
+      $this->fail();
+    }
+    catch (ClientException $e) {
+      $this->assertContains('You did not provide the previous password', $e->getResponse()->getBody()->getContents());
+    }
+
+    try {
+      $this->request($headers, ['pass' => 'new_pass', 'previous_pass' => 'foo'], 'patch');
+      $this->fail();
+    }
+    catch (ClientException $e) {
+      $this->assertContains('The client password you provided does not matching to the current password.', $e->getResponse()->getBody()->getContents());
+    }
+
+    // Update the password.
+    $this->request($headers, ['pass' => 'new_pass', 'previous_pass' => 1234], 'patch');
+    $client = $this->httpClient->request('post', $this->getAbsoluteUrl('/oauth/token'), [
+      'form_params' => [
+        'grant_type' => 'password',
+        'client_id' => $this->client->uuid(),
+        'client_secret' => $this->password,
+        'username' => $user->label(),
+        'password' => 'new_pass',
+      ],
+    ]);
+
+    $results = $this->json->decode($client->getBody()->getContents());
+    $headers = ['Authorization' => 'Bearer ' . $results['access_token']];
+    $user_info = $this->json->decode($this
+      ->request($headers, [], 'get')
+      ->getBody()
+      ->getContents());
+
+    $this->assertEquals($user_info['name'], $user->label());
+    $this->assertEquals($user_info['mail'], $user->getEmail());
+    $this->assertEquals($user_info['uid'], $user->id());
+  }
+
 }
