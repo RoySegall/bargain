@@ -55,6 +55,7 @@ dependencies:
   - bargain_transaction
   - bargain_rest
   - bargain_exchange_rate
+  - bargain_user
 
 themes:
   - bartik

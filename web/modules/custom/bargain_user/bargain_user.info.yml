@@ -1,0 +1,7 @@
+name: Bargain user
+type: module
+description: Integration with the user entity
+core: 8.x
+package: Bargain
+dependencies:
+  - user

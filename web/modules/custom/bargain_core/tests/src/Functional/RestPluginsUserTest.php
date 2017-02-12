@@ -17,6 +17,7 @@ class RestPluginsUserTest extends AbstractRestPluginsTests {
   public static $modules = [
     'bargain_rest',
     'bargain_core',
+    'bargain_user',
     'simple_oauth',
     'text',
     'image',
@@ -187,6 +188,41 @@ class RestPluginsUserTest extends AbstractRestPluginsTests {
     $this->assertEquals($user_info['name'], $user->label());
     $this->assertEquals($user_info['mail'], $user->getEmail());
     $this->assertEquals($user_info['uid'], $user->id());
+  }
+
+  /**
+   * Check fields.
+   */
+  public function testUserFields() {
+    $user = $this->drupalCreateUser();
+    $user->set('field_first_name', 'Foo');
+    $user->set('field_last_name', 'Bar');
+    $user->save();
+
+    // Checking the fields.
+    $headers = ['Authorization' => 'Bearer ' . $this->createAccessTokenForUser($user)];
+    $user_info = $this->json->decode($this
+      ->request($headers, [], 'get')
+      ->getBody()
+      ->getContents());
+
+    $this->assertEquals($user_info['field_first_name'], 'Foo');
+    $this->assertEquals($user_info['field_last_name'], 'Bar');
+
+    // Update the fields values.
+    $this->request($headers, [
+      'field_first_name' => 'Bar',
+      'field_last_name' => 'Foo',
+    ], 'patch');
+
+    // Verify the fields updated.
+    $user_info = $this->json->decode($this
+      ->request($headers, [], 'get')
+      ->getBody()
+      ->getContents());
+
+    $this->assertEquals($user_info['field_first_name'], 'Bar');
+    $this->assertEquals($user_info['field_last_name'], 'Foo');
   }
 
 }
