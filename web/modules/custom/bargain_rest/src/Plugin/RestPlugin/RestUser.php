@@ -98,6 +98,7 @@ class RestUser extends RestPluginBase {
   protected $callbacks = [
     'get' => 'get',
     'post' => 'entityCreate',
+    'patch' => 'patch',
   ];
 
   /**
@@ -128,9 +129,37 @@ class RestUser extends RestPluginBase {
   /**
    * Get callback; Return list of plugins.
    */
-  protected function get() {
+  public function get() {
     $account = $this->entityTypeManager->getStorage('user')->load($this->accountProxy->id());
     return $this->entityFlatten->flatten($account);
+  }
+
+  /**
+   * Patching the user entity.
+   */
+  public function patch() {
+    $account = $this->getAccount();
+
+    if (!empty($this->payload['pass'])) {
+
+      // Check the old pass exists.
+      if (empty($this->payload['previous_pass'])) {
+        throw new BadRequestHttpException('You did not provide the previous password.');
+      }
+
+      // Check if the the previous pass match with the current pass.
+      if (!$this->PasswordChecker->check($this->payload['previous_pass'], $account->getPassword())) {
+        throw new BadRequestHttpException('The client password you provided does not matching to the current password.');
+      }
+
+      unset($this->payload['previous_pass']);
+
+      // For some reason the password constrain mess up the password update.
+      // Skip on that and verify it by our self. No time for other stuff.
+      $account->_skipProtectedUserFieldConstraint = TRUE;
+    }
+
+    $this->entityPatch($account);
   }
 
 }
