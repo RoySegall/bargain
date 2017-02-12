@@ -37,7 +37,7 @@ class RestPluginsUserTest extends AbstractRestPluginsTests {
   /**
    * Testing token creation and user validating.
    */
-  public function _testCreateToken() {
+  public function testCreateToken() {
     $user = $this->drupalCreateUser();
 
     $headers = ['Authorization' => 'Bearer ' . $this->createAccessTokenForUser($user)];
@@ -54,7 +54,7 @@ class RestPluginsUserTest extends AbstractRestPluginsTests {
   /**
    * Creating a user.
    */
-  public function _testUserCreate() {
+  public function testUserCreate() {
     // Trying to do failed requests.
     try {
       $this->request(['client_id' => 'foo']);
@@ -142,7 +142,7 @@ class RestPluginsUserTest extends AbstractRestPluginsTests {
   /**
    * Check password update.
    */
-  public function _testPasswordUpdate() {
+  public function testPasswordUpdate() {
     // Set the password as known password.
     $user = $this->drupalCreateUser();
     $user->setPassword(1234);
