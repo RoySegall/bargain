@@ -3,8 +3,3 @@ type: module
 description: Restend points for front end
 core: 8.x
 package: Bargain
-
-dependencies:
-  - rest
-  - serialization
-  - views

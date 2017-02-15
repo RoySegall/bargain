@@ -17,6 +17,7 @@ class RestPluginsTestsTest extends AbstractRestPluginsTests {
 
     $plugin_ids = array_keys($results);
 
+    $this->assertTrue(in_array('rest_bargains', $plugin_ids));
     $this->assertTrue(in_array('chat_rooms_rest', $plugin_ids));
     $this->assertTrue(in_array('chat_room_message_rest', $plugin_ids));
     $this->assertTrue(in_array('transaction_bargain', $plugin_ids));
