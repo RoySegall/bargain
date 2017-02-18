@@ -38,6 +38,7 @@ class RestEndPointsPlugins extends RestPluginBase {
     $plugins = $this->pluginManager->getDefinitions();
 
     $routes = [];
+    // todo: add the available methods to the endpoint.
     foreach ($plugins as $plugin) {
       $routes[$plugin['id']] = [
         'path' => $plugin['path'],

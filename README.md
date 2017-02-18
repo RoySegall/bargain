@@ -55,3 +55,23 @@ When accessing the backend, the headers should be:
   "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjdhMzdlMzNlYzk2MWFkZWZkZGU3Mjg0ODViNmU2ZGIyMmNlNzhiOGI3MzUzYjU3MjliMzQzNGEwYWI0NTg3ZjdjYmJiYmU0YjM4ZDYxYzdjIn0.eyJhdWQiOiI5ZjZlNjQxMy04MTI4LTQwYTUtYjYxOS1hMzQzM2FhZjcyNmYiLCJqdGkiOiI3YTM3ZTMzZWM5NjFhZGVmZGRlNzI4NDg1YjZlNmRiMjJjZTc4YjhiNzM1M2I1NzI5YjM0MzRhMGFiNDU4N2Y3Y2JiYmJlNGIzOGQ2MWM3YyIsImlhdCI6MTQ4NDU1ODM5NiwibmJmIjoxNDg0NTU4Mzk2LCJleHAiOjE0ODQ1NTg2OTUsInN1YiI6IjEiLCJzY29wZXMiOlsiYXV0aGVudGljYXRlZCJdfQ.qC2SQ3LdFM-67qXAiInSHvIMbSCoBy-4R__l_M_1ZkaHgTV95qiKFDCwkLXk01ZC8W7Dhz_bL7SiieFvQNIM5EQsberwneuK4Fcjo5n5LFOmRJcZ6uvhrGjsX_QEqfYsN9NU2dYIugoabauHC0Y_xokp5InxhlHPS6Q_2CEkrmv4uT0hoeep1bJymViiVkJfMEIAPPMqtyeN5xe9XPz9WzKdMa9ccfkrq2vBfP23z6GF_OcSBbpG9FCUllsCEAlKcY3iyPAQbJ2XEg4ENVWSCr7B7Uob2UODHvfymPDSLJ6lp58a8sxhIp4Yx2A1a20vtZ987LCLzqRL-ICRqp576A"
 }
 ```
+
+# Endpoints
+
+## `/api`
+Will return a list of all the endpoint available and a small description about 
+them.
+
+## `/messages`
+
+**Description:** Return all the chat rooms the user can have access to.
+
+## `/messages/{bargain_chat_room}`
+
+## `/bargains/{type}`
+
+## `/rest_user`
+
+## `/transaction`
+
+## `/transaction/{bargain_transaction}`
