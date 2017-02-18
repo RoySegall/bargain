@@ -47,7 +47,7 @@ class RestEndPointsPlugins extends RestPluginBase {
         'path' => $plugin['path'],
         'label' => $plugin['label'],
         'description' => $plugin['description'],
-        'methods' => implode(', ', $plugin_instance->getMethods())
+        'methods' => implode(', ', $plugin_instance->getMethods()),
       ];
     }
 
