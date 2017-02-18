@@ -62,6 +62,32 @@ When accessing the backend, the headers should be:
 Will return a list of all the endpoint available and a small description about 
 them.
 
+Example:
+```json
+{
+  "chat_room_message_rest": {
+    "path": "/messages/{bargain_chat_room}",
+    "label": "Chat room message",
+    "description": "Display all the messages in the current room.",
+    "methods": "get,post,patch"
+  },
+
+  "chat_rooms_rest": {
+    "path": "/messages",
+    "label": "Chat rooms",
+    "description": "Display list of the rooms which the user can access.",
+    "methods": "get"
+  },
+
+  "rest_bargains": {
+    "path": "/bargains/{type}",
+    "label": "Rest bargains",
+    "description": "Display all the bargains.",
+    "methods": "get"
+  }
+}
+```
+
 ## `/messages`
 
 **Description:** Return all the chat rooms the user can have access to.
