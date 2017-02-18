@@ -119,7 +119,51 @@ Example:
 
 **Note**: `user_id` is the seller.
 
+### Adding a message status
+
+### Updating a message status
+
 ## `/messages/{bargain_chat_room}`
+
+`bargain_chat_room`: The room UUID.
+**Description:** Will return the messages in the room.
+
+Example:
+```JSON
+[
+  {
+    "id": "4",
+    "uuid": "8cbd6c93-5fa4-4cb3-a9a7-9def90866dc1",
+    "langcode": "en",
+    "room": "1",
+    "user_id": {
+      "id": "1",
+      "label": "admin"
+    },
+    "status": "read",
+    "text": "<p>sadasdsadasd</p> ",
+    "created": "1486743674",
+    "changed": "1486750169"
+  },
+  {
+    "id": "1",
+    "uuid": "3a1e1de7-1fe9-429f-8081-3e0a0478b6b9",
+    "langcode": "en",
+    "room": "1",
+    "user_id": {
+      "id": "4",
+      "label": "demo"
+    },
+    "status": "sent",
+    "text": "<p>Foo</p> ",
+    "created": "1486675868",
+    "changed": "1486675868"
+  }
+]
+```
+
+The status of the message will be changes from `resd` to `sent` When the user 
+will read the message. We will have to change it.
 
 ## `/bargains/{type}`
 
