@@ -38,12 +38,16 @@ class RestEndPointsPlugins extends RestPluginBase {
     $plugins = $this->pluginManager->getDefinitions();
 
     $routes = [];
-    // todo: add the available methods to the endpoint.
+
     foreach ($plugins as $plugin) {
+      /** @var \Drupal\bargain_rest\Plugin\RestPluginBase $plugin_instance */
+      $plugin_instance = $this->pluginManager->createInstance($plugin['id']);
+
       $routes[$plugin['id']] = [
         'path' => $plugin['path'],
         'label' => $plugin['label'],
         'description' => $plugin['description'],
+        'methods' => implode(', ', $plugin_instance->getMethods())
       ];
     }
 
