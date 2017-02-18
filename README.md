@@ -64,7 +64,7 @@ them.
 
 Example:
 ```json
-{
+[
   "chat_room_message_rest": {
     "path": "/messages/{bargain_chat_room}",
     "label": "Chat room message",
@@ -85,12 +85,39 @@ Example:
     "description": "Display all the bargains.",
     "methods": "get"
   }
-}
+]
 ```
 
 ## `/messages`
 
-**Description:** Return all the chat rooms the user can have access to.
+**Description:** Return all the chat rooms the user can have access to. A chat
+room will open between the seller and the buyer all the both of them, along side
+an administrator, will have access to the page.
+
+Example:
+```JSON
+[
+  {
+    "id": "2",
+    "uuid": "c9e8bc50-3e41-4de6-a1a3-439912c4a3e3",
+    "langcode": "en",
+    "user_id": {
+      "id": "1",
+      "label": "admin"
+    },
+    "buyer": {
+      "id": "11",
+      "label": "demo2"
+    },
+    "name": "www",
+    "status": "1",
+    "created": "1486736561",
+    "changed": "1486736561"
+  },
+]
+```
+
+**Note**: `user_id` is the seller.
 
 ## `/messages/{bargain_chat_room}`
 
