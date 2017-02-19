@@ -122,6 +122,7 @@ Example:
 ## `/messages/{bargain_chat_room}`
 
 `bargain_chat_room`: The room UUID.
+
 **Description:** Will return the messages in the room.
 
 Example:
@@ -185,6 +186,36 @@ The status of the message will be changes from `resd` to `sent` When the user
 will read the message. We will have to change it.
 
 ## `/bargains/{type}`
+
+`type`: The type of the bargain: call/seek
+
+The bargain end point will tell us who call for selling his money and who seek 
+to buy money.
+
+**Example:**
+
+```json
+[
+  {
+    "id": "1",
+    "uuid": "fee7d0ae-0779-4d88-b3fd-0e128430522a",
+    "langcode": "en",
+    "type": "call",
+    "user": "1",
+    "name": "Foo",
+    "status": "1",
+    "created": "1486663167",
+    "changed": "1486663167",
+    "coin": "ILS",
+    "amount": "10",
+    "exchange_rate": "2.5"
+  }
+]
+```
+
+`coin`: The type of the coin: ILS, EURO etc. etc.
+`amount`: How much units the user is selling/seeking
+`exchange_rate`: How much does the user would like to pay/sell the coins
 
 ## `/rest_user`
 
