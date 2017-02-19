@@ -119,10 +119,6 @@ Example:
 
 **Note**: `user_id` is the seller.
 
-### Adding a message status
-
-### Updating a message status
-
 ## `/messages/{bargain_chat_room}`
 
 `bargain_chat_room`: The room UUID.
@@ -155,11 +151,34 @@ Example:
       "label": "demo"
     },
     "status": "sent",
-    "text": "<p>Foo</p> ",
+    "text": "<p>Foo</p>",
     "created": "1486675868",
     "changed": "1486675868"
   }
 ]
+```
+
+### Adding a message status
+
+**Request type:** Post
+
+**Payload example:**
+```JSON
+{
+  "text": "Message"
+}
+```
+
+### Updating a message status
+
+**Request type:** Patch
+
+**Payload example:**
+```JSON
+{
+  "status": "read",
+  "message_uuid": "3a1e1de7-1fe9-429f-8081-3e0a0478b6b9"
+}
 ```
 
 The status of the message will be changes from `resd` to `sent` When the user 
