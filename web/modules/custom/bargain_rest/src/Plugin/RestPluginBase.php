@@ -158,6 +158,16 @@ abstract class RestPluginBase extends PluginBase implements RestPluginInterface,
   }
 
   /**
+   * Get the available methods.
+   *
+   * @return string[]
+   *   List of the available methods.
+   */
+  public function getMethods() {
+    return array_keys($this->callbacks);
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function callback() {
