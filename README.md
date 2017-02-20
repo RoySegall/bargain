@@ -257,7 +257,7 @@ By default, will return the user object of the current logged in user.
   "client_secret": "1234",
   "name": "CaptainAmerica",
   "password": "SharonCarter",
-  "mail": "CaptainAmerica@shield.com",
+  "mail": "CaptainAmerica@shield.com"
 }
 ```
 
@@ -279,10 +279,71 @@ By default, will return the user object of the current logged in user.
 **Payload example:**
 ```JSON
 {
-  "field_first_name": "Steve", 
+  "field_first_name": "Steve"
 }
 ```
 
 ## `/transaction`
 
+This endpoint intend to create bargain transaction.
+
+**Request type:** Post
+
+**Payload example:**
+
+```json
+{
+  "type": "seek",
+  "coin": "yen",
+  "amount": 100,
+  "exchange_rate": 15
+}
+```
+
 ## `/transaction/{bargain_transaction}`
+
+`bargain_transaction`: The UUID of the transaction
+
+**Request type:** Get
+
+**Example:**
+
+```json
+{
+  "id": "1",
+  "uuid": "fee7d0ae-0779-4d88-b3fd-0e128430522a",
+  "langcode": "en",
+  "type": "call",
+  "user": "1",
+  "name": "Foo",
+  "status": "1",
+  "created": "1486663167",
+  "changed": "1486663167",
+  "coin": "yen",
+  "amount": 100,
+  "exchange_rate": 15
+}
+```
+
+### Updating 
+
+**Request type:** Patch
+
+**Payload example:**
+
+```json
+{
+  "exchange_rate": 15
+}
+```
+
+### Deleting 
+
+**Request type:** Delete
+
+**Payload example:**
+
+```json
+{
+}
+```
