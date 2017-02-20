@@ -214,10 +214,74 @@ to buy money.
 ```
 
 `coin`: The type of the coin: ILS, EURO etc. etc.
+
 `amount`: How much units the user is selling/seeking
+
 `exchange_rate`: How much does the user would like to pay/sell the coins
 
 ## `/rest_user`
+By default, will return the user object of the current logged in user.
+
+**Example:**
+```json
+{
+  "uid": "1",
+  "uuid": "45502c49-a09e-43d5-a4f0-78b0a9fed8d1",
+  "langcode": "en",
+  "preferred_langcode": "en",
+  "name": "admin",
+  "mail": "admin@example.com",
+  "timezone": "Europe/Berlin",
+  "status": "1",
+  "created": "1486231440",
+  "changed": "1486933901",
+  "access": "1487538187",
+  "login": "1486847705",
+  "init": "admin@example.com",
+  "roles": "administrator",
+  "default_langcode": "1",
+  "field_first_name": "Roy",
+  "field_last_name": "Segall"
+}
+
+```
+
+### Creating a user
+
+**Request type:** Post
+
+**Payload example:**
+```JSON
+{
+  "client_id": "CLIEND_UUID(9f6e6413-8128-40a5-b619-a3433aaf726f)",
+  "client_secret": "1234",
+  "name": "CaptainAmerica",
+  "password": "SharonCarter",
+  "mail": "CaptainAmerica@shield.com",
+}
+```
+
+### Updating a password
+
+**Request type:** Patch
+
+**Payload example:**
+```JSON
+{
+  "pass": "new_pass", 
+  "previous_pass": 1234
+}
+```
+
+### Updating fields:
+**Request type:** Patch
+
+**Payload example:**
+```JSON
+{
+  "field_first_name": "Steve", 
+}
+```
 
 ## `/transaction`
 
